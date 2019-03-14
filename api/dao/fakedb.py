@@ -1,6 +1,7 @@
 _FAKE_DB = {
-    'doctors': [{'id': '1', 'name': 'test'}, {'id': '2', 'name': 'test2'}],
-    'patients': []
+    'doctors': [{'id': '1', 'name': 'test_doc'}, {'id': '2', 'name': 'test2'}],
+    'patients': [{'id': '1', 'name': 'test_patient'}, {'id': '2', 'name': 'test2'}],
+    'meds': [{'id': '1', 'name': 'test_med'}, {'id': '2', 'name': 'test2'}]
 }
 
 def create(table_name, obj):

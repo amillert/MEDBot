@@ -3,9 +3,13 @@ import json
 
 from api_utils import json_res
 from blueprints.doctors import doctors_api
+from blueprints.patients import patients_api
+from blueprints.meds import meds_api
 
 app = Flask(__name__)
 app.register_blueprint(doctors_api, url_prefix='/doctors')
+app.register_blueprint(patients_api, url_prefix='/patients')
+app.register_blueprint(meds_api, url_prefix='/meds')
 
 @app.route('/', methods=['GET'])
 def index():
