@@ -11,13 +11,22 @@ app.register_blueprint(doctors_api, url_prefix='/doctors')
 app.register_blueprint(patients_api, url_prefix='/patients')
 app.register_blueprint(meds_api, url_prefix='/meds')
 
+
 @app.route('/', methods=['GET'])
 def index():
     return json_res({'index': 'hello world'}, 200)
 
+
+@app.after_request
+def add_cors(res):
+    res.headers['Access-Control-Allow-Origin'] = '*'
+    return res
+
+
 @app.errorhandler(404)
 def handle_not_found(_):
     return json_res({'error': 'Not found'}, 404)
+
 
 @app.errorhandler(Exception)
 def handle_exception(exc):
