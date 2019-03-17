@@ -20,6 +20,7 @@ def index():
 @app.after_request
 def add_cors(res):
     res.headers['Access-Control-Allow-Origin'] = '*'
+    res.headers['Access-Control-Allow-Methods'] = 'POST, PUT, GET, OPTIONS, DELETE, PATCH'
     return res
 
 

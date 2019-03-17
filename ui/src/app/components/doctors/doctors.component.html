@@ -1,0 +1,10 @@
+<div class="container">
+    <div class="form-group">
+        <label>New doctor</label>
+        <input (keyup.enter)="createDoctor(id)" #id type="text" class="form-control" placeholder="Name...">
+        <br>
+        <mat-card *ngFor="let doctor of doctors" class="list-group-item">
+            ID: {{ doctor.id }} - Name: {{ doctor.name }} <button (click)="deleteDoctor(doctor)" class="btn btn-danger btn-sm">Delete</button>
+        </mat-card>
+    </div>
+</div>
