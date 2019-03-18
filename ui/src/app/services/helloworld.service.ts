@@ -6,6 +6,7 @@ import { BadInput } from 'src/common/bad-input';
 import { NotFoundError } from 'src/common/not-found-error';
 import { AppError } from 'src/common/app-error';
 import { throwError, Observable } from 'rxjs';
+import { Consts } from 'src/common/consts';
 @Injectable({
   providedIn: 'root'
 })
@@ -14,7 +15,7 @@ export class HelloworldService {
   constructor(private http: Http) { }
 
   getHelloWorld(): Observable<Helloworld> {
-    return this.http.get('http://127.0.0.1:5000')
+    return this.http.get(Consts.API_ENDPOINT)
     .pipe(
       map(response => response.json()),catchError(this.handleError)
       );

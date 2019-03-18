@@ -5,11 +5,12 @@ import { map, catchError } from 'rxjs/operators';
 import { NotFoundError } from 'src/common/not-found-error';
 import { BadInput } from 'src/common/bad-input';
 import { AppError } from 'src/common/app-error';
+import { Consts } from 'src/common/consts';
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  url: string = 'http://127.0.0.1:5000';
+  url: string = Consts.API_ENDPOINT;
   uri: string = '';
   constructor(private urn: string, private http: Http) { 
     this.uri = this.url + urn;
@@ -17,6 +18,13 @@ export class DataService {
   
   getAll() {
     return this.http.get(this.uri)
+    .pipe(
+      map(response => response.json()),catchError(this.handleError)
+      );
+  }
+
+  get(id) {
+    return this.http.get(this.uri + '/' + id)
     .pipe(
       map(response => response.json()),catchError(this.handleError)
       );
