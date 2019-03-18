@@ -1,0 +1,17 @@
+<div class="container">
+    <div class="form-group">
+        <mat-card>
+            <mat-card-title>
+                Chat
+            </mat-card-title>
+            <mat-card-content>
+                <p *ngFor="let message of messages">
+                    <b>{{ message.who }}</b>: {{ message.text }}
+                </p>
+            </mat-card-content>
+            <mat-form-field class="mat-input-wrapper">
+                <input (keyup.enter)="sendMessage(input)" #input type="text" matInput placeholder="Your message">
+            </mat-form-field>
+        </mat-card>
+    </div>
+</div>
