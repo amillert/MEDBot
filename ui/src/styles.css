@@ -4,3 +4,10 @@
 .container {
     margin-top: 30px;
 }
+
+table,
+tr,
+td .mat-input-wrapper,
+.mat-input-wrapper {
+    width: 100% !important;
+}
