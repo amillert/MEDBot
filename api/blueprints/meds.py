@@ -1,7 +1,7 @@
 from flask import Blueprint, request
-from api_utils import json_res
-from dao import fakedb as db
-from config import MEDS_TABLE
+from api.api_utils import json_res
+from api.dao import fakedb as db
+from api.config import MEDS_TABLE
 
 meds_api = Blueprint('meds', __name__)
 
