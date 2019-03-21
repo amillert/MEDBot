@@ -3,15 +3,17 @@ import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MatToolbarModule, MatButtonModule, MatIconModule, MatCardModule, MatInputModule } from '@angular/material';
+import { MatToolbarModule, MatButtonModule, MatIconModule, MatCardModule, MatInputModule, MatProgressSpinnerModule } from '@angular/material';
 import { DoctorsComponent } from './components/doctors/doctors.component';
 import { MedsComponent } from './components/meds/meds.component';
 import { PatientsComponent } from './components/patients/patients.component';
 import { HelloWorldComponent } from './components/hello-world/hello-world.component';
 import { InterviewComponent } from './components/interview/interview.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,7 @@ import { InterviewComponent } from './components/interview/interview.component';
     PatientsComponent,
     HelloWorldComponent,
     InterviewComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -28,11 +31,14 @@ import { InterviewComponent } from './components/interview/interview.component';
     AppRoutingModule,
     HttpModule,
     FlexLayoutModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
     MatCardModule,
-    MatInputModule
+    MatInputModule,
+    MatProgressSpinnerModule
   ],
   exports: [MatButtonModule, MatToolbarModule],
   providers: [],
