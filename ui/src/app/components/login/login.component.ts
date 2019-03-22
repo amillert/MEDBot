@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -10,23 +12,37 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   returnUrl: string;
-
+  loading = false;
   constructor(
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private router: Router,
+    private authService: AuthService) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
+      email: ['', Validators.required],
       password: ['', Validators.required]
   });
 
   this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
-onSubmit() {
+
+  get formControls() { return this.loginForm.controls; }
+  onSubmit() {
+    this.loading = true;
         console.log("login clicked !")
         if (this.loginForm.invalid) {
             return;
         }
+        this.authService.login(this.formControls.email.value, this.formControls.password.value)
+        .pipe(first())
+            .subscribe(
+                data => {
+                    this.router.navigate([this.returnUrl]);
+                },
+                error => {
+                    this.loading = false;
+                });
     }
 }
