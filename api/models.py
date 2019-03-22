@@ -8,6 +8,12 @@ class Role(db.Model):
     def __repr__(self):
         return f"Role('{self.name})"
 
+    @staticmethod
+    def get_id_by_role(role):
+        role = Role.query.filter_by(name=role).first()
+        return role.id
+
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=True)
@@ -15,6 +21,7 @@ class User(db.Model):
     firstName = db.Column(db.String(30))
     lastName = db.Column(db.String(40))
     roleID = db.Column(db.Integer, db.ForeignKey(Role.id))
+    
     #relationship
     role = db.relationship(Role, foreign_keys=[roleID], backref='role')
 

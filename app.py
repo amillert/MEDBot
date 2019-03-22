@@ -1,4 +1,5 @@
 from api import create_app
+from api.api_utils import json_res
 app = create_app()
 
 @app.after_request
