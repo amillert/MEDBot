@@ -1,10 +1,8 @@
 import json
 from flask import Blueprint, request
-from api.api_utils import json_res
-from api.dao import fakedb as fdb
-from api.config import DOCTORS_TABLE
+from api.api_utils import json_res, query2jsonable
 from api import db
-from api.models import *
+from api.models import User, Role
 
 doctors_api = Blueprint('doctors', __name__)
 
@@ -18,26 +16,32 @@ def doctors_route():
         db.session.commit()
         return json_res({}, 201)
     else:
-        l = []
-        doctors = User.query.filter_by(roleID=2).all()
-        for doc in doctors:
-            doc = doc.__dict__
-            doc.pop('_sa_instance_state', None)
-            l.append(doc)
-        return json_res(l, 200)
+        query_res = query2jsonable(User.query.filter_by(roleID=Role.get_id_by_role('Doctor')).all())
+        return json_res(query_res, 200)
 
 
 @doctors_api.route('/<doctor_id>', methods=['GET', 'PUT', 'DELETE'])
 def doctor_route(doctor_id):
     if request.method == 'PUT':
-        doctor = request.get_json(force=True)
-        if doctor.get('id', '') != doctor_id:
-            return json_res({'error': 'Bad request'}, 400)
-        res = db.update(DOCTORS_TABLE, doctor)
-        return json_res({}, 200) if res else json_res({'error': 'Not found'}, 404)
+        try: 
+            doctor = User.query.filter_by(id=doctor_id).update(dict(request.get_json(force=True)))
+            if doctor == 0:
+                return json_res({'error': 'Not found'}, 404)
+            db.session.commit()
+            return json_res({}, 200)
+        except Exception:
+            return json_res({'error': 'Bad request'}, 400) 
     elif request.method == 'DELETE':
-        res = db.delete(DOCTORS_TABLE, doctor_id)
-        return json_res({}, 204) if res else json_res({'error': 'Not found'}, 404)
+        doctor = User.query.filter_by(id=doctor_id).first()
+        if doctor:
+            db.session.delete(doctor)
+            db.session.commit()
+            return json_res({}, 204)
+        else:
+            return json_res({'error': 'Not found'}, 404)
     else:
-        doctor = db.get(DOCTORS_TABLE, doctor_id)
-        return json_res(doctor, 200) if doctor is not None else json_res({'error': 'Not found'}, 404)
+        doctor = query2jsonable(User.query.filter_by(id=doctor_id))
+        if doctor:
+            return json_res(doctor, 200) 
+        else:
+            return json_res({'error': 'Not found'}, 404)
