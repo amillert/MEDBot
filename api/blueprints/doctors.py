@@ -1,19 +1,18 @@
-import json
 from flask import Blueprint, request
 from api.api_utils import json_res
-from api.dao import fakedb as fdb
 from api.config import DOCTORS_TABLE
-from api import db
 from api.models import *
 
 doctors_api = Blueprint('doctors', __name__)
+
 
 @doctors_api.route('', methods=['GET', 'POST'])
 def doctors_route():
     if request.method == 'POST':
         req = request.get_json(force=True)
         print(req['firstName'])
-        doctor = User(email=req['email'], password=req['password'], firstName=req['firstName'], lastName=req['lastName'], roleID=2)
+        doctor = User(email=req['email'], password=req['password'], firstName=req['firstName'],
+                      lastName=req['lastName'], roleID=2)
         db.session.add(doctor)
         db.session.commit()
         return json_res({}, 201)

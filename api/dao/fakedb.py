@@ -1,8 +1,9 @@
 _FAKE_DB = {
     'doctors': [{'id': '1', 'name': 'test_doc'}, {'id': '2', 'name': 'test2'}],
-    'patients': [{'id': '1', 'name': 'test_patient'}, {'id': '2', 'name': 'test2'}],
+    'patients': [{'id': '1', 'name': 'wojti', 'email': 'wojdna@gmail.com'}, {'id': '2', 'name': 'test2'}],
     'meds': [{'id': '1', 'name': 'test_med'}, {'id': '2', 'name': 'test2'}]
 }
+
 
 def create(table_name, obj):
     _FAKE_DB[table_name].append(obj)
@@ -25,7 +26,6 @@ def update(table_name, obj):
             _FAKE_DB[table_name][ind] = obj
             return True
     return False
-            
 
 
 def delete(table_name, id):
@@ -34,4 +34,3 @@ def delete(table_name, id):
             del _FAKE_DB[table_name][ind]
             return True
     return False
-    

@@ -5,6 +5,7 @@ from api.config import MEDS_TABLE
 
 meds_api = Blueprint('meds', __name__)
 
+
 @meds_api.route('', methods=['GET', 'POST'])
 def meds_route():
     if request.method == 'POST':
