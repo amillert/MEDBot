@@ -1,4 +1,5 @@
 from api import db
+from datetime import datetime
 
 
 class Role(db.Model):
@@ -16,6 +17,7 @@ class Role(db.Model):
         role = Role.query.filter_by(name=role).first()
         return role.id
 
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=True)
@@ -26,6 +28,7 @@ class User(db.Model):
     
     def __repr__(self):
         return f"User('{self.email}, '{self.firstName}', '{self.lastName}', {self.role})"
+
 
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -40,14 +43,16 @@ class Answer(db.Model):
 class Interview(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     DoctorID = db.Column(db.Integer, db.ForeignKey(User.id))
-    PacientID = db.Column(db.Integer, db.ForeignKey(User.id))
-    creationTimestamp = db.Column(db.DateTime,  default=db.func.current_timestamp())
-    lastActionTimestamp = db.Column(db.DateTime,  default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+    PatientID = db.Column(db.Integer, db.ForeignKey(User.id))
+    creationTimestamp = db.Column(db.DateTime,  default=datetime.utcnow)
+    lastActionTimestamp = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
     # define relationships
-    sender = db.relationship(User, foreign_keys=[DoctorID], backref='sent')
-    receiver = db.relationship(User, foreign_keys=[PacientID], backref='received')
+    sender = db.relationship(User, foreign_keys=[DoctorID], backref='sent_interviews')
+    receiver = db.relationship(User, foreign_keys=[PatientID], backref='recievied_interviews')
 
+    def __repr__(self):
+        return f"Interview('{self.DoctorID}, '{self.PatientID}', '{self.creationTimestamp}', '{self.lastActionTimestamp}', '{self.sender}',  '{self.receiver}')"
 
 class IQALink(db.Model):
     id = db.Column(db.Integer, primary_key=True)

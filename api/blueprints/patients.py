@@ -1,7 +1,7 @@
 from flask import Blueprint, request
-from api.api_utils import json_res, query2jsonable
-from api.models import User, Role
 from api import db
+from api.api_utils import json_res, query2jsonable
+from api.dao.models import Role, User
 
 patients_api = Blueprint('patients', __name__)
 
