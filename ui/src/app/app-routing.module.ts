@@ -6,6 +6,7 @@ import { PatientsComponent } from './components/patients/patients.component';
 import { HelloWorldComponent } from './components/hello-world/hello-world.component';
 import { InterviewComponent } from './components/interview/interview.component';
 import { LoginComponent } from './components/login/login.component';
+import { QuestionsComponent } from './components/questions/questions.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/helloworld', pathMatch: 'full' },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'doctors', component: DoctorsComponent },
   { path: 'meds', component: MedsComponent },
   { path: 'patients', component: PatientsComponent },
+  { path: 'questions', component: QuestionsComponent },
 ];
 
 @NgModule({
