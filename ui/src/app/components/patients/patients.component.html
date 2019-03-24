@@ -4,7 +4,7 @@
         <input (keyup.enter)="createPatient(id)" #id type="text" class="form-control" placeholder="Name...">
         <br>
         <mat-card *ngFor="let patient of patients" class="list-group-item">
-            ID: {{ patient.id }} - Name: {{ patient.name }} <button (click)="deletePatient(patient)" class="btn btn-danger btn-sm">Delete</button>
+            ID: {{ patient.id }} - First name: {{ patient.FirstName }} Last name: {{ patient.LastName }} <button (click)="deletePatient(patient)" class="btn btn-danger btn-sm">Delete</button>
         </mat-card>
     </div>
 </div>
