@@ -1,44 +1,50 @@
 <mat-toolbar color="primary">
-    <mat-toolbar-row>
-        <span>MED Bot</span>
-        <a routerLink="/doctors" routerLinkActive="active">
-            <button mat-button>
-          <mat-icon>local_hospital</mat-icon>
-          Doctors
-        </button>
-        </a>
-        <a routerLink="/patients" routerLinkActive="active">
-            <button mat-button>
-          <mat-icon>assignment_ind</mat-icon>
-          Patients
-        </button>
-        </a>
-        <a routerLink="/meds" routerLinkActive="active">
-            <button mat-button>
-          <mat-icon>fiber_manual_record</mat-icon>
-          Meds
-        </button>
-        </a>
-        <a routerLink="/interview/1" routerLinkActive="active">
-            <button mat-button>
+  <mat-toolbar-row>
+    <span>MED Bot</span>
+    <a routerLink="/doctors" routerLinkActive="active">
+      <button mat-button>
+        <mat-icon>local_hospital</mat-icon>
+        Doctors
+      </button>
+    </a>
+    <a routerLink="/patients" routerLinkActive="active">
+      <button mat-button>
+        <mat-icon>assignment_ind</mat-icon>
+        Patients
+      </button>
+    </a>
+    <a routerLink="/meds" routerLinkActive="active">
+      <button mat-button>
+        <mat-icon>fiber_manual_record</mat-icon>
+        Meds
+      </button>
+    </a>
+    <a routerLink="/interview/1" routerLinkActive="active">
+      <button mat-button>
         <mat-icon>assignment</mat-icon>
         (test) Interview for id 1
       </button>
-        </a>
-        <span class="example-spacer"></span>
+    </a>
+    <a routerLink="/questions" routerLinkActive="active">
+      <button mat-button>
+        <mat-icon>local_hospital</mat-icon>
+        Questions
+      </button>
+    </a>
+    <span class="example-spacer"></span>
 
-        <a routerLink="/helloworld" routerLinkActive="active">
-            <button mat-button>
+    <a routerLink="/helloworld" routerLinkActive="active">
+      <button mat-button>
         <mat-icon>mood</mat-icon>
         Hello World
       </button>
-        </a>
-        <a routerLink="/login" routerLinkActive="active">
-            <button mat-button>
-      <mat-icon>build</mat-icon>
-      Admin panel
-    </button>
-        </a>
-    </mat-toolbar-row>
+    </a>
+    <a routerLink="/login" routerLinkActive="active">
+      <button mat-button>
+        <mat-icon>build</mat-icon>
+        Admin panel
+      </button>
+    </a>
+  </mat-toolbar-row>
 </mat-toolbar>
 <router-outlet></router-outlet>

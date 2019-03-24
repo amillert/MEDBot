@@ -11,7 +11,7 @@ import { BadInput } from 'src/common/bad-input';
   styleUrls: ['./interview.component.css']
 })
 export class InterviewComponent implements OnInit {
-  messages: any[]
+  messages: any[];
 
   constructor(private service: InterviewService, private route: ActivatedRoute) { }
 
@@ -23,24 +23,20 @@ export class InterviewComponent implements OnInit {
 
     // messages example, backend has not been implemented
     this.messages = [{
-      id: 1,
+      id: 0,
       patientId: 1,
       who: 'MEDBot',
-      text: 'Hi !'
-    },
-    {
-      id: 2,
-      patientId: 1,
-      who: 'Patient',
-      text: 'Hello !'
+      text: 'Hi, Patient! How are You today?'
     }];
   }
 
   sendMessage(input: HTMLInputElement) {
-    let message = { id: 3, patientId: 1, who: 'Patient', text: input.value };
+    let previous_idx = this.messages[this.messages.length - 1].id;
+    let message = { id: previous_idx + 1, patientId: 1, who: 'Patient', text: input.value };
     this.messages.push(message);
 
     input.value = '';
+    console.log(this.messages);
 
     // this.service.create(message)
     //   .subscribe(
