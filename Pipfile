@@ -11,6 +11,9 @@ flask-sqlalchemy = "*"
 psycopg2 = "*"
 flask = "*"
 pylint-flask = "*"
+jsonify = "*"
+flask-marshmallow = "*"
+marshmallow-sqlalchemy = "*"
 
 [requires]
 python_version = "3.7"

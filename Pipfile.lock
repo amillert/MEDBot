@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "1218563ae42a77ec6f00bb61780aa86fbdb56915081d0604f12eb3a2fadc62d5"
+            "sha256": "5b7581da966e1ed074bf61718b8cd56dc89d4ecc9a30a48d872d2b1bd509898b"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -46,6 +46,14 @@
             "index": "pypi",
             "version": "==1.0.2"
         },
+        "flask-marshmallow": {
+            "hashes": [
+                "sha256:b880246097f526e106395598f52f1b3d3bd0108ee8697bec8a1657499f27e123",
+                "sha256:db6d1d2610a169e616e0aec3aeef67ed31525a85bcc567cabd832261121273f7"
+            ],
+            "index": "pypi",
+            "version": "==0.10.0"
+        },
         "flask-sqlalchemy": {
             "hashes": [
                 "sha256:3bc0fac969dd8c0ace01b32060f0c729565293302f0c4269beed154b46bec50b",
@@ -74,6 +82,13 @@
                 "sha256:f84be1bb0040caca4cea721fcbbbbd61f9be9464ca236387158b0feea01914a4"
             ],
             "version": "==2.10"
+        },
+        "jsonify": {
+            "hashes": [
+                "sha256:f340032753577575e9777835809b283fdc9b251867d5d5600389131647f8bfe1"
+            ],
+            "index": "pypi",
+            "version": "==0.5"
         },
         "lazy-object-proxy": {
             "hashes": [
@@ -141,6 +156,21 @@
                 "sha256:e249096428b3ae81b08327a63a485ad0878de3fb939049038579ac0ef61e17e7"
             ],
             "version": "==1.1.1"
+        },
+        "marshmallow": {
+            "hashes": [
+                "sha256:01412e979b45c003aeb3632718780b15b01566ae0182cc9232434b30f6b85e1b",
+                "sha256:8a1a2e13c6a621f4970faf21e5d9b146e451e779d0f334a96eae4fcdef53455f"
+            ],
+            "version": "==2.19.1"
+        },
+        "marshmallow-sqlalchemy": {
+            "hashes": [
+                "sha256:2f88d2020af00b8a12406009e8114f55b1788ea89a0bba6f8fbd0afd8de86b8f",
+                "sha256:99c50c570b6e89ffc9f9633ce4acb63f9e1bddf36839b07b9ae0f540588d6937"
+            ],
+            "index": "pypi",
+            "version": "==0.16.1"
         },
         "mccabe": {
             "hashes": [
