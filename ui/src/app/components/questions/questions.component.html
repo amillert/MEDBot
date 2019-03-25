@@ -1,3 +1,10 @@
-<p>
-  questions works!
-</p>
+<div class="container">
+  <div class="form-group">
+    <label>New question</label>
+    <input (keyup.enter)="addQuestion(id)" #id type="text" class="form-control" placeholder="Name...">
+    <br>
+    <mat-card *ngFor="let question of questions" class="list-group-item">
+      ID: {{ question.id }} - Question: {{ question.contents }}
+    </mat-card>
+  </div>
+</div>
