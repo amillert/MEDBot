@@ -14,6 +14,7 @@ import { PatientsComponent } from './components/patients/patients.component';
 import { HelloWorldComponent } from './components/hello-world/hello-world.component';
 import { InterviewComponent } from './components/interview/interview.component';
 import { LoginComponent } from './components/login/login.component';
+import { QuestionsComponent } from './questions/questions.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { LoginComponent } from './components/login/login.component';
     HelloWorldComponent,
     InterviewComponent,
     LoginComponent,
+    QuestionsComponent,
   ],
   imports: [
     BrowserModule,
