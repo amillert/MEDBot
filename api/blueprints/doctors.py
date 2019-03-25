@@ -46,7 +46,6 @@ def doctor_route_interviews(doctor_id):
         else:
             return jsonify({'error': 'Bad request'}), 400
     else:
-        print(doctor_id)
         interviews = Interview.get_interviews_of_user(doctor_id)
         if interviews:
             return jsonify({'interviews': interviews}), 200
@@ -71,4 +70,7 @@ def doctor_route_interview(doctor_id, interview_id):
         else:
             return jsonify({'error': 'Not found'}), 404
     else:
-        return jsonify(Interview.get_interviews_of_user(doctor_id, interview_id)), 200
+        interview = Interview.get_interviews_of_user(doctor_id, interview_id)
+        if interview:
+            return jsonify(interview), 200
+        return jsonify({'error': 'Not found'}), 404
