@@ -5,6 +5,7 @@ import { PatientsComponent } from './components/patients/patients.component';
 import { HelloWorldComponent } from './components/hello-world/hello-world.component';
 import { InterviewComponent } from './components/interview/interview.component';
 import { LoginComponent } from './components/login/login.component';
+import { QuestionsComponent } from './components/questions/questions.component';
 import { AuthGuard } from './_guards/auth.guard';
 
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'helloworld', component: HelloWorldComponent },
   { path: 'doctors', component: DoctorsComponent, canActivate: [AuthGuard] },
   { path: 'patients', component: PatientsComponent, canActivate: [AuthGuard] },
+  { path: 'questions', component: QuestionsComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '' }
 ];
 
