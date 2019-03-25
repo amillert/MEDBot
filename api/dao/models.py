@@ -1,7 +1,7 @@
 from api import db, ma
 from marshmallow import fields
 from datetime import datetime
-
+from werkzeug.security import generate_password_hash, check_password_hash
 
 class Role(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -31,12 +31,17 @@ class User(db.Model):
         return f"User('{self.email}, '{self.firstName}', '{self.lastName}', {self.role})"
 
     def insert_into(req, role):
-        print(req, role)
-        patient = User(email=req['email'], password=req['password'], firstName=req['firstName'], lastName=req['lastName'], roleID=Role.get_id_by_role(role))
-        db.session.add(patient)
-        db.session.commit()
+        if role == 'Patient':
+            user = User(email=req['email'], firstName=req['firstName'], lastName=req['lastName'], roleID=Role.get_id_by_role(role))
+            db.session.add(user)
+            db.session.commit()
+        else:
+            hashed_password = generate_password_hash(req['password'], method='sha256')
+            user = User(email=req['email'], password=hashed_password, firstName=req['firstName'], lastName=req['lastName'], roleID=Role.get_id_by_role(role))
+            db.session.add(user)
+            db.session.commit()
 
-    def get_users_by_role(role, user_id = None):
+    def get_users_by_role(role, user_id=None):
         if not user_id:
             user_schema = UserSchema(many=True)
             return user_schema.dump(Role.query.filter_by(name=role).first().users).data
@@ -46,6 +51,8 @@ class User(db.Model):
             return user_schema.dump(user).data
 
     def update_user(req, user_id, role):
+        if req['password']:
+            req['password'] = generate_password_hash(req['password'], method='sha256')
         user = User.query.filter_by(id=user_id, roleID=Role.get_id_by_role(role)).update(dict(req))
         if user == 0:
             return False
@@ -103,10 +110,17 @@ class Interview(db.Model):
                 interviews = interview_schema.dump(user.sent_interviews).data
                 return interviews
     
+    @staticmethod
     def insert_into(doctor_id, req):
+        """
+           request =  {"PatientID": 4, "questions":[1, 2, 3, 4]}
+        """
         doctor = User.query.filter_by(id=doctor_id, roleID=Role.get_id_by_role('Doctor')).first()
         if doctor:
             interview = Interview(DoctorID=doctor_id, PatientID=req['PatientID'])
+            for qid in req['questions']:
+                q = (Question.query.get(qid))
+                interview.questions.append(Answer(interview=interview, question=q))
             db.session.add(interview)
             db.session.commit()
             return True
@@ -121,7 +135,7 @@ class Interview(db.Model):
         return False
 
     def delete_interview(doctor_id, interview_id):
-        interview = Interview.query.filter_by(id=interview_id, DoctorID=doctor_id)
+        interview = Interview.query.filter_by(id=interview_id, DoctorID=doctor_id).first()
         if interview:
             db.session.delete(interview)
             db.session.commit()
