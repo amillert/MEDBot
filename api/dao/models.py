@@ -102,13 +102,20 @@ class Interview(db.Model):
         if interview_id:
             if user.roleID == Role.get_id_by_role('Doctor'):
                 interview_schema = InterviewSchema()
-                interview = interview_schema.dump(Interview.query.get(interview_id)).data
-                return interview
+                return interview_schema.dump(Interview.query.filter_by(id=interview_id, DoctorID=user_id).first()).data
+            elif user.roleID == Role.get_id_by_role('Patient'):
+                interview_schema = InterviewSchema()
+                return interview_schema.dump(Interview.query.filter_by(id=interview_id, PatientID=user_id).first()).data
         else:
             if user.roleID == Role.get_id_by_role('Doctor'):
                 interview_schema = InterviewSchema(many=True)
                 interviews = interview_schema.dump(user.sent_interviews).data
                 return interviews
+            elif user.roleID == Role.get_id_by_role('Patient'):
+                interview_schema = InterviewSchema(many=True)
+                interviews = interview_schema.dump(user.received_interviews).data
+                return interviews
+        return False
     
     @staticmethod
     def insert_into(doctor_id, req):
@@ -126,10 +133,23 @@ class Interview(db.Model):
             return True
         return False
 
-    def update_interview(doctor_id, interview_id, req):
-        interview = Interview.query.filter_by(id=interview_id, DoctorID=doctor_id)
-        if interview:
-            updated = Interview.query.filter_by(id=interview_id).update(dict(req))
+    def update_interview(user_id, interview_id, req):
+        user = User.query.filter_by(id=user_id).first()
+        if user.role.name == 'Doctor':
+            interview = Interview.query.filter_by(id=interview_id, DoctorID=user_id)
+            if interview:
+                updated = Interview.query.filter_by(id=interview_id).update(dict(req))
+                db.session.commit()
+                return True
+        if user.role.name == 'Patient':
+            interview_schema = InterviewSchema()
+            interview = Interview.query.filter_by(id=interview_id, PatientID=user_id).first()
+            interview_answers = interview.questions
+            patient_answers = req['Answers']
+            for answer in interview_answers:
+                for pat_ans in patient_answers:
+                    if answer.question.id == pat_ans['questionID']:
+                        answer.answer = pat_ans['answer']
             db.session.commit()
             return True
         return False
