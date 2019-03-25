@@ -6,44 +6,38 @@
         <div *ngIf="currentUser != null && currentUser.roleID === 1">
             <a routerLink="/doctors" routerLinkActive="active">
                 <button mat-button>
-          <mat-icon>local_hospital</mat-icon>
-          Doctors
-        </button>
+                    <mat-icon>local_hospital</mat-icon>
+                    Doctors
+                </button>
             </a>
             <a routerLink="/patients" routerLinkActive="active">
                 <button mat-button>
-          <mat-icon>assignment_ind</mat-icon>
-          Patients
-        </button>
+                    <mat-icon>assignment_ind</mat-icon>
+                    Patients
+                </button>
             </a>
-            <a routerLink="/meds" routerLinkActive="active">
+            <a routerLink="/interviews/" routerLinkActive="active">
                 <button mat-button>
-          <mat-icon>fiber_manual_record</mat-icon>
-          Meds
-        </button>
-            </a>
-            <a routerLink="/interview/1" routerLinkActive="active">
-                <button mat-button>
-        <mat-icon>assignment</mat-icon>
-        (test) Interview for id 1
-      </button>
+                    <mat-icon>assignment</mat-icon>
+                    Interviews
+                </button>
             </a>
         </div>
         <span class="example-spacer"></span>
         <div *ngIf="currentUser == null;else logoutTemplate">
             <a routerLink="/login" routerLinkActive="active">
                 <button mat-button>
-      <mat-icon>build</mat-icon>
-      Login
-    </button>
+                    <mat-icon>build</mat-icon>
+                    Login
+                </button>
             </a>
         </div>
         <ng-template #logoutTemplate>
             <a (click)="logout()">
                 <button mat-button>
-    <mat-icon>build</mat-icon>
-    Logout
-  </button>
+                    <mat-icon>build</mat-icon>
+                    Logout
+                </button>
             </a>
         </ng-template>
     </mat-toolbar-row>

@@ -12,7 +12,7 @@ import { Consts } from 'src/common/consts';
 export class DataService {
   url: string = Consts.API_ENDPOINT;
   uri: string = '';
-  constructor(private urn: string, private http: Http) { 
+  constructor(private urn: string, protected http: Http) { 
     this.uri = this.url + urn;
   }
   
@@ -46,13 +46,14 @@ export class DataService {
   }
 
   delete(id) {
+    console.log(id)
     return this.http.delete(this.uri + '/' + id)
     .pipe(
       map(response => response.json()),catchError(this.handleError)
       );
   }
 
-  private handleError(error: Response) {
+  protected handleError(error: Response) {
     if (error.status === 400)
       return throwError(new BadInput(error.json()));
   

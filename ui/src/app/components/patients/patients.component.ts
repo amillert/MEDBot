@@ -9,15 +9,14 @@ import { BadInput } from 'src/common/bad-input';
   styleUrls: ['./patients.component.css']
 })
 export class PatientsComponent implements OnInit {
-
+  loading: boolean;
   patients: any[];
 
   constructor(private service: PatientsService) {
   }
 
   ngOnInit() {
-    this.service.getAll()
-      .subscribe(patients => this.patients = patients);
+    this.getAllPatients();
   }
 
   createPatient(input: HTMLInputElement) {
@@ -51,5 +50,11 @@ export class PatientsComponent implements OnInit {
 
   deletePatient(patient) {
     this.service.delete(patient.id);
+  }
+
+  private getAllPatients() {
+    this.loading = true;
+    this.service.getAll()
+      .subscribe(patients => { this.patients = patients['patients']; this.loading = false });
   }
 }
