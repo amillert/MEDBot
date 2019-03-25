@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DoctorsComponent } from './components/doctors/doctors.component';
-import { MedsComponent } from './components/meds/meds.component';
 import { PatientsComponent } from './components/patients/patients.component';
 import { HelloWorldComponent } from './components/hello-world/hello-world.component';
 import { InterviewComponent } from './components/interview/interview.component';
@@ -14,7 +13,6 @@ const routes: Routes = [
   { path: 'interview/:id', component: InterviewComponent },
   { path: 'helloworld', component: HelloWorldComponent },
   { path: 'doctors', component: DoctorsComponent, canActivate: [AuthGuard] },
-  { path: 'meds', component: MedsComponent, canActivate: [AuthGuard] },
   { path: 'patients', component: PatientsComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '' }
 ];

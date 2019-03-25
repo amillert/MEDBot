@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DoctorsService } from 'src/app/services/accounts/doctors.service';
 import { BadInput } from 'src/common/bad-input';
 import { AppError } from 'src/common/app-error';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-doctors',
@@ -9,31 +10,43 @@ import { AppError } from 'src/common/app-error';
   styleUrls: ['./doctors.component.css']
 })
 export class DoctorsComponent implements OnInit {
-
+  addDoctorForm: FormGroup;
+  loading = false;
   doctors: any[];
 
-  constructor(private service: DoctorsService) {
+  constructor(private formBuilder: FormBuilder, private service: DoctorsService) {
   }
 
   ngOnInit() {
-    this.service.getAll()
-      .subscribe(doctors => {this.doctors = doctors; console.log(doctors)});
+    this.addDoctorForm = this.formBuilder.group({
+      email: ['', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required]
+    });
+
+    this.getAllDoctors()
   }
 
-  createDoctor(input: HTMLInputElement) {
-    let doctor = { name: input.value };
-    this.doctors.splice(0, 0, doctor);
+  get formControls() { return this.addDoctorForm.controls; }
 
-    input.value = '';
-
-    this.service.create(doctor)
+  onSubmit() {
+    if (this.addDoctorForm.invalid) {
+      return;
+    }
+    let doctor = {
+      email: this.formControls.email.value,
+      password: 'abcd',
+      firstName: this.formControls.firstName.value,
+      lastName: this.formControls.lastName.value
+    }
+    this.service.addDoctor(doctor)
       .subscribe(
         newDoctor => {
-          doctor['id'] = newDoctor.id;
+          this.getAllDoctors()
+          console.log(doctor);
         },
         (error: AppError) => {
           this.doctors.splice(0, 1);
-
           if (error instanceof BadInput) {
             // this.form.setErrors(error.originalError);
           }
@@ -45,6 +58,7 @@ export class DoctorsComponent implements OnInit {
     this.service.update(doctor)
       .subscribe(
         updatedDoctor => {
+          this.getAllDoctors()
           console.log(updatedDoctor);
         });
   }
@@ -52,8 +66,15 @@ export class DoctorsComponent implements OnInit {
   deleteDoctor(doctor) {
     this.service.delete(doctor.id).subscribe(
       updatedDoctor => {
+        this.getAllDoctors()
         console.log(doctor.id + 'deleted');
-      });;
+      });
   }
 
+  private getAllDoctors() {
+    this.loading = true;
+    console.log(this.loading)
+    this.service.getAll()
+      .subscribe(doctors => { this.doctors = doctors['Doctors']; this.loading = false; console.log(this.loading) });
+  }
 }
