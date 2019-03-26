@@ -11,6 +11,7 @@ import { MatToolbarModule, MatButtonModule, MatIconModule, MatCardModule, MatInp
 import { DoctorsComponent } from './components/doctors/doctors.component';
 import { PatientsComponent } from './components/patients/patients.component';
 import { HelloWorldComponent } from './components/hello-world/hello-world.component';
+import { CreateInterviewComponent } from './components/create-interview/create-interview.component';
 import { InterviewComponent } from './components/interview/interview.component';
 import { LoginComponent } from './components/login/login.component';
 import { QuestionsComponent } from './components/questions/questions.component';
@@ -27,6 +28,7 @@ import { ErrorInterceptor } from './_helpers/error.inceptor';
     InterviewComponent,
     LoginComponent,
     QuestionsComponent,
+    CreateInterviewComponent,
   ],
   imports: [
     BrowserModule,

@@ -61,14 +61,13 @@ export class InterviewComponent implements OnInit {
   }
 
   onSubmit() {
-
+    // let res = 
   }
 
   sendMessage(input: HTMLInputElement, idx: number) {
     // this.answers.push(input.value);
     this.answers.splice(idx, 1, input.value);
     console.log(this.answers);
-    // console.log(idx);
     console.log();
     console.log();
     console.log();
