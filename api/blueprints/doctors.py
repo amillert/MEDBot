@@ -3,6 +3,7 @@ from flask import Blueprint, request, jsonify
 from api import db, ma
 from api.api_utils import json_res, query2jsonable
 from api.dao.models import User, Role, Interview, Question, Answer
+from api.services.email_sender import send_interview
 
 doctors_api = Blueprint('doctors', __name__)
 
@@ -39,14 +40,16 @@ def doctor_route(doctor_id):
 
 @doctors_api.route('/<doctor_id>/interviews', methods=['GET', 'POST'])
 def doctor_route_interviews(doctor_id):
+    data = request.get_json(force=True)
     if request.method == 'POST':
-        inserted = Interview.insert_into(doctor_id, request.get_json(force=True))
+        inserted = Interview.insert_into(doctor_id, data)
         if inserted:
+            id = data.get('PatientID', '')
+            send_interview(User.query.get(id).email)
             return jsonify({}, 201)
         else:
             return jsonify({'error': 'Bad request'}), 400
     else:
-        print(doctor_id)
         interviews = Interview.get_interviews_of_user(doctor_id)
         if interviews:
             return jsonify({'interviews': interviews}), 200
@@ -71,4 +74,7 @@ def doctor_route_interview(doctor_id, interview_id):
         else:
             return jsonify({'error': 'Not found'}), 404
     else:
-        return jsonify(Interview.get_interviews_of_user(doctor_id, interview_id)), 200
+        interview = Interview.get_interviews_of_user(doctor_id, interview_id)
+        if interview:
+            return jsonify(interview), 200
+        return jsonify({'error': 'Not found'}), 404

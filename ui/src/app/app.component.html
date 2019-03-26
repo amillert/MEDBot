@@ -3,8 +3,8 @@
         <img class="logo" src="../favicon.ico">
 
         <span>MED Bot</span>
-        <div *ngIf="currentUser != null && currentUser.roleID === 1">
-            <a routerLink="/doctors" routerLinkActive="active">
+        <div *ngIf="currentUser != null">
+            <a *ngIf="currentUser.roleID === 1" routerLink="/doctors" routerLinkActive="active">
                 <button mat-button>
                     <mat-icon>local_hospital</mat-icon>
                     Doctors
@@ -26,6 +26,12 @@
                 <button mat-button>
                     <mat-icon>question_answer</mat-icon>
                     Interviews
+                </button>
+            </a>
+            <a routerLink="/doctors/:id/create-interview" routerLinkActive="active">
+                <button mat-button>
+                    <mat-icon>add_comment</mat-icon>
+                    Create interview
                 </button>
             </a>
         </div>

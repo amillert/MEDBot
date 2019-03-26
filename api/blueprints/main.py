@@ -23,6 +23,6 @@ def auth():
     if check_password_hash(user.password, req['password']):
         print('generate token')
         token = jwt.encode({'user_id' : user.id, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, 'secret', algorithm='HS256')
-        return jsonify({'token' : token.decode('UTF-8')})
+        return jsonify({'token' : token.decode('UTF-8'), 'userID': user.id, "roleID": user.roleID})
     return make_response('Could not verify', 401, {'WWW-Authenticate' : 'Basic realm="Login required!"'})
     
