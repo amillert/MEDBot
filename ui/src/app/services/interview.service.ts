@@ -4,22 +4,23 @@ import { Http } from '@angular/http';
 import { map, catchError } from 'rxjs/operators';
 import { DataService } from './data.service';
 import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class InterviewService  extends DataService {
+export class InterviewService extends DataService {
 
-  constructor(http: Http) {
-    super('/interview', http);
-   }
+  constructor(http: Http, authService: AuthService) {
+    super('/doctors/' + JSON.parse(localStorage.getItem('currentUser')).userID + '/interviews', http);
+  }
 
-   addInterview(interview: { PatientID: number, questions: number[] }) {
-console.log(JSON.stringify(interview))
-      return this.http.post(this.uri, JSON.stringify(interview))
+  addInterview(interview: { PatientID: number, questions: number[] }) {
+    console.log(this.uri)
+    return this.http.post(this.uri, JSON.stringify(interview))
       .pipe(
         map(response => response.json())
-        ,catchError(this.handleError)
-        );
-    }
+        , catchError(this.handleError)
+      );
+  }
 }

@@ -14,15 +14,15 @@ export class CreateInterviewComponent implements OnInit {
     { id: 2, quest: 'How did You sleep tonight?' },
     { id: 3, quest: 'Did You take Your pills?' },
   ];
-  
 
-  constructor(private fb: FormBuilder,  private service: InterviewService) {
+
+  constructor(private fb: FormBuilder, private service: InterviewService) {
 
   }
 
   get formControls() { return this.interviewForm.controls; }
 
-  ngOnInit() { 
+  ngOnInit() {
     const formControls = this.questionsList.map(control => new FormControl(false));
     this.interviewForm = this.fb.group({
       patientID: ['', Validators.required],
@@ -30,17 +30,21 @@ export class CreateInterviewComponent implements OnInit {
     });
   }
 
-  onSubmit() { 
+  onSubmit() {
     let arr = this.formControls.questionsList.value;
-    let que = this.questionsList.filter(q => arr[q.id-1] == true);
+    let que = this.questionsList.filter(q => arr[q.id - 1] == true);
     let id = +this.formControls.patientID.value;
-    let que2  = que.map(function(item) {
+    let que2 = que.map(function (item) {
       return item['id'];
     });
     this.service.addInterview({
       PatientID: id,
       questions: que2
-    });
+    }).subscribe(
+      newDoctor => {
+        console.log('created');
+      }
+    );
 
   }
 
