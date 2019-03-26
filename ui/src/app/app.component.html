@@ -28,6 +28,12 @@
                     Interviews
                 </button>
             </a>
+            <a routerLink="/doctors/:id/create-interview" routerLinkActive="active">
+                <button mat-button>
+                    <mat-icon>add_comment</mat-icon>
+                    Create interview
+                </button>
+            </a>
         </div>
         <span class="example-spacer"></span>
         <div *ngIf="currentUser == null;else logoutTemplate">

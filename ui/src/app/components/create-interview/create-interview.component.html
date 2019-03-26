@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="form-group">
+    <mat-card>
+      <mat-card-title style="padding: 0.75em 0;">
+        Create medical interview
+      </mat-card-title>
+      <mat-card-content>
+        <div class="container">
+          <form [formGroup]="interviewForm" (ngSubmit)="onSubmit()">
+            <label formArrayName="questionsList"
+              *ngFor="let _ of interviewForm.controls.questionsList.controls; let i = index" class="container">
+              <mat-card>
+                <input type="checkbox" [formControlName]="i">
+                {{ questionsList[i].quest }}
+              </mat-card>
+            </label>
+            <div style="text-align: center; padding: 2px;">
+              <button [disabled]="loading" color="accent" (click)="onSubmit()" mat-raised-button>
+                Create interview
+              </button>
+            </div>
+          </form>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
