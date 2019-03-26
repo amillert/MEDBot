@@ -82,6 +82,7 @@ class Question(db.Model):
     def get_all_questions():
         question_schema = QuestionSchema(many=True)
         questions = Question.query.all()
+        print(questions)
         return question_schema.dump(questions).data
     
 
