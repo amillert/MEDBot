@@ -1,4 +1,4 @@
-<div class="container">
+<!-- <div class="container">
     <div class="form-group">
         <mat-card>
             <mat-card-title>
@@ -6,12 +6,40 @@
             </mat-card-title>
             <mat-card-content>
                 <p *ngFor="let message of messages">
-                    <b>{{ message.who }}</b>: {{ message.text }}
+                    <b>{{ question.bot }}</b> {{ question.text }}
                 </p>
             </mat-card-content>
             <mat-form-field class="mat-input-wrapper">
                 <input (keyup.enter)="sendMessage(input)" #input type="text" matInput placeholder="Your message">
             </mat-form-field>
+        </mat-card>
+    </div>
+</div> -->
+
+<div class="container">
+    <div class="form-group">
+        <mat-card>
+            <mat-card-title style="padding: 0.75em 0;">
+                Medical Interview Chatbot
+            </mat-card-title>
+            <mat-card-content>
+                <div class="container">
+                    <p *ngFor="let question of questions; index as idx">
+                        <b>{{ question.bot }}</b>: {{ question.text }}
+
+                        <mat-form-field class="mat-input-wrapper">
+                            <input (keyup.enter)="sendMessage(input, idx)" #input type="text" matInput
+                                placeholder="Your message">
+                        </mat-form-field>
+                    </p>
+                </div>
+
+                <div style="text-align: center; padding: 2px;">
+                    <button [disabled]="loading" color="accent" (click)="onSubmit()" mat-raised-button>
+                        Submit if done with my mumbling
+                    </button>
+                </div>
+            </mat-card-content>
         </mat-card>
     </div>
 </div>

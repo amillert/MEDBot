@@ -13,6 +13,7 @@ import { PatientsComponent } from './components/patients/patients.component';
 import { HelloWorldComponent } from './components/hello-world/hello-world.component';
 import { InterviewComponent } from './components/interview/interview.component';
 import { LoginComponent } from './components/login/login.component';
+import { QuestionsComponent } from './components/questions/questions.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { ErrorInterceptor } from './_helpers/error.inceptor';
@@ -25,6 +26,7 @@ import { ErrorInterceptor } from './_helpers/error.inceptor';
     HelloWorldComponent,
     InterviewComponent,
     LoginComponent,
+    QuestionsComponent,
   ],
   imports: [
     BrowserModule,

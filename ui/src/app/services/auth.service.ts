@@ -6,62 +6,45 @@ import { User } from '../_models/user';
 import { Consts } from 'src/common/consts';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class AuthService {
-  private currentUserSubject: BehaviorSubject<User>;
-  public currentUser: Observable<User>;
-  public user = new User();
-    
+    private currentUserSubject: BehaviorSubject<User>;
+    public currentUser: Observable<User>;
+    public user = new User();
 
-  constructor(private http: Http) {
-      this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
-      this.currentUser = this.currentUserSubject.asObservable();
-  }
 
-  public get currentUserValue(): User {
-      return this.currentUserSubject.value;
-  }
+    constructor(private http: Http) {
+        this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+        this.currentUser = this.currentUserSubject.asObservable();
+    }
 
-  login(email: string, password: string) {
-      console.log(email + ' ' + password);
-    
-    let user = {
-        id: 1,
-        email: email,
-        password: password,
-        firstName: this.user.firstName,
-        lastName: this.user.lastName,
-        roleID: 1,
-        token: 'fake-jwt-token'
-    };
+    public get currentUserValue(): User {
+        return this.currentUserSubject.value;
+    }
 
-    return Observable.create( observer => {
-        observer.next(user);
-               if (user && user.token) {
-            // store user details and jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('currentUser', JSON.stringify(user));
-            console.log(user);
-            this.currentUserSubject.next(user);
-        }
-    });
-}
-//     return this.http.post(Consts.API_ENDPOINT + `/authenticate`, { email, password })
-//     .pipe(map((user: any) => {
-//         // login successful if there's a jwt token in the response
-        
-//         if (user && user.token) {
-//             // store user details and jwt token in local storage to keep user logged in between page refreshes
-//             localStorage.setItem('currentUser', JSON.stringify(user));
-//             this.currentUserSubject.next(user);
-//         }
-//         return user;
-//     }));
-//   }
+    login(email: string, password: string) {
+        return this.http.post(Consts.API_ENDPOINT + `/authenticate`, { email, password })
+            .pipe(map((response: any) => {
+                let responseParsed = JSON.parse(response['_body']);
+                let user = {
+                    userID: responseParsed.userID,
+                    email: email,
+                    token: responseParsed.token,
+                    roleID: responseParsed.roleID
+                }
+                if (user && user.token) {
+                    // store user details and jwt token in local storage to keep user logged in between page refreshes
+                    localStorage.setItem('currentUser', JSON.stringify(user));
+                    this.currentUserSubject.next(response);
+                }
+                return user;
+            }));
+    }
 
-  logout() {
-      // remove user from local storage to log user out
-      localStorage.removeItem('currentUser');
-      this.currentUserSubject.next(null);
-  }
+    logout() {
+        // remove user from local storage to log user out
+        localStorage.removeItem('currentUser');
+        this.currentUserSubject.next(null);
+    }
 }

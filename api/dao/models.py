@@ -72,6 +72,18 @@ class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     question = db.Column(db.String(100), unique=True, nullable=False)
     
+    @staticmethod
+    def insert_into(req):
+        question = Question(question=req['question'])
+        db.session.add(question)
+        db.session.commit()
+
+    @staticmethod
+    def get_all_questions():
+        question_schema = QuestionSchema(many=True)
+        questions = Question.query.all()
+        return question_schema.dump(questions).data
+    
 
 class Answer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -80,6 +92,14 @@ class Answer(db.Model):
     question = db.relationship(Question, uselist=False)
     interview = db.relationship('Interview', uselist=False)
     answer = db.Column(db.String(150), nullable=True)
+
+    @staticmethod
+    def insert_into(req):
+        answer = Answer(interviewID=req['interviewID'],
+                          questionID=req['questionID'], question=req['question'],
+                          interview=req['interview'], answer=req['answer'])
+        db.session.add(answer)
+        db.session.commit()
 
 
 class Interview(db.Model):
