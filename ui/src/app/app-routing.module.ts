@@ -12,6 +12,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/helloworld', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'interview/:id', component: InterviewComponent },
+  { path: 'interviews', component: InterviewComponent },
   { path: 'helloworld', component: HelloWorldComponent },
   { path: 'doctors', component: DoctorsComponent, canActivate: [AuthGuard] },
   { path: 'patients', component: PatientsComponent, canActivate: [AuthGuard] },
