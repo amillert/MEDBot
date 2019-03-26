@@ -13,4 +13,13 @@ export class InterviewService  extends DataService {
   constructor(http: Http) {
     super('/interview', http);
    }
+
+   addInterview(interview: { PatientID: number, questions: number[] }) {
+console.log(JSON.stringify(interview))
+      return this.http.post(this.uri, JSON.stringify(interview))
+      .pipe(
+        map(response => response.json())
+        ,catchError(this.handleError)
+        );
+    }
 }

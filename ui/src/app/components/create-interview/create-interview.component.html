@@ -7,6 +7,8 @@
       <mat-card-content>
         <div class="container">
           <form [formGroup]="interviewForm" (ngSubmit)="onSubmit()">
+            <input matInput placeholder="Patient ID" formControlName="patientID" name="patientID"
+            required>
             <label formArrayName="questionsList"
               *ngFor="let _ of interviewForm.controls.questionsList.controls; let i = index" class="container">
               <mat-card>
@@ -15,7 +17,7 @@
               </mat-card>
             </label>
             <div style="text-align: center; padding: 2px;">
-              <button [disabled]="loading" color="accent" (click)="onSubmit()" mat-raised-button>
+              <button [disabled]="loading" color="accent" (click)="onSubmit" mat-raised-button>
                 Create interview
               </button>
             </div>
