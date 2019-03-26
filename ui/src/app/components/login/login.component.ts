@@ -23,27 +23,28 @@ export class LoginComponent implements OnInit {
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.required],
       password: ['', Validators.required]
-  });
+    });
 
-  this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   get formControls() { return this.loginForm.controls; }
   onSubmit() {
     this.loading = true;
-        console.log("login clicked !")
-        if (this.loginForm.invalid) {
-            return;
-        }
-        this.authService.login(this.formControls.email.value, this.formControls.password.value)
-        .pipe(first())
-            .subscribe(
-                data => {
-                    this.router.navigate([this.returnUrl]);
-                    console.log(data);
-                },
-                error => {
-                    this.loading = false;
-                });
+    console.log("login clicked !")
+    if (this.loginForm.invalid) {
+      return;
     }
+    this.authService.login(this.formControls.email.value, this.formControls.password.value)
+      .pipe(first())
+      .subscribe(
+        data => {
+          this.router.navigate([this.returnUrl]);
+          window.location.reload();
+          console.log(data);
+        },
+        error => {
+          this.loading = false;
+        });
+  }
 }
