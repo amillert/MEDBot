@@ -33,7 +33,9 @@ export class InterviewComponent implements OnInit {
     {
       bot: 'MEDBot',
       text: 'Did You take Your pills?'
-    }]
+    }];
+
+    this.answers = Array<string>(this.questions.length).fill('');
 
     this.interviewForm = this.form.group({
 
@@ -58,10 +60,15 @@ export class InterviewComponent implements OnInit {
       // }];
   }
 
-  sendMessage(input: HTMLInputElement) {
-    this.answers.push(input.value);
-    // this.answers.splice(this.answers.length,0, input.value);
+  onSubmit() {
+
+  }
+
+  sendMessage(input: HTMLInputElement, idx: number) {
+    // this.answers.push(input.value);
+    this.answers.splice(idx, 1, input.value);
     console.log(this.answers);
+    // console.log(idx);
     console.log();
     console.log();
     console.log();
