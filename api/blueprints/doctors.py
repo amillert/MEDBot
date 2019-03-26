@@ -45,7 +45,6 @@ def doctor_route_interviews(doctor_id):
         inserted = Interview.insert_into(doctor_id, data)
         if inserted:
             id = data.get('PatientID', '')
-            print(User.query.get(id).email)
             send_interview(User.query.get(id).email)
             return jsonify({}, 201)
         else:
