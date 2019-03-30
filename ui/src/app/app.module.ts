@@ -18,6 +18,7 @@ import { QuestionsComponent } from './components/questions/questions.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { ErrorInterceptor } from './_helpers/error.inceptor';
+import { SharedService } from './services/shared.service';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { ErrorInterceptor } from './_helpers/error.inceptor';
   exports: [MatButtonModule, MatToolbarModule],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },],
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    SharedService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
