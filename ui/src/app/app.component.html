@@ -2,7 +2,7 @@
     <mat-toolbar-row>
         <img class="logo" src="../favicon.ico">
 
-        <span>MED Bot</span>
+        <span (click)="logUser()">MED Bot</span>
         <div *ngIf="currentUser != null">
             <a *ngIf="currentUser.roleID === 1" routerLink="/doctors" routerLinkActive="active">
                 <button mat-button>
@@ -54,4 +54,4 @@
         </ng-template>
     </mat-toolbar-row>
 </mat-toolbar>
-<router-outlet></router-outlet>
+<router-outlet (loggedUser)="loggedUser($event)"></router-outlet>

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter, Output } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Http } from '@angular/http';
 import { map } from 'rxjs/operators';
@@ -24,6 +24,24 @@ export class AuthService {
     }
 
     login(email: string, password: string) {
+        // let user: User = {
+        //     email: email,
+        //     password: password,
+        //     roleID: 1,
+        //     id: 1,
+        //     token: 'fake-jwt-token',
+        //     firstName: 'fdfd',
+        //     lastName: 'dsfds'
+        // }
+        // localStorage.setItem('currentUser', JSON.stringify(user));
+        // const userObservable = new Observable(observer => {
+        //     setTimeout(() => {
+        //         observer.next(this.user);
+        //     }, 1000);
+        // });
+        // this.updateCurrentUser.next(user);
+        // return userObservable;
+
         return this.http.post(Consts.API_ENDPOINT + `/authenticate`, { email, password })
             .pipe(map((response: any) => {
                 let responseParsed = JSON.parse(response['_body']);

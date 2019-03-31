@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { first } from 'rxjs/operators';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private sharedService: SharedService) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -31,17 +33,15 @@ export class LoginComponent implements OnInit {
   get formControls() { return this.loginForm.controls; }
   onSubmit() {
     this.loading = true;
-    console.log("login clicked !")
     if (this.loginForm.invalid) {
       return;
     }
     this.authService.login(this.formControls.email.value, this.formControls.password.value)
       .pipe(first())
       .subscribe(
-        data => {
+        user => {
           this.router.navigate([this.returnUrl]);
-          window.location.reload();
-          console.log(data);
+          this.sharedService.emitChange(user);
         },
         error => {
           this.loading = false;
