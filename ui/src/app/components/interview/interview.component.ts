@@ -4,8 +4,6 @@ import { InterviewService } from 'src/app/services/interview.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { switchMap } from 'rxjs/operators';
-import { AppError } from 'src/common/app-error';
-import { BadInput } from 'src/common/bad-input';
 
 @Component({
   selector: 'app-interview',
@@ -25,11 +23,11 @@ export class InterviewComponent implements OnInit {
     this.questions = [{
       bot: 'MEDBot',
       text: 'How do You feel today?'
-    }, 
+    },
     {
       bot: 'MEDBot',
       text: 'How did You sleep tonight?'
-    }, 
+    },
     {
       bot: 'MEDBot',
       text: 'Did You take Your pills?'
@@ -45,19 +43,19 @@ export class InterviewComponent implements OnInit {
     //   this.service.getTest(params['id'])))
     // .subscribe(messages => {this.messages = messages; console.log(messages)});
 
-      // messages example, backend has not been implemented
-      // this.messages = [{
-      //   id: 1,
-      //   patientId: 1,
-      //   who: 'MEDBot',
-      //   text: 'Hi !'
-      // },
-      // {
-      //   id: 2,
-      //   patientId: 1,
-      //   who: 'Patient',
-      //   text: 'Hello !'
-      // }];
+    // messages example, backend has not been implemented
+    // this.messages = [{
+    //   id: 1,
+    //   patientId: 1,
+    //   who: 'MEDBot',
+    //   text: 'Hi !'
+    // },
+    // {
+    //   id: 2,
+    //   patientId: 1,
+    //   who: 'Patient',
+    //   text: 'Hello !'
+    // }];
   }
 
   onSubmit() {
@@ -92,7 +90,7 @@ export class InterviewComponent implements OnInit {
     // this.loading = true;
     // console.log(this.loading)
     // this.questions_service.getAll()
-      // .subscribe(questions => { this.questions = questions['Question']; this.loading = false; console.log(this.loading) });
+    // .subscribe(questions => { this.questions = questions['Question']; this.loading = false; console.log(this.loading) });
   }
 
 }

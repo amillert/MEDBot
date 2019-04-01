@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { PatientsService } from 'src/app/services/accounts/patients.service';
-import { AppError } from 'src/common/app-error';
-import { BadInput } from 'src/common/bad-input';
 
 @Component({
   selector: 'app-patients',
@@ -30,13 +28,9 @@ export class PatientsComponent implements OnInit {
         newPatient => {
           patient['id'] = newPatient.id;
         },
-        (error: AppError) => {
+        (error) => {
           this.patients.splice(0, 1);
-
-          if (error instanceof BadInput) {
-            // this.form.setErrors(error.originalError);
-          }
-          else throw error;
+          throw error;
         });
   }
 
