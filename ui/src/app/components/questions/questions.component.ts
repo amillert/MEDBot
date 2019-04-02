@@ -21,8 +21,7 @@ export class QuestionsComponent implements OnInit {
     this.addQuestionsForm = this.formBuilder.group({
       question: ['', Validators.required]
     });
-
-    this.getAllQuestions()
+    this.getAllQuestions();
   }
 
   get formControls() { return this.addQuestionsForm.controls; }
@@ -38,7 +37,6 @@ export class QuestionsComponent implements OnInit {
       .subscribe(
         newQuestion => {
           this.getAllQuestions()
-          console.log(question);
         },
         (error: AppError) => {
           this.questions.splice(0, 1);
@@ -49,10 +47,19 @@ export class QuestionsComponent implements OnInit {
         });
   }
 
+  deleteQuestion(question) {
+    this.service.delete(question.id).subscribe(
+      updatedQuestion => {
+        this.getAllQuestions();
+      });
+  }
+
   private getAllQuestions() {
     this.loading = true;
-    console.log(this.loading)
     this.service.getAll()
-      .subscribe(questions => { this.questions = questions; this.loading = false; console.log(this.loading) });
+      .subscribe(questions => { 
+        this.questions = questions['questions'];
+        this.loading = false;
+      });
   }
 }

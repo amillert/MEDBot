@@ -73,7 +73,6 @@ export class DoctorsComponent implements OnInit {
 
   private getAllDoctors() {
     this.loading = true;
-    console.log(this.loading)
     this.service.getAll()
       .subscribe(doctors => { this.doctors = doctors['Doctors']; this.loading = false; console.log(this.loading) });
   }

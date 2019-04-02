@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 import { InterviewService } from 'src/app/services/interview.service';
+import { QuestionsService } from 'src/app/services/questions.service';
+import { AppError } from 'src/common/app-error';
+import { BadInput } from 'src/common/bad-input';
+import { PatientsService } from 'src/app/services/accounts/patients.service';
 
 @Component({
   selector: 'app-create-interview',
@@ -8,44 +12,69 @@ import { InterviewService } from 'src/app/services/interview.service';
   styleUrls: ['./create-interview.component.css']
 })
 export class CreateInterviewComponent implements OnInit {
+  loading = false;
   interviewForm: FormGroup;
-  questionsList = [
-    { id: 1, quest: 'How do You feel today?' },
-    { id: 2, quest: 'How did You sleep tonight?' },
-    { id: 3, quest: 'Did You take Your pills?' },
-  ];
+  questions: any[];
+  patients: any[];
+ 
+  constructor(private fb: FormBuilder, private service: InterviewService, private QService: QuestionsService,
+    private PService: PatientsService) {
+  }
 
-
-  constructor(private fb: FormBuilder, private service: InterviewService) {
-
+  ngOnInit() {
+    this.interviewForm = this.fb.group({
+      patient: [''],
+      questions: new FormArray([])
+    });
+    this.getAllPatients();
+    this.getAllQuestions();
   }
 
   get formControls() { return this.interviewForm.controls; }
-
-  ngOnInit() {
-    const formControls = this.questionsList.map(control => new FormControl(false));
-    this.interviewForm = this.fb.group({
-      patientID: ['', Validators.required],
-      questionsList: new FormArray(formControls)
-    });
-  }
-
+  
   onSubmit() {
-    let arr = this.formControls.questionsList.value;
-    let que = this.questionsList.filter(q => arr[q.id - 1] == true);
-    let id = +this.formControls.patientID.value;
-    let que2 = que.map(function (item) {
-      return item['id'];
+    let patient = this.formControls.patient.value;
+    let arr = this.formControls.questions.value;
+    let qids = []
+    this.questions.forEach(function (element, i) {
+      if (arr[i] === true) {
+        qids.push(element.id)
+      }
     });
     this.service.addInterview({
-      PatientID: id,
-      questions: que2
+      PatientID: patient.id,
+      questions: qids
     }).subscribe(
       newDoctor => {
         console.log('created');
       }
     );
-
   }
+
+  private getAllPatients() {
+    this.loading = true;
+    this.PService.getAll()
+      .subscribe(patients => {
+        this.patients = patients['patients'];
+        console.log(this.patients)
+        this.loading = false;
+      });
+  }
+
+  private getAllQuestions() {
+    this.loading = true;
+    this.QService.getAll()
+      .subscribe(questions => {
+        this.questions = questions['questions'];
+        console.log(this.questions)
+        this.loading = false;
+        this.questions.map((o, i) => {
+          const control = new FormControl(i === 0); // if first item set to true, else false
+          (this.interviewForm.controls.questions as FormArray).push(control);
+        });
+
+      });
+  }
+
 
 }

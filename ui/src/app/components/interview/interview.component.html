@@ -25,15 +25,13 @@
             <mat-card-content>
                 <div class="container">
                     <p *ngFor="let question of questions; index as idx">
-                        <b>{{ question.bot }}</b>: {{ question.text }}
-
+                        {{ question.question }}
                         <mat-form-field class="mat-input-wrapper">
                             <input (keyup.enter)="sendMessage(input, idx)" #input type="text" matInput
                                 placeholder="Your message">
                         </mat-form-field>
                     </p>
                 </div>
-
                 <div style="text-align: center; padding: 2px;">
                     <button [disabled]="loading" color="accent" (click)="onSubmit()" mat-raised-button>
                         Submit if done with my mumbling
@@ -41,5 +39,6 @@
                 </div>
             </mat-card-content>
         </mat-card>
+        <mat-spinner style="margin:0 auto;" *ngIf="loading"></mat-spinner>
     </div>
 </div>
