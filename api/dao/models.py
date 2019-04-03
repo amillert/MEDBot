@@ -1,7 +1,9 @@
+import psycopg2
 from api import db, ma
 from marshmallow import fields
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
+
 
 class Role(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -84,6 +86,24 @@ class Question(db.Model):
         questions = Question.query.all()
         return question_schema.dump(questions).data
     
+    @staticmethod
+    def delete_question(question_id):
+        question = Question.query.filter_by(id=question_id).first()
+        if question:
+            db.session.delete(question)
+            db.session.commit()
+            return True
+        else:
+            return False
+
+    @staticmethod
+    def update_question(req, question_id):
+        if req['question']:
+            question = Question.query.filter_by(id=question_id).update(dict(req))
+            if question == 0:
+                return False
+            db.session.commit()
+            return True
 
 class Answer(db.Model):
     id = db.Column(db.Integer, primary_key=True)

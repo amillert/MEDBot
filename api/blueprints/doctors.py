@@ -40,8 +40,8 @@ def doctor_route(doctor_id):
 
 @doctors_api.route('/<doctor_id>/interviews', methods=['GET', 'POST'])
 def doctor_route_interviews(doctor_id):
-    data = request.get_json(force=True)
     if request.method == 'POST':
+        data = request.get_json(force=True)
         inserted = Interview.insert_into(doctor_id, data)
         if inserted:
             id = data.get('PatientID', '')

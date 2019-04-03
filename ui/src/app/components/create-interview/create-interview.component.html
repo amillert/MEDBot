@@ -6,22 +6,19 @@
       </mat-card-title>
       <mat-card-content>
         <div class="container">
-          <form [formGroup]="interviewForm" (ngSubmit)="onSubmit()">
-            <input matInput placeholder="Patient ID" formControlName="patientID" name="patientID"
-            required>
-            <label formArrayName="questionsList"
-              *ngFor="let _ of interviewForm.controls.questionsList.controls; let i = index" class="container">
-              <mat-card>
-                <input type="checkbox" [formControlName]="i">
-                {{ questionsList[i].quest }}
-              </mat-card>
-            </label>
-            <div style="text-align: center; padding: 2px;">
-              <button [disabled]="loading" color="accent" (click)="onSubmit" mat-raised-button>
-                Create interview
-              </button>
-            </div>
-          </form>
+            <form [formGroup]="interviewForm" (ngSubmit)="onSubmit()">
+                <select class="custom-select"  formControlName="patient">
+                    <option value="" disabled>Choose your patient</option>
+                    <option *ngFor="let patient of patients" [ngValue]="patient">{{patient.id}}: {{patient.firstName}}, {{patient.lastName}}</option>
+                 </select>
+                <label formArrayName="questions" *ngFor="let question of questions; let i = index" class="container">
+                  <mat-card>
+                    <input type="checkbox" [formControlName]="i" ng-false-value="false" ng-true-value="12312">
+                    {{ question.question}}
+                  </mat-card>
+                </label>
+                <button type="submit">Submit</button>
+             </form>
         </div>
       </mat-card-content>
     </mat-card>
