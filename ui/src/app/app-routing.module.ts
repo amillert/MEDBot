@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   // { path: 'interview/:id', component: InterviewComponent },
   { path: 'interviews', component: InterviewComponent },
-  { path: 'doctors/:id/create-interview', component: CreateInterviewComponent },
+  { path: 'doctors/create-interview', component: CreateInterviewComponent },
   { path: 'helloworld', component: HelloWorldComponent },
   { path: 'doctors', component: DoctorsComponent, canActivate: [AuthGuard] },
   { path: 'patients', component: PatientsComponent, canActivate: [AuthGuard] },

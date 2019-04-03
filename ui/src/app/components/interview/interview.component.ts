@@ -16,12 +16,14 @@ export class InterviewComponent implements OnInit {
   loading = false;
   answers: string[];
   questions: any[];
+  interviews: any[];
   interviewForm: FormGroup;
 
-  constructor(private form: FormBuilder, private QService: QuestionsService) {}
+  constructor(private form: FormBuilder, private QService: QuestionsService, private IService: InterviewService) {}
 
   ngOnInit() {
     this.getAllQuestions();
+    this.getAllInterviews();
     this.interviewForm = this.form.group({
     });
   }
@@ -34,11 +36,21 @@ export class InterviewComponent implements OnInit {
   private getAllQuestions() {
     this.loading = true;
     this.QService.getAll()
-      .subscribe(questions => { 
+      .subscribe(questions => {
         this.questions = questions['questions'];
         this.answers = Array<string>(this.questions.length).fill('');
         this.loading = false;
+        console.log(this.questions);
       });
   }
 
+  private getAllInterviews() {
+    this.loading = true;
+    this.IService.getAll()
+      .subscribe(interviews => {
+        this.interviews = interviews['interviews'];
+        this.loading = false;
+        console.log(this.interviews);
+      });
+  }
 }

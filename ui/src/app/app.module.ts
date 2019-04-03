@@ -19,6 +19,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { ErrorInterceptor } from './_helpers/error.inceptor';
 import { SharedService } from './services/shared.service';
+import { BrowseInterviewsComponent } from './components/browse-interviews/browse-interviews.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { SharedService } from './services/shared.service';
     LoginComponent,
     QuestionsComponent,
     CreateInterviewComponent,
+    BrowseInterviewsComponent,
   ],
   imports: [
     BrowserModule,
