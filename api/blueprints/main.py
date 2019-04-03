@@ -5,6 +5,7 @@ from api.api_utils import json_res
 from flask import  Blueprint, request, make_response, jsonify
 from api.dao.models import User
 from werkzeug.security import check_password_hash, generate_password_hash
+from api.config import BaseConfig
 main = Blueprint('main', __name__)
 
 @main.route('/')
@@ -22,7 +23,7 @@ def auth():
 
     if check_password_hash(user.password, req['password']):
         print('generate token')
-        token = jwt.encode({'user_id' : user.id, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, 'secret', algorithm='HS256')
+        token = jwt.encode({'user_id' : user.id, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, BaseConfig.SECRET_KEY, algorithm='HS256')
         return jsonify({'token' : token.decode('UTF-8'), 'userID': user.id, "roleID": user.roleID})
     return make_response('Could not verify', 401, {'WWW-Authenticate' : 'Basic realm="Login required!"'})
     
