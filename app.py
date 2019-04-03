@@ -5,6 +5,8 @@ app = create_app()
 @app.after_request
 def add_cors(res):
     res.headers['Access-Control-Allow-Origin'] = '*'
+    res.headers["Access-Control-Allow-Credentials"] = "true"
+    res.headers["Access-Control-Allow-Headers"] = "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
     res.headers['Access-Control-Allow-Methods'] = 'POST, PUT, GET, OPTIONS, DELETE, PATCH'
     return res
 
