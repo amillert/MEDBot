@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { InterviewService } from 'src/app/services/interview.service';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-browse-interviews',
@@ -19,7 +19,6 @@ export class BrowseInterviewsComponent implements OnInit {
   }
 
   private openInterview(url, id){
-    console.log("opened interview ->", id)
     this.router.navigate([url, id]).then( (e) => {
       if (e) {
         console.log("Navigation is successful!");
