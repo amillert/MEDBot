@@ -72,9 +72,6 @@ export class CreateInterviewComponent implements OnInit {
           const control = new FormControl(i === 0); // if first item set to true, else false
           (this.interviewForm.controls.questions as FormArray).push(control);
         });
-
       });
   }
-
-
 }
