@@ -13,8 +13,7 @@ import { BadInput } from 'src/common/bad-input';
   styleUrls: ['./interview.component.css']
 })
 export class InterviewComponent implements OnInit {
-  loading = false;
-  answers: string[];
+  loading = true;
   questions: any[];
   interview: any[];
   interviewForm: FormGroup;
@@ -23,22 +22,22 @@ export class InterviewComponent implements OnInit {
 
   ngOnInit() {
     this.getInterview(this.activatedRoute.snapshot.url[1].path);
-    this.interviewForm = this.form.group({
-    });
   }
 
-  sendMessage(input: HTMLInputElement, idx: number) {
-    this.answers.splice(idx, 1, input.value);
-    console.log(this.answers);
-  }
+  // sendMessage(input: HTMLInputElement, idx: number) {
+  //   this.answers.splice(idx, 1, input.value);
+  //   console.log(this.answers);
+  // }
 
   private getInterview(id) {
     this.loading = true;
     this.IService.get(id)
       .subscribe(interview => {
         this.interview = interview;
+        this.questions = interview.questions;
         this.loading = false;
-        console.log(this.interview);
+        console.log(this.interview, this.questions);
       });
+
   }
 }

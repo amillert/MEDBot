@@ -16,7 +16,7 @@
     </div>
 </div> -->
 
-<div class="container">
+<!-- <div class="container">
     <div class="form-group">
         <mat-card>
             <mat-card-title style="padding: 0.75em 0;">
@@ -35,6 +35,33 @@
                 <div style="text-align: center; padding: 2px;">
                     <button [disabled]="loading" color="accent" (click)="onSubmit()" mat-raised-button>
                         Submit if done with my mumbling
+                    </button>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        <mat-spinner style="margin:0 auto;" *ngIf="loading"></mat-spinner>
+    </div>
+</div> -->
+
+
+<div class="container">
+    <div class="form-group">
+        <mat-card>
+            <mat-card-title style="padding: 0.75em 0;">
+                Medical Interview of {{interview.receiver.firstName}}, {{interview.receiver.lastName}}
+            </mat-card-title>
+            <mat-card-content>
+                <div class="container">
+                    <p *ngFor="let question of questions; index as idx">
+                        <b>Question:</b> {{ question.question.question }}
+                        <mat-card-content>  
+                            <p> <b>Answer:</b> {{ question.answer }}</p>
+                        </mat-card-content>
+                    </p>
+                </div>
+                <div style="text-align: center; padding: 2px;">
+                    <button [disabled]="loading" color="accent" (click)="onSubmit()" mat-raised-button>
+                        Mark as read
                     </button>
                 </div>
             </mat-card-content>

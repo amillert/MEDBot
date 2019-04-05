@@ -28,6 +28,13 @@ export class BrowseInterviewsComponent implements OnInit {
     });
   }
 
+  deleteInterview(interview) {
+    this.service.delete(interview.id).subscribe(
+      updatedInterviews => {
+        this.getAllInterviews();
+      });
+  }
+
   private getAllInterviews() {
     this.loading = true;
     this.service.getAll()
