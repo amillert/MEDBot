@@ -13,7 +13,7 @@ export class AnswerInterviewComponent implements OnInit {
   questions: any[];
   interviewForm: FormGroup;
   loading = true;
-  constructor(private fb: FormBuilder, private activatedRoute: ActivatedRoute, private service: InterviewService ) { }
+  constructor(private router: Router, private fb: FormBuilder, private activatedRoute: ActivatedRoute, private service: InterviewService ) { }
 
   ngOnInit() {
     this.interviewForm = this.fb.group({
@@ -37,6 +37,7 @@ export class AnswerInterviewComponent implements OnInit {
     this.service.answerInterview(patientid, interviewid, answers)
     .subscribe( answeredInterview => {
       console.log('answered');
+      this.router.navigate(['/'])
     });
   }
 
@@ -44,6 +45,7 @@ export class AnswerInterviewComponent implements OnInit {
     this.loading = true;
     let patientid = this.activatedRoute.snapshot.url[0].path
     let interviewid = this.activatedRoute.snapshot.url[3].path
+    console.log(patientid, interviewid)
     this.service.getPatientInterview(patientid, interviewid)
       .subscribe(interview => {
         this.interview = interview;

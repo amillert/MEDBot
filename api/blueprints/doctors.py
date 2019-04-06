@@ -42,10 +42,11 @@ def doctor_route(doctor_id):
 def doctor_route_interviews(doctor_id):
     if request.method == 'POST':
         data = request.get_json(force=True)
-        inserted = Interview.insert_into(doctor_id, data)
+        inserted, iid = Interview.insert_into(doctor_id, data)
         if inserted:
             id = data.get('PatientID', '')
-            send_interview(User.query.get(id).email)
+            patient = User.query.get(id)
+            send_interview(patient.email, patient.id, iid)
             return jsonify({}, 201)
         else:
             return jsonify({'error': 'Bad request'}), 400
