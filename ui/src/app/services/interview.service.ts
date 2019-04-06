@@ -15,6 +15,22 @@ export class InterviewService extends DataService {
     super('/doctors/' + JSON.parse(localStorage.getItem('currentUser')).userID + '/interviews', http);
   }
 
+  getPatientInterview(patientID, InterviewID) {
+    let uri = Consts.API_ENDPOINT + '/patients/' + patientID + '/interviews/' + InterviewID
+    return this.http.get(uri)
+    .pipe(
+      map(response => response.json()),catchError(this.handleError)
+      );
+  }
+
+  answerInterview(patientID, InterviewID, answers){
+    let uri = Consts.API_ENDPOINT + '/patients/' + patientID + '/interviews/' + InterviewID
+    return this.http.put(uri, answers)
+    .pipe(
+      map(response => response.json()),catchError(this.handleError)
+      );
+  }
+
   addInterview(interview: { PatientID: number, questions: number[] }) {
     console.log(this.uri)
     return this.http.post(this.uri, JSON.stringify(interview))

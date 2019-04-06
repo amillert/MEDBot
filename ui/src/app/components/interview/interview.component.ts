@@ -24,11 +24,6 @@ export class InterviewComponent implements OnInit {
     this.getInterview(this.activatedRoute.snapshot.url[1].path);
   }
 
-  // sendMessage(input: HTMLInputElement, idx: number) {
-  //   this.answers.splice(idx, 1, input.value);
-  //   console.log(this.answers);
-  // }
-
   private getInterview(id) {
     this.loading = true;
     this.IService.get(id)
@@ -38,6 +33,5 @@ export class InterviewComponent implements OnInit {
         this.loading = false;
         console.log(this.interview, this.questions);
       });
-
   }
 }
