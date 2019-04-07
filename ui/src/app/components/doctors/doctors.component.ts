@@ -25,6 +25,7 @@ export class DoctorsComponent implements OnInit {
     });
 
     this.getAllDoctors();
+
   }
 
   get formControls() { return this.addDoctorForm.controls; }

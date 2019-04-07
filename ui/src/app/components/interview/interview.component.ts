@@ -18,10 +18,21 @@ export class InterviewComponent implements OnInit {
   interview: any[];
   interviewForm: FormGroup;
 
-  constructor(private activatedRoute: ActivatedRoute, private form: FormBuilder, private QService: QuestionsService, private IService: InterviewService) {}
+  constructor(private router: Router, private activatedRoute: ActivatedRoute,
+    private form: FormBuilder, private QService: QuestionsService, private IService: InterviewService) {}
 
   ngOnInit() {
     this.getInterview(this.activatedRoute.snapshot.url[1].path);
+  }
+
+  onSubmit() {
+    let id = this.activatedRoute.snapshot.url[1].path
+    console.log(id)
+    this.IService.updateStatus(id)
+    .subscribe( updatedInterview => {
+      console.log('answered');
+      this.router.navigate(['/browseInterviews'])
+    });
   }
 
   private getInterview(id) {

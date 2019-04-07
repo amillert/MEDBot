@@ -10,6 +10,7 @@ import { QuestionsComponent } from './components/questions/questions.component';
 import { CreateInterviewComponent } from './components/create-interview/create-interview.component';
 import { BrowseInterviewsComponent } from './components/browse-interviews/browse-interviews.component'
 import { AuthGuard } from './_guards/auth.guard';
+import { ManagePatientComponent } from './components/manage-patient/manage-patient.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/helloworld', pathMatch: 'full' },
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'helloworld', component: HelloWorldComponent },
   { path: 'doctors', component: DoctorsComponent, canActivate: [AuthGuard] },
   { path: 'patients', component: PatientsComponent, canActivate: [AuthGuard] },
+  { path: 'patients/:pid', component: ManagePatientComponent, canActivate: [AuthGuard] },
   { path: 'questions', component: QuestionsComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '' }
 ];

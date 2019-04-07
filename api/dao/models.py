@@ -33,15 +33,10 @@ class User(db.Model):
         return f"User('{self.email}, '{self.firstName}', '{self.lastName}', {self.role})"
 
     def insert_into(req, role):
-        if role == 'Patient':
-            user = User(email=req['email'], firstName=req['firstName'], lastName=req['lastName'], roleID=Role.get_id_by_role(role))
-            db.session.add(user)
-            db.session.commit()
-        else:
-            hashed_password = generate_password_hash(req['password'], method='sha256')
-            user = User(email=req['email'], password=hashed_password, firstName=req['firstName'], lastName=req['lastName'], roleID=Role.get_id_by_role(role))
-            db.session.add(user)
-            db.session.commit()
+        hashed_password = generate_password_hash(req['password'], method='sha256')
+        user = User(email=req['email'], password=hashed_password, firstName=req['firstName'], lastName=req['lastName'], roleID=Role.get_id_by_role(role))
+        db.session.add(user)
+        db.session.commit()
 
     def get_users_by_role(role, user_id=None):
         if not user_id:
@@ -69,6 +64,53 @@ class User(db.Model):
             return True
         else:
             return False
+
+
+class Patient(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(120), unique=True, nullable=True)
+    firstName = db.Column(db.String(30))
+    lastName = db.Column(db.String(40))
+    doctorID = db.Column(db.Integer, db.ForeignKey(User.id))
+    doctor = db.relationship(User, foreign_keys=[doctorID], backref='patients')
+
+    @staticmethod
+    def insert_into(req):
+        user = User.query.get(req['doctorID'])
+        if user.roleID == 1:
+            print('admin')
+            patient = Patient(email=req['email'], firstName=req['firstName'], lastName=req['lastName'])
+            db.session.add(patient)
+            db.session.commit()
+        else:
+            patient = Patient(email=req['email'], firstName=req['firstName'], lastName=req['lastName'], doctorID=req['doctorID'])
+            db.session.add(patient)
+            db.session.commit()
+
+    def delete_patient(patient_id):
+            patient = Patient.query.filter_by(id=patient_id).first()
+            if patient:
+                db.session.delete(patient)
+                db.session.commit()
+                return True
+            else:
+                return False
+
+    def get_all():
+        patient_schema = PatientSchema(many=True)
+        return patient_schema.dump(Patient.query.all()).data
+    
+    def get_by_id(patient_id):
+        patient_schema = PatientSchema()
+        return patient_schema.dump(Patient.get(patient_id)).data
+
+    def update_patient(req, patient_id):
+        patient = Patient.query.filter_by(patient_id).update(dict(req))
+        if user == 0:
+            return False
+        db.session.commit()
+        return True
+
 
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -105,6 +147,7 @@ class Question(db.Model):
             db.session.commit()
             return True
 
+
 class Answer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     interviewID = db.Column(db.Integer, db.ForeignKey('interview.id'))
@@ -125,13 +168,14 @@ class Answer(db.Model):
 class Interview(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     DoctorID = db.Column(db.Integer, db.ForeignKey(User.id))
-    PatientID = db.Column(db.Integer, db.ForeignKey(User.id))
+    PatientID = db.Column(db.Integer, db.ForeignKey(Patient.id))
     creationTimestamp = db.Column(db.DateTime,  default=datetime.utcnow)
     lastActionTimestamp = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    status = db.Column(db.String(30))
     
     # define relationships
     sender = db.relationship(User, foreign_keys=[DoctorID], backref='sent_interviews')
-    receiver = db.relationship(User, foreign_keys=[PatientID], backref='received_interviews')
+    receiver = db.relationship(Patient, foreign_keys=[PatientID], backref='received_interviews')
     questions = db.relationship('Answer')
 
     def __repr__(self):
@@ -140,31 +184,31 @@ class Interview(db.Model):
     def get_interviews_of_user(user_id, interview_id=None):
         user = User.query.filter_by(id=user_id).first()
         if interview_id:
-            if user.roleID == Role.get_id_by_role('Doctor'):
-                interview_schema = InterviewSchema()
-                return interview_schema.dump(Interview.query.filter_by(id=interview_id, DoctorID=user_id).first()).data
-            elif user.roleID == Role.get_id_by_role('Patient'):
-                interview_schema = InterviewSchema()
-                return interview_schema.dump(Interview.query.filter_by(id=interview_id, PatientID=user_id).first()).data
+            interview_schema = InterviewSchema()
+            return interview_schema.dump(Interview.query.filter_by(id=interview_id, DoctorID=user_id).first()).data
         else:
-            if user.roleID == Role.get_id_by_role('Doctor'):
-                interview_schema = InterviewSchema(many=True)
-                interviews = interview_schema.dump(user.sent_interviews).data
-                return interviews
-            elif user.roleID == Role.get_id_by_role('Patient'):
-                interview_schema = InterviewSchema(many=True)
-                interviews = interview_schema.dump(user.received_interviews).data
-                return interviews
+            interview_schema = InterviewSchema(many=True)
+            interviews = interview_schema.dump(user.sent_interviews).data
+            return interviews
         return False
     
+    def get_interviews_of_patient(patient_id, interview_id=None):
+        if interview_id:
+            interview_schema = InterviewSchema()
+            return interview_schema.dump(Interview.query.filter_by(id=interview_id, PatientID=patient_id).first()).data
+        else:
+            interview_schema = InterviewSchema(many=True)
+            interviews = interview_schema.dump(patient.received_interviews).data
+            return interviews
+
     @staticmethod
     def insert_into(doctor_id, req):
         """
            request =  {"PatientID": 4, "questions":[1, 2, 3, 4]}
         """
-        doctor = User.query.filter_by(id=doctor_id, roleID=Role.get_id_by_role('Doctor')).first()
+        doctor = User.query.filter_by(id=doctor_id).first()
         if doctor:
-            interview = Interview(DoctorID=doctor_id, PatientID=req['PatientID'])
+            interview = Interview(DoctorID=doctor_id, PatientID=req['PatientID'], status='Sent')
             for qid in req['questions']:
                 q = (Question.query.get(qid))
                 interview.questions.append(Answer(interview=interview, question=q))
@@ -173,25 +217,37 @@ class Interview(db.Model):
             return True, interview.id
         return False
 
+    def answer_interview(patient_id, interview_id, req):
+        interview_schema = InterviewSchema()
+        interview = Interview.query.filter_by(id=interview_id, PatientID=patient_id).first()
+        interview.status = 'Answered'
+        interview_answers = interview.questions
+        patient_answers = req['Answers']
+        for answer in interview_answers:
+            for pat_ans in patient_answers:
+                if answer.question.id == pat_ans['questionID']:
+                    answer.answer = pat_ans['answer']
+        db.session.commit()
+        return True
+
     def update_interview(user_id, interview_id, req):
         user = User.query.filter_by(id=user_id).first()
-        if user.role.name == 'Doctor':
-            interview = Interview.query.filter_by(id=interview_id, DoctorID=user_id)
-            if interview:
-                updated = Interview.query.filter_by(id=interview_id).update(dict(req))
-                db.session.commit()
-                return True
-        if user.role.name == 'Patient':
-            interview_schema = InterviewSchema()
-            interview = Interview.query.filter_by(id=interview_id, PatientID=user_id).first()
-            interview_answers = interview.questions
-            patient_answers = req['Answers']
-            for answer in interview_answers:
-                for pat_ans in patient_answers:
-                    if answer.question.id == pat_ans['questionID']:
-                        answer.answer = pat_ans['answer']
+        interview = Interview.query.filter_by(id=interview_id, DoctorID=user_id)
+        if interview:
+            updated = Interview.query.filter_by(id=interview_id).update(dict(req))
             db.session.commit()
             return True
+        # if user.role.name == 'Patient':
+        #     interview_schema = InterviewSchema()
+        #     interview = Interview.query.filter_by(id=interview_id, PatientID=user_id).first()
+        #     interview_answers = interview.questions
+        #     patient_answers = req['Answers']
+        #     for answer in interview_answers:
+        #         for pat_ans in patient_answers:
+        #             if answer.question.id == pat_ans['questionID']:
+        #                 answer.answer = pat_ans['answer']
+        #     db.session.commit()
+        #     return True
         return False
 
     def delete_interview(doctor_id, interview_id):
@@ -209,6 +265,11 @@ class RoleSchema(ma.ModelSchema):
         model = Role
 
 
+class PatientSchema(ma.ModelSchema):
+     class Meta:
+        model = Patient
+
+
 class UserSchema(ma.ModelSchema):
     class Meta:
         model = User
@@ -219,15 +280,18 @@ class QuestionSchema(ma.ModelSchema):
     class Meta:
         model = Question
 
+
 class AnswerSchema(ma.ModelSchema):
     class Meta:
         model = Answer
     question = fields.Nested(QuestionSchema)
 
+
 class InterviewSchema(ma.ModelSchema):
     class Meta:
         model = Interview
     sender = fields.Nested(UserSchema, only=['id', 'firstName', 'lastName'])
-    receiver = fields.Nested(UserSchema, only=['id', 'firstName', 'lastName'])
+    receiver = fields.Nested(PatientSchema, only=['id', 'firstName', 'lastName'])
     questions = fields.Nested(AnswerSchema, many=True, only=['answer', 'question'])
+
 

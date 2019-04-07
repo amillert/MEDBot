@@ -21,6 +21,7 @@ import { ErrorInterceptor } from './_helpers/error.inceptor';
 import { SharedService } from './services/shared.service';
 import { BrowseInterviewsComponent } from './components/browse-interviews/browse-interviews.component';
 import { AnswerInterviewComponent } from './components/answer-interview/answer-interview.component';
+import { ManagePatientComponent } from './components/manage-patient/manage-patient.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { AnswerInterviewComponent } from './components/answer-interview/answer-i
     CreateInterviewComponent,
     BrowseInterviewsComponent,
     AnswerInterviewComponent,
+    ManagePatientComponent,
   ],
   imports: [
     BrowserModule,

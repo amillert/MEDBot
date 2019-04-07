@@ -2,9 +2,9 @@ import json
 from flask import Blueprint, request, jsonify
 from api import db, ma
 from api.api_utils import json_res, query2jsonable
-from api.dao.models import User, Role, Interview, Question, Answer
+from api.dao.models import User, Role, Interview, Question, Answer, Patient
 from api.services.email_sender import send_interview
-
+from werkzeug.security import check_password_hash, generate_password_hash
 doctors_api = Blueprint('doctors', __name__)
 
 @doctors_api.route('', methods=['GET', 'POST'])
@@ -45,7 +45,7 @@ def doctor_route_interviews(doctor_id):
         inserted, iid = Interview.insert_into(doctor_id, data)
         if inserted:
             id = data.get('PatientID', '')
-            patient = User.query.get(id)
+            patient = Patient.query.get(id)
             send_interview(patient.email, patient.id, iid)
             return jsonify({}, 201)
         else:
