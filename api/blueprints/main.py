@@ -18,12 +18,12 @@ def auth():
     req = request.get_json(force=True)
     user = User.query.filter_by(email=req['email']).first()
     if not user:
-        return make_response('Could not verify', 401, {'WWW-Authenticate' : 'Basic realm="Login required!"'})
-    print(generate_password_hash(req['password'], method='sha256'))
+        return jsonify({'error': 'Could not verify'}), 404
 
     if check_password_hash(user.password, req['password']):
         print('generate token')
         token = jwt.encode({'user_id' : user.id, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, BaseConfig.SECRET_KEY, algorithm='HS256')
+        print(user.id, user.roleID)
         return jsonify({'token' : token.decode('UTF-8'), 'userID': user.id, "roleID": user.roleID})
-    return make_response('Could not verify', 401, {'WWW-Authenticate' : 'Basic realm="Login required!"'})
+    return jsonify({'error': 'Could not verify'}), 400
     
