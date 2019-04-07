@@ -1,9 +1,10 @@
 <div class="container">
       <label>Interviews</label>
+      <mat-spinner style="margin:0 auto;" *ngIf="loading"></mat-spinner>
       <mat-card *ngFor="let interview of interviews" class="list-group-item">
           {{ interview.id }} Patient: {{ interview.receiver.firstName }}, {{ interview.receiver.lastName }}, {{interview.creationTimestamp | date: 'yyyy-MM-dd'}}
             <button (click)="deleteInterview(interview)" class="btn btn-danger btn-sm">Delete</button>
             <button (click)="openInterview('/interview', interview.id)" class="btn btn-primary btn-sm">Open</button>
       </mat-card>
-      <mat-spinner style="margin:0 auto;" *ngIf="loading"></mat-spinner>
+     
 </div>

@@ -71,7 +71,7 @@ def doctor_route_interview(doctor_id, interview_id):
     elif request.method == 'DELETE':
         deleted = Interview.delete_interview(doctor_id, interview_id)
         if deleted:
-            return jsonify({}), 201
+            return jsonify({}), 204
         else:
             return jsonify({'error': 'Not found'}), 404
     else:

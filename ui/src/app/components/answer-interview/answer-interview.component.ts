@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { InterviewService } from 'src/app/services/interview.service';
 import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
+import { PatientInterviewService } from 'src/app/services/patient-interview.service';
 
 @Component({
   selector: 'app-answer-interview',
@@ -13,7 +13,7 @@ export class AnswerInterviewComponent implements OnInit {
   questions: any[];
   interviewForm: FormGroup;
   loading = true;
-  constructor(private router: Router, private fb: FormBuilder, private activatedRoute: ActivatedRoute, private service: InterviewService ) { }
+  constructor(private router: Router, private fb: FormBuilder, private activatedRoute: ActivatedRoute, private service: PatientInterviewService ) { }
 
   ngOnInit() {
     this.interviewForm = this.fb.group({
