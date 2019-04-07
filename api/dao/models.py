@@ -170,7 +170,7 @@ class Interview(db.Model):
                 interview.questions.append(Answer(interview=interview, question=q))
             db.session.add(interview)
             db.session.commit()
-            return True
+            return True, interview.id
         return False
 
     def update_interview(user_id, interview_id, req):

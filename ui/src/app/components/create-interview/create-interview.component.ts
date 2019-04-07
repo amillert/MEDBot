@@ -66,15 +66,11 @@ export class CreateInterviewComponent implements OnInit {
     this.QService.getAll()
       .subscribe(questions => {
         this.questions = questions['questions'];
-        console.log(this.questions)
         this.loading = false;
         this.questions.map((o, i) => {
           const control = new FormControl(i === 0); // if first item set to true, else false
           (this.interviewForm.controls.questions as FormArray).push(control);
         });
-
       });
   }
-
-
 }

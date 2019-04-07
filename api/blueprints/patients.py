@@ -27,7 +27,7 @@ def patient_route(patient_id):
         except Exception:
             return jsonify({'error': 'Bad request'}), 400
     elif request.method == 'DELETE':
-            deleted = User.delete_user(request.get_json(force=True), patient_id, 'Patient')
+            deleted = User.delete_user({}, patient_id, 'Patient')
             if deleted:
                 return jsonify({}), 204
             return jsonify({'error': 'Not found'}), 404

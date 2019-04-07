@@ -3,8 +3,8 @@
       <mat-grid-tile>
           <div class="container">
               <mat-card *ngFor="let question of questions" class="list-group-item">
-                  {{ question.question }} <button (click)="deleteQuestion(question)"
-                      class="btn btn-danger btn-sm">Delete</button>
+                  {{ question.question }} 
+                  <button (click)="deleteQuestion(question)" class="btn btn-danger btn-sm">Delete</button>
               </mat-card>
               <mat-spinner style="margin:0 auto;" *ngIf="loading"></mat-spinner>
           </div>

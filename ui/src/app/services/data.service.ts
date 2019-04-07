@@ -46,7 +46,7 @@ export class DataService {
   }
 
   delete(id) {
-    console.log(id)
+    console.log(id);
     return this.http.delete(this.uri + '/' + id)
     .pipe(
       map(response => response.json()),catchError(this.handleError)

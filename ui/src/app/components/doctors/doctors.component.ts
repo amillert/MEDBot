@@ -24,7 +24,7 @@ export class DoctorsComponent implements OnInit {
       lastName: ['', Validators.required]
     });
 
-    this.getAllDoctors()
+    this.getAllDoctors();
   }
 
   get formControls() { return this.addDoctorForm.controls; }
