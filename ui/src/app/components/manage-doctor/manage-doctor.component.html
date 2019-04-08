@@ -1,0 +1,40 @@
+<div class="container">
+    <div class="form-group">
+      <mat-card>
+        <mat-card-title style="padding: 0.75em 0;">
+          Manage Doctor
+        </mat-card-title>
+        <mat-card-content>
+          <div class="container">
+            <mat-card class="list-group-item">
+              <form [formGroup]="doctorForm" (ngSubmit)="onSubmit()">
+                  <mat-form-field class="mat-input-wrapper" >
+                    <input matInput placeholder="Email" formControlName="email" name="email" value = {{doctor.email}} required>
+                  </mat-form-field>
+                  <mat-form-field class="mat-input-wrapper">
+                    <input matInput placeholder="First Name" formControlName="firstName" name="firstName" value = {{doctor.firstName}}  required>
+                  </mat-form-field>
+                  <mat-form-field class="mat-input-wrapper">
+                    <input matInput placeholder="Last Name" formControlName="lastName" name="lastName" value = {{doctor.lastName}} required>
+                  </mat-form-field>
+                  <mat-card-actions>
+                      <input type="checkbox" formControlName="passwordChange" ng-false-value="false" ng-true-value="true" value="false"> Force password change
+                  </mat-card-actions>
+                  <mat-card-actions align="center">
+                    <button type="submit" mat-raised-button >Submit</button>
+                  </mat-card-actions>
+              </form>
+            </mat-card>
+            <mat-card-title>Doctor's Patients</mat-card-title>
+            <mat-card *ngFor="let patient of doctorPatients" class="list-group-item">
+                ID: {{ patient.id }} - Email: {{ patient.email }} - First name: {{ patient.firstName }} Last name:
+                {{ patient.lastName }} <button (click)="deletePatient(patient)" 
+                class="btn btn-danger btn-sm">Delete</button>
+                <button (click)="managePatient('/patients', patient.id)" class="btn btn-success btn-sm">Manage</button>
+            </mat-card>
+            <mat-spinner style="margin:0 auto;" *ngIf="loading"></mat-spinner>
+          </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

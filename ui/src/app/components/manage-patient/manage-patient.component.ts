@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./manage-patient.component.css']
 })
 export class ManagePatientComponent implements OnInit {
-  loading = false;
+  loading: boolean;
   patients: any[];
   doctors: any[];
   doctor: any[];
@@ -42,6 +42,7 @@ export class ManagePatientComponent implements OnInit {
               'lastName': ''
             }]
         }
+        console.log(this.patient)
       });
   }
 
@@ -79,7 +80,7 @@ export class ManagePatientComponent implements OnInit {
     this.service.update(patient)
     .subscribe( updatedPatient => {
       console.log('updated');
-      this.router.navigate(['/patients'])
+      this.router.navigate(['/patients']);
     });
   }
 

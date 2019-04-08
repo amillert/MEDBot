@@ -51,10 +51,23 @@ class User(db.Model):
             user = User.query.filter_by(id=user_id, roleID=Role.get_id_by_role(role)).first()
             return user_schema.dump(user).data
 
+    @staticmethod
     def update_user(req, user_id, role):
-        if req['password']:
-            req['password'] = generate_password_hash(req['password'], method='sha256')
-        user = User.query.filter_by(id=user_id, roleID=Role.get_id_by_role(role)).update(dict(req))
+        d = {}
+        for att in req:
+            if req[att]:
+                d[att] = req[att]
+        changepass = d.get('passwordChange')
+        if changepass is True:
+            mydate = datetime.now()
+            year, month = divmod(mydate.month - 3, 12)
+            if month == 0: 
+                month = 12
+                year = year -1
+            next_pass = datetime(mydate.year + year, month, 1)
+            d['passwordChange'] = next_pass
+        print(d)
+        user = User.query.filter_by(id=user_id, roleID=Role.get_id_by_role(role)).update(d)
         if user == 0:
             db.session.rollback()
             return False
@@ -79,13 +92,11 @@ class User(db.Model):
                 print('old pass verified')
                 user.password = generate_password_hash(req['newpassword'], method='sha256')
                 mydate = datetime.now()
-                print(mydate)
                 year, month = divmod(mydate.month + 3, 12)
                 if month == 0: 
                     month = 12
                     year = year -1
                 next_pass = datetime(mydate.year + year, month, 1)
-                print(next_pass)
                 user.passwordChange = next_pass
                 db.session.commit()
                 return True
@@ -131,12 +142,12 @@ class Patient(db.Model):
 
     @staticmethod
     def update_patient(req, patient_id):
-        dick = {}
+        d = {}
         print(req)
-        for att in req :
+        for att in req:
             if req[att]:
-                dick[att] = req[att]
-        patient = Patient.query.filter_by(id=patient_id).update(dick)
+                d[att] = req[att]
+        patient = Patient.query.filter_by(id=patient_id).update(d)
         print(patient)
         db.session.commit()
         return True

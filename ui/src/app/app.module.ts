@@ -23,6 +23,7 @@ import { BrowseInterviewsComponent } from './components/browse-interviews/browse
 import { AnswerInterviewComponent } from './components/answer-interview/answer-interview.component';
 import { ManagePatientComponent } from './components/manage-patient/manage-patient.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { ManageDoctorComponent } from './components/manage-doctor/manage-doctor.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { ChangePasswordComponent } from './components/change-password/change-pas
     AnswerInterviewComponent,
     ManagePatientComponent,
     ChangePasswordComponent,
+    ManageDoctorComponent,
   ],
   imports: [
     BrowserModule,

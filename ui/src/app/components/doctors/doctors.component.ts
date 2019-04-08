@@ -3,6 +3,7 @@ import { DoctorsService } from 'src/app/services/accounts/doctors.service';
 import { BadInput } from 'src/common/bad-input';
 import { AppError } from 'src/common/app-error';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-doctors',
@@ -14,7 +15,7 @@ export class DoctorsComponent implements OnInit {
   loading = false;
   doctors: any[];
 
-  constructor(private formBuilder: FormBuilder, private service: DoctorsService) {
+  constructor(private router: Router, private formBuilder: FormBuilder, private service: DoctorsService) {
   }
 
   ngOnInit() {
@@ -77,4 +78,16 @@ export class DoctorsComponent implements OnInit {
     this.service.getAll()
       .subscribe(doctors => { this.doctors = doctors['Doctors']; this.loading = false; console.log(this.loading) });
   }
+
+  manageDoctor(url, id){
+    console.log('manageDoctor');
+    this.router.navigate([url, id]).then( (e) => {
+      if (e) {
+        console.log("Navigation is successful!");
+      } else {
+        console.log("Navigation has failed!");
+      }
+    });
+  }
+
 }
