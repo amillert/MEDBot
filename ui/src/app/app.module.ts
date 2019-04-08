@@ -22,6 +22,7 @@ import { SharedService } from './services/shared.service';
 import { BrowseInterviewsComponent } from './components/browse-interviews/browse-interviews.component';
 import { AnswerInterviewComponent } from './components/answer-interview/answer-interview.component';
 import { ManagePatientComponent } from './components/manage-patient/manage-patient.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { ManagePatientComponent } from './components/manage-patient/manage-patie
     BrowseInterviewsComponent,
     AnswerInterviewComponent,
     ManagePatientComponent,
+    ChangePasswordComponent,
   ],
   imports: [
     BrowserModule,

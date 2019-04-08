@@ -29,7 +29,8 @@ class User(db.Model):
     firstName = db.Column(db.String(30))
     lastName = db.Column(db.String(40))
     roleID = db.Column(db.Integer, db.ForeignKey(Role.id))
-    
+    passwordChange = db.Column(db.DateTime,  default=datetime.utcnow)
+
     def __repr__(self):
         return f"User('{self.email}, '{self.firstName}', '{self.lastName}', {self.role})"
 
@@ -42,7 +43,9 @@ class User(db.Model):
     def get_users_by_role(role, user_id=None):
         if not user_id:
             user_schema = UserSchema(many=True)
-            return user_schema.dump(Role.query.filter_by(name=role).first().users).data
+            users = User.query.filter_by(roleID=Role.get_id_by_role(role)).all()
+            if users:
+                return user_schema.dump(users).data
         else:
             user_schema = UserSchema()
             user = User.query.filter_by(id=user_id, roleID=Role.get_id_by_role(role)).first()
@@ -53,6 +56,7 @@ class User(db.Model):
             req['password'] = generate_password_hash(req['password'], method='sha256')
         user = User.query.filter_by(id=user_id, roleID=Role.get_id_by_role(role)).update(dict(req))
         if user == 0:
+            db.session.rollback()
             return False
         db.session.commit()
         return True
@@ -66,6 +70,26 @@ class User(db.Model):
         else:
             return False
 
+    @staticmethod
+    def changePassword(req):
+        user = User.query.filter_by(email=req['email']).first()
+        if user:
+            print('user found')
+            if check_password_hash(user.password, req['oldpassword']):
+                print('old pass verified')
+                user.password = generate_password_hash(req['newpassword'], method='sha256')
+                mydate = datetime.now()
+                print(mydate)
+                year, month = divmod(mydate.month + 3, 12)
+                if month == 0: 
+                    month = 12
+                    year = year -1
+                next_pass = datetime(mydate.year + year, month, 1)
+                print(next_pass)
+                user.passwordChange = next_pass
+                db.session.commit()
+                return True
+        return False
 
 class Patient(db.Model):
     id = db.Column(db.Integer, primary_key=True)

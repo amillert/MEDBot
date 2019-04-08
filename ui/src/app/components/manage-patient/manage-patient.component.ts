@@ -20,8 +20,8 @@ export class ManagePatientComponent implements OnInit {
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private dService: DoctorsService, private service: PatientsService) { }
 
   ngOnInit() {
-    this.getPatient();
     this.getAllDoctors();
+    this.getPatient();
     this.patientForm = this.formBuilder.group({
       firstName: [''],
       lastName: [''],
@@ -31,20 +31,17 @@ export class ManagePatientComponent implements OnInit {
   }
 
   private getPatient() {
-    this.loading = true;
     this.service.get(this.activatedRoute.snapshot.url[1].path)
       .subscribe(patient => {
         this.patient = patient['patient'];
         this.doctor = patient['patient'].doctor;
         if (this.doctor == null) {
-            console.log('null Doctor')
             this.doctor = [{
               'id': '',
               'firstName':'',
               'lastName': ''
             }]
         }
-        this.loading = false;
       });
   }
 
@@ -53,6 +50,12 @@ export class ManagePatientComponent implements OnInit {
     this.dService.getAll()
       .subscribe(doctors => {
       this.doctors = doctors['Doctors'];
+      this.loading = false;
+      for (let i = this.doctors.length - 1; i >= 0; i--) {
+        if (this.doctors[i]['id'] === this.doctor['id']) {
+          this.doctors.splice(i, 1);
+        }
+      }
     });
   }
 
@@ -76,7 +79,7 @@ export class ManagePatientComponent implements OnInit {
     this.service.update(patient)
     .subscribe( updatedPatient => {
       console.log('updated');
-      this.router.navigate(['/'])
+      this.router.navigate(['/patients'])
     });
   }
 

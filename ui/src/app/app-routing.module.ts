@@ -11,6 +11,7 @@ import { CreateInterviewComponent } from './components/create-interview/create-i
 import { BrowseInterviewsComponent } from './components/browse-interviews/browse-interviews.component'
 import { AuthGuard } from './_guards/auth.guard';
 import { ManagePatientComponent } from './components/manage-patient/manage-patient.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/helloworld', pathMatch: 'full' },
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: ':pid/answer/interview/:id', component: AnswerInterviewComponent },
   { path: 'browseInterviews', component: BrowseInterviewsComponent, canActivate: [AuthGuard] },
   { path: 'doctors/create-interview', component: CreateInterviewComponent, canActivate: [AuthGuard] },
+  { path: 'changepassword', component: ChangePasswordComponent },
   { path: 'helloworld', component: HelloWorldComponent },
   { path: 'doctors', component: DoctorsComponent, canActivate: [AuthGuard] },
   { path: 'patients', component: PatientsComponent, canActivate: [AuthGuard] },
