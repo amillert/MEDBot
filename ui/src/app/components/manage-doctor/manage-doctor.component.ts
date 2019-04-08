@@ -26,7 +26,6 @@ export class ManageDoctorComponent implements OnInit {
 
   ngOnInit() {
     this.getDoctor();
-    this.getPatients();
     this.doctorForm = this.formBuilder.group({
       firstName: [''],
       lastName: [''],
@@ -63,6 +62,23 @@ export class ManageDoctorComponent implements OnInit {
     });
   }
   
+  unAssign(patient) {
+    let req = {
+      id: patient.id,
+      email: patient.email,
+      firstName: patient.firstName,
+      lastName: patient.lastName,
+      doctorID: 'unAssign'
+    }
+    this.Pservice.update(req)
+    .subscribe(
+      updatedPatient => {
+        this.doctorPatients = [];
+        console.log(updatedPatient);
+        this.getPatients();
+      });
+  }
+
   deletePatient(patient) {
     this.Pservice.delete(patient.id).subscribe(
       updatedPatient => {
@@ -75,8 +91,7 @@ export class ManageDoctorComponent implements OnInit {
     this.service.get(this.activatedRoute.snapshot.url[1].path)
       .subscribe(doctor => {
         this.doctor = doctor['Doctor'];
-        console.log(this.doctor);
-        this.loading = false;
+        this.getPatients();
       });
   }
 
@@ -86,8 +101,6 @@ export class ManageDoctorComponent implements OnInit {
     this.Pservice.getAll().subscribe(patients => {
       this.patients = patients['patients'];
       this.patients.forEach(element => {
-        console.log(element, this.doctor);
-        this.doctorPatients.push(element);
         if (element.doctor == null) {
         }
         else if (this.doctor['id'] === element.doctor.id) {

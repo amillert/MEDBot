@@ -31,6 +31,7 @@
                 {{ patient.lastName }} <button (click)="deletePatient(patient)" 
                 class="btn btn-danger btn-sm">Delete</button>
                 <button (click)="managePatient('/patients', patient.id)" class="btn btn-success btn-sm">Manage</button>
+                <button (click)="unAssign(patient)" class="btn btn btn-secondary btn-sm">UnAssign</button>
             </mat-card>
             <mat-spinner style="margin:0 auto;" *ngIf="loading"></mat-spinner>
           </div>

@@ -143,12 +143,13 @@ class Patient(db.Model):
     @staticmethod
     def update_patient(req, patient_id):
         d = {}
-        print(req)
         for att in req:
             if req[att]:
                 d[att] = req[att]
+        if d.get('doctorID') == 'unAssign':
+            d['doctorID'] = None
+
         patient = Patient.query.filter_by(id=patient_id).update(d)
-        print(patient)
         db.session.commit()
         return True
 

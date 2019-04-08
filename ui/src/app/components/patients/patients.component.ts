@@ -92,6 +92,22 @@ export class PatientsComponent implements OnInit {
       });
   }
 
+  unAssign(patient) {
+    let req = {
+      id: patient.id,
+      email: patient.email,
+      firstName: patient.firstName,
+      lastName: patient.lastName,
+      doctorID: 'unAssign'
+    }
+    this.service.update(req)
+    .subscribe(
+      updatedPatient => {
+        console.log(updatedPatient);
+        this.getAllPatients();
+      });
+  }
+
   private getAllPatients() {
     this.loading = true;
     this.areFreePatients = false;
