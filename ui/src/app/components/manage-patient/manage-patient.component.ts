@@ -60,12 +60,18 @@ export class ManagePatientComponent implements OnInit {
   get formControls() { return this.patientForm.controls; }
 
   onSubmit() {
+    let doctorID = this.formControls.doctor.value.id
+    if (doctorID == undefined) {
+      doctorID = this.doctor['id']
+      console.log(doctorID)
+    }
+
     let patient = {
       id: this.activatedRoute.snapshot.url[1].path,
       email: this.formControls.email.value,
       firstName: this.formControls.firstName.value,
       lastName: this.formControls.lastName.value,
-      doctor: this.formControls.doctor.value
+      doctorID: doctorID
     }
     console.log(patient)
     this.service.update(patient)

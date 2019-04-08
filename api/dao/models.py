@@ -105,8 +105,16 @@ class Patient(db.Model):
         patient_schema = PatientSchema()
         return patient_schema.dump(Patient.query.get(patient_id)).data
 
+    @staticmethod
     def update_patient(req, patient_id):
+        dick = {}
         print(req)
+        for att in req :
+            if req[att]:
+                dick[att] = req[att]
+        patient = Patient.query.filter_by(id=patient_id).update(dick)
+        print(patient)
+        db.session.commit()
         # patient = Patient.query.filter_by(patient_id).update(dict(req))
         # if user == 0:
         #     return False
