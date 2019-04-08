@@ -3,7 +3,8 @@ from api import db, ma
 from marshmallow import fields
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from sqlalchemy import desc
+from operator import attrgetter
 
 class Role(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -164,6 +165,8 @@ class Answer(db.Model):
         db.session.add(answer)
         db.session.commit()
 
+def myFunc(e):
+    return e.id
 
 class Interview(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -251,7 +254,11 @@ class Interview(db.Model):
         return False
 
     def delete_interview(doctor_id, interview_id):
-        interview = Interview.query.filter_by(id=interview_id, DoctorID=doctor_id).first()
+        user = User.query.filter_by(id=doctor_id).first()
+        if user.roleID == Role.get_id_by_role('Admin'):
+             interview = Interview.query.filter_by(id=interview_id).first()
+        else:
+            interview = Interview.query.filter_by(id=interview_id, DoctorID=doctor_id).first()   
         if interview:
             db.session.delete(interview)
             db.session.commit()
@@ -291,5 +298,3 @@ class InterviewSchema(ma.ModelSchema):
     sender = fields.Nested(UserSchema, only=['id', 'firstName', 'lastName'])
     receiver = fields.Nested(PatientSchema, only=['id', 'firstName', 'lastName'])
     questions = fields.Nested(AnswerSchema, many=True, only=['answer', 'question'])
-
-

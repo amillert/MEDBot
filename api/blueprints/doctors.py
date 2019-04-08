@@ -4,17 +4,21 @@ from api import db, ma
 from api.api_utils import json_res, query2jsonable
 from api.dao.models import User, Role, Interview, Question, Answer, Patient
 from api.services.email_sender import send_interview
-from werkzeug.security import check_password_hash, generate_password_hash
+from sqlalchemy.exc import IntegrityError
+
 doctors_api = Blueprint('doctors', __name__)
 
 @doctors_api.route('', methods=['GET', 'POST'])
 def doctors_route():
-    if request.method == 'POST':
-        User.insert_into(request.get_json(force=True), 'Doctor')
-        return jsonify({}), 201
-    else:
-        return jsonify({'Doctors': User.get_users_by_role('Doctor')}), 200
-
+    try:
+        if request.method == 'POST':
+            User.insert_into(request.get_json(force=True), 'Doctor')
+            return jsonify({}), 201
+        else:
+            return jsonify({'Doctors': User.get_users_by_role('Doctor')}), 200
+    except IntegrityError:
+         return jsonify({'error': 'Doctor with the same email adress exists'}), 400
+ 
 
 @doctors_api.route('/<doctor_id>', methods=['GET', 'PUT', 'DELETE'])
 def doctor_route(doctor_id):
@@ -42,6 +46,7 @@ def doctor_route(doctor_id):
 def doctor_route_interviews(doctor_id):
     if request.method == 'POST':
         data = request.get_json(force=True)
+        print(data)
         inserted, iid = Interview.insert_into(doctor_id, data)
         if inserted:
             id = data.get('PatientID', '')
