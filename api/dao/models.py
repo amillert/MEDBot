@@ -115,10 +115,6 @@ class Patient(db.Model):
         patient = Patient.query.filter_by(id=patient_id).update(dick)
         print(patient)
         db.session.commit()
-        # patient = Patient.query.filter_by(patient_id).update(dict(req))
-        # if user == 0:
-        #     return False
-        # db.session.commit()
         return True
 
 
@@ -249,17 +245,6 @@ class Interview(db.Model):
             updated = Interview.query.filter_by(id=interview_id).update(dict(req))
             db.session.commit()
             return True
-        # if user.role.name == 'Patient':
-        #     interview_schema = InterviewSchema()
-        #     interview = Interview.query.filter_by(id=interview_id, PatientID=user_id).first()
-        #     interview_answers = interview.questions
-        #     patient_answers = req['Answers']
-        #     for answer in interview_answers:
-        #         for pat_ans in patient_answers:
-        #             if answer.question.id == pat_ans['questionID']:
-        #                 answer.answer = pat_ans['answer']
-        #     db.session.commit()
-        #     return True
         return False
 
     def delete_interview(doctor_id, interview_id):

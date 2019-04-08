@@ -21,7 +21,6 @@ export class ManagePatientComponent implements OnInit {
 
   ngOnInit() {
     this.getPatient();
-    // this.getAllPatients();
     this.getAllDoctors();
     this.patientForm = this.formBuilder.group({
       firstName: [''],
@@ -79,11 +78,6 @@ export class ManagePatientComponent implements OnInit {
       console.log('updated');
       this.router.navigate(['/'])
     });
-    // this.service.answerInterview(patientid, interviewid, answers)
-    // .subscribe( answeredInterview => {
-    //   console.log('answered');
-    //   this.router.navigate(['/'])
-    // });
   }
 
 }
