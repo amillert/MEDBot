@@ -3,7 +3,8 @@ from api import db, ma
 from marshmallow import fields
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from sqlalchemy import desc
+from operator import attrgetter
 
 class Role(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -121,6 +122,8 @@ class Answer(db.Model):
         db.session.add(answer)
         db.session.commit()
 
+def myFunc(e):
+    return e.id
 
 class Interview(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -128,7 +131,7 @@ class Interview(db.Model):
     PatientID = db.Column(db.Integer, db.ForeignKey(User.id))
     creationTimestamp = db.Column(db.DateTime,  default=datetime.utcnow)
     lastActionTimestamp = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    
+
     # define relationships
     sender = db.relationship(User, foreign_keys=[DoctorID], backref='sent_interviews')
     receiver = db.relationship(User, foreign_keys=[PatientID], backref='received_interviews')
@@ -146,14 +149,24 @@ class Interview(db.Model):
             elif user.roleID == Role.get_id_by_role('Patient'):
                 interview_schema = InterviewSchema()
                 return interview_schema.dump(Interview.query.filter_by(id=interview_id, PatientID=user_id).first()).data
+            elif user.roleID == Role.get_id_by_role('Admin'):
+                interview_schema = InterviewSchema()
+                return interview_schema.dump(Interview.query.filter_by(id=interview_id).first()).data
         else:
             if user.roleID == Role.get_id_by_role('Doctor'):
                 interview_schema = InterviewSchema(many=True)
-                interviews = interview_schema.dump(user.sent_interviews).data
+                l = user.sent_interviews
+                l.sort(key = attrgetter('creationTimestamp'), reverse=True)
+                interviews = interview_schema.dump(l).data
                 return interviews
             elif user.roleID == Role.get_id_by_role('Patient'):
                 interview_schema = InterviewSchema(many=True)
                 interviews = interview_schema.dump(user.received_interviews).data
+                return interviews
+            elif user.roleID == Role.get_id_by_role('Admin'):
+                print('Admin')
+                interview_schema = InterviewSchema(many=True)
+                interviews = interview_schema.dump(Interview.query.filter().order_by(desc(Interview.creationTimestamp))).data
                 return interviews
         return False
     
@@ -195,7 +208,11 @@ class Interview(db.Model):
         return False
 
     def delete_interview(doctor_id, interview_id):
-        interview = Interview.query.filter_by(id=interview_id, DoctorID=doctor_id).first()
+        user = User.query.filter_by(id=doctor_id).first()
+        if user.roleID == Role.get_id_by_role('Admin'):
+             interview = Interview.query.filter_by(id=interview_id).first()
+        else:
+            interview = Interview.query.filter_by(id=interview_id, DoctorID=doctor_id).first()   
         if interview:
             db.session.delete(interview)
             db.session.commit()
