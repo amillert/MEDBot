@@ -10,13 +10,12 @@ export class PatientsService extends DataService {
 
   constructor(http: Http) {
     super('/patients', http);
-   }
+  }
 
-   addPatient(patient: { email: string, firstName: string, lastName:string }) {
-      return this.http.post(this.uri, JSON.stringify(patient))
+  addPatient(patient: { email: string, firstName: string, lastName: string }) {
+    return this.http.post(this.uri, JSON.stringify(patient))
       .pipe(
         map(response => response.json())
-        ,catchError(this.handleError)
-        );
-    }
+      );
+  }
 }

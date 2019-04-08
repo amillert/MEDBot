@@ -44,7 +44,7 @@ export class DoctorsComponent implements OnInit {
           console.log(doctor);
         },
         (error) => {
-          this.doctors.splice(0, 1);
+          // this.doctors.splice(0, 1);
           throw error;
         });
   }

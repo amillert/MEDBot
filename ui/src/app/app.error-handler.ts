@@ -8,7 +8,8 @@ export class ErrorsHandler implements ErrorHandler {
 
     handleError(error: Error) {
         this.ngZone.run(() => {
-            this.toastrService.error(error['_body'], error.message)
+            console.log(error)
+            this.toastrService.error(JSON.parse(error['_body']).error, error.message)
             if (error instanceof HttpErrorResponse) {
                 //Backend returns error 404, 500 etc				  
                 console.error('Backend returned status code: ', error.status);
