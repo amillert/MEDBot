@@ -44,7 +44,6 @@ export class PatientsComponent implements OnInit {
           this.getAllPatients();
         },
         (error) => {
-          this.patients.splice(0, 1);
           throw error;
         });
   }

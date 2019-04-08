@@ -37,7 +37,6 @@ export class QuestionsComponent implements OnInit {
           this.getAllQuestions()
         },
         (error) => {
-          this.questions.splice(0, 1);
           throw error;
         });
   }
@@ -52,7 +51,7 @@ export class QuestionsComponent implements OnInit {
   private getAllQuestions() {
     this.loading = true;
     this.service.getAll()
-      .subscribe(questions => { 
+      .subscribe(questions => {
         this.questions = questions['questions'];
         this.loading = false;
       });
