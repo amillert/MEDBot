@@ -4,7 +4,7 @@
             <mat-card-title>Admin panel</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <form [formGroup]="loginForm" (keydown.enter)="onSubmit()" (ngSubmit)="onSubmit()">
                 <table cellspacing="0">
                     <tr>
                         <td>
