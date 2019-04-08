@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { DoctorsService } from 'src/app/services/accounts/doctors.service';
-import { BadInput } from 'src/common/bad-input';
-import { AppError } from 'src/common/app-error';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
@@ -45,12 +43,9 @@ export class DoctorsComponent implements OnInit {
           this.getAllDoctors()
           console.log(doctor);
         },
-        (error: AppError) => {
-          this.doctors.splice(0, 1);
-          if (error instanceof BadInput) {
-            // this.form.setErrors(error.originalError);
-          }
-          else throw error;
+        (error) => {
+          // this.doctors.splice(0, 1);
+          throw error;
         });
   }
 

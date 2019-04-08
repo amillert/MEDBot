@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { QuestionsService } from 'src/app/services/questions.service';
-import { BadInput } from 'src/common/bad-input';
-import { AppError } from 'src/common/app-error';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
@@ -38,12 +36,8 @@ export class QuestionsComponent implements OnInit {
         newQuestion => {
           this.getAllQuestions()
         },
-        (error: AppError) => {
-          this.questions.splice(0, 1);
-          if (error instanceof BadInput) {
-            // this.form.setErrors(error.originalError);
-          }
-          else throw error;
+        (error) => {
+          throw error;
         });
   }
 
@@ -57,7 +51,7 @@ export class QuestionsComponent implements OnInit {
   private getAllQuestions() {
     this.loading = true;
     this.service.getAll()
-      .subscribe(questions => { 
+      .subscribe(questions => {
         this.questions = questions['questions'];
         this.loading = false;
       });
