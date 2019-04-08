@@ -106,10 +106,11 @@ class Patient(db.Model):
         return patient_schema.dump(Patient.query.get(patient_id)).data
 
     def update_patient(req, patient_id):
-        patient = Patient.query.filter_by(patient_id).update(dict(req))
-        if user == 0:
-            return False
-        db.session.commit()
+        print(req)
+        # patient = Patient.query.filter_by(patient_id).update(dict(req))
+        # if user == 0:
+        #     return False
+        # db.session.commit()
         return True
 
 

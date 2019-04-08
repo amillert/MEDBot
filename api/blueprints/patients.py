@@ -2,7 +2,7 @@ from flask import Blueprint, request
 from flask import jsonify
 from api import db
 from api.api_utils import json_res, query2jsonable
-from api.dao.models import Role, User, Patient UserSchema, RoleSchema, Interview
+from api.dao.models import Role, User, Patient, UserSchema, RoleSchema, Interview
 from sqlalchemy.exc import IntegrityError
 
 patients_api = Blueprint('patients', __name__)

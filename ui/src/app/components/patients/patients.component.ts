@@ -101,12 +101,12 @@ export class PatientsComponent implements OnInit {
       .subscribe(patients => {
         this.patients = patients['patients']; 
         this.patients.forEach(element => {
-          if (JSON.parse(localStorage.getItem('currentUser')).userID == element.doctor.id){
-            this.myPatients.push(element)
-          }
-          else if (element.doctor == null){
+          if (element.doctor == null){
             this.areFreePatients = true;
             this.freePatients.push(element);
+          }
+          else if (JSON.parse(localStorage.getItem('currentUser')).userID == element.doctor.id){
+            this.myPatients.push(element)
           }
         });
         this.loading = false;

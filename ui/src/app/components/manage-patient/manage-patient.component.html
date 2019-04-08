@@ -10,7 +10,7 @@
               <label>Assign To</label>
               <form [formGroup]="patientForm" (ngSubmit)="onSubmit()">
                   <select class="custom-select"  formControlName="doctor">
-                      <option value="">{{patient.doctor.id}}: {{patient.doctor.firstName}}, {{patient.doctor.lastName}}</option>
+                      <option value="">{{doctor.id}}: {{doctor.firstName}}, {{doctor.lastName}}</option>
                       <option *ngFor="let doctor of doctors" [ngValue]="doctor">{{doctor.id}}: {{doctor.firstName}}, {{doctor.lastName}}</option>
                   </select>
                   <mat-form-field class="mat-input-wrapper" >

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { DoctorsService } from 'src/app/services/accounts/doctors.service';
 import { PatientsService } from 'src/app/services/accounts/patients.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-manage-patient',
@@ -10,14 +10,14 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./manage-patient.component.css']
 })
 export class ManagePatientComponent implements OnInit {
-  loading = true;
+  loading = false;
   patients: any[];
   doctors: any[];
   doctor: any[];
   patient: any[];
   patientForm: FormGroup;
   
-  constructor(private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private dService: DoctorsService, private service: PatientsService) { }
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private dService: DoctorsService, private service: PatientsService) { }
 
   ngOnInit() {
     this.getPatient();
@@ -37,6 +37,14 @@ export class ManagePatientComponent implements OnInit {
       .subscribe(patient => {
         this.patient = patient['patient'];
         this.doctor = patient['patient'].doctor;
+        if (this.doctor == null) {
+            console.log('null Doctor')
+            this.doctor = [{
+              'id': '',
+              'firstName':'',
+              'lastName': ''
+            }]
+        }
         this.loading = false;
       });
   }
@@ -46,24 +54,25 @@ export class ManagePatientComponent implements OnInit {
     this.dService.getAll()
       .subscribe(doctors => {
       this.doctors = doctors['Doctors'];
-      this.loading = false;
     });
   }
 
   get formControls() { return this.patientForm.controls; }
 
   onSubmit() {
-    // this.questions.forEach(function (element, i) {
-    //     element.answer = arr[i];
-    //     answers.Answers.push({'questionID': element.question.id, 'answer': arr[i]})
-    // });
     let patient = {
+      id: this.activatedRoute.snapshot.url[1].path,
       email: this.formControls.email.value,
       firstName: this.formControls.firstName.value,
       lastName: this.formControls.lastName.value,
       doctor: this.formControls.doctor.value
     }
     console.log(patient)
+    this.service.update(patient)
+    .subscribe( updatedPatient => {
+      console.log('updated');
+      this.router.navigate(['/'])
+    });
     // this.service.answerInterview(patientid, interviewid, answers)
     // .subscribe( answeredInterview => {
     //   console.log('answered');
