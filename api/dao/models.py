@@ -102,7 +102,7 @@ class Patient(db.Model):
     
     def get_by_id(patient_id):
         patient_schema = PatientSchema()
-        return patient_schema.dump(Patient.get(patient_id)).data
+        return patient_schema.dump(Patient.query.get(patient_id)).data
 
     def update_patient(req, patient_id):
         patient = Patient.query.filter_by(patient_id).update(dict(req))
@@ -264,17 +264,15 @@ class RoleSchema(ma.ModelSchema):
     class Meta:
         model = Role
 
-
-class PatientSchema(ma.ModelSchema):
-     class Meta:
-        model = Patient
-
-
 class UserSchema(ma.ModelSchema):
     class Meta:
         model = User
     role = fields.Nested(RoleSchema, only=['name'])
 
+class PatientSchema(ma.ModelSchema):
+    class Meta:
+        model = Patient
+    doctor = fields.Nested(UserSchema, only=['id', 'firstName', 'lastName'])
 
 class QuestionSchema(ma.ModelSchema):
     class Meta:

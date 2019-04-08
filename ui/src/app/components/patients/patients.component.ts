@@ -20,7 +20,6 @@ export class PatientsComponent implements OnInit {
   loading = false;
   areFreePatients = false;
   patients: any[];
-  
   myPatients = [];
   freePatients = [];
   addPatientForm: FormGroup;
@@ -102,7 +101,7 @@ export class PatientsComponent implements OnInit {
       .subscribe(patients => {
         this.patients = patients['patients']; 
         this.patients.forEach(element => {
-          if (JSON.parse(localStorage.getItem('currentUser')).userID == element.doctor){
+          if (JSON.parse(localStorage.getItem('currentUser')).userID == element.doctor.id){
             this.myPatients.push(element)
           }
           else if (element.doctor == null){
