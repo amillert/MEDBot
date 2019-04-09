@@ -5,6 +5,7 @@ import { QuestionsService } from 'src/app/services/questions.service';
 import { AppError } from 'src/common/app-error';
 import { BadInput } from 'src/common/bad-input';
 import { PatientsService } from 'src/app/services/accounts/patients.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-interview',
@@ -16,8 +17,9 @@ export class CreateInterviewComponent implements OnInit {
   interviewForm: FormGroup;
   questions: any[];
   patients: any[];
- 
-  constructor(private fb: FormBuilder, private service: InterviewService, private QService: QuestionsService,
+  myPatients =  [];
+
+  constructor(private router: Router, private fb: FormBuilder, private service: InterviewService, private QService: QuestionsService,
     private PService: PatientsService) {
   }
 
@@ -49,6 +51,7 @@ export class CreateInterviewComponent implements OnInit {
         console.log('created');
       }
     );
+    this.router.navigate(['doctors/create-interview']);
   }
 
   private getAllPatients() {
@@ -56,7 +59,15 @@ export class CreateInterviewComponent implements OnInit {
     this.PService.getAll()
       .subscribe(patients => {
         this.patients = patients['patients'];
-        console.log(this.patients)
+        this.patients.forEach(element => {
+          if (element.doctor == null){
+          }
+          else if (JSON.parse(localStorage.getItem('currentUser')).userID == element.doctor.id){
+            this.myPatients.push(element)
+          }
+
+        });
+        console.log(this.myPatients)
         this.loading = false;
       });
   }
@@ -66,7 +77,6 @@ export class CreateInterviewComponent implements OnInit {
     this.QService.getAll()
       .subscribe(questions => {
         this.questions = questions['questions'];
-        this.loading = false;
         this.questions.map((o, i) => {
           const control = new FormControl(i === 0); // if first item set to true, else false
           (this.interviewForm.controls.questions as FormArray).push(control);

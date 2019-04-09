@@ -10,6 +10,9 @@ import { QuestionsComponent } from './components/questions/questions.component';
 import { CreateInterviewComponent } from './components/create-interview/create-interview.component';
 import { BrowseInterviewsComponent } from './components/browse-interviews/browse-interviews.component'
 import { AuthGuard } from './_guards/auth.guard';
+import { ManagePatientComponent } from './components/manage-patient/manage-patient.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { ManageDoctorComponent } from './components/manage-doctor/manage-doctor.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/helloworld', pathMatch: 'full' },
@@ -18,9 +21,12 @@ const routes: Routes = [
   { path: ':pid/answer/interview/:id', component: AnswerInterviewComponent },
   { path: 'browseInterviews', component: BrowseInterviewsComponent, canActivate: [AuthGuard] },
   { path: 'doctors/create-interview', component: CreateInterviewComponent, canActivate: [AuthGuard] },
+  { path: 'changepassword', component: ChangePasswordComponent },
   { path: 'helloworld', component: HelloWorldComponent },
   { path: 'doctors', component: DoctorsComponent, canActivate: [AuthGuard] },
+  { path: 'doctors/:pid', component: ManageDoctorComponent, canActivate: [AuthGuard] },
   { path: 'patients', component: PatientsComponent, canActivate: [AuthGuard] },
+  { path: 'patients/:pid', component: ManagePatientComponent, canActivate: [AuthGuard] },
   { path: 'questions', component: QuestionsComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '' }
 ];

@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   returnUrl: string;
   loading = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -40,8 +41,13 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe(
         user => {
-          this.router.navigate([this.returnUrl]);
-          this.sharedService.emitChange(user);
+          if (user['passwordChange']) {
+            this.router.navigate(['/changepassword']);
+          }
+          else{
+            this.router.navigate([this.returnUrl]);
+            this.sharedService.emitChange(user);
+          }
         },
         error => {
           this.loading = false;

@@ -39,7 +39,7 @@ export class DataService {
   }
 
   update(resource) {
-    return this.http.patch(this.uri + '/' + resource.id, JSON.stringify({ isRead: true }))
+    return this.http.put(this.uri + '/' + resource.id, JSON.stringify(resource))
     .pipe(
       map(response => response.json()),catchError(this.handleError)
       );

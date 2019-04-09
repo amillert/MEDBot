@@ -2,11 +2,11 @@
     <mat-grid-list cols="2">
         <mat-grid-tile>
             <div class="container">
-
                 <mat-card *ngFor="let doctor of doctors" class="list-group-item">
                     ID: {{ doctor.id }} - Email: {{ doctor.email }} - First name: {{ doctor.firstName }} - Last name:
                     {{ doctor.lastName }} 
                     <button (click)="deleteDoctor(doctor)" class="btn btn-danger btn-sm">Delete</button>
+                    <button (click)="manageDoctor('/doctors', doctor.id)" class="btn btn-primary btn-sm">Manage</button>
                 </mat-card>
                 <mat-spinner style="margin:0 auto;" *ngIf="loading"></mat-spinner>
             </div>
