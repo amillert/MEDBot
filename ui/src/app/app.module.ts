@@ -1,10 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ToastrModule } from 'ngx-toastr';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,7 +21,6 @@ import { ErrorInterceptor } from './_helpers/error.inceptor';
 import { SharedService } from './services/shared.service';
 import { BrowseInterviewsComponent } from './components/browse-interviews/browse-interviews.component';
 import { AnswerInterviewComponent } from './components/answer-interview/answer-interview.component';
-import { ErrorsHandler } from './app.error-handler';
 
 @NgModule({
   declarations: [
@@ -42,7 +40,6 @@ import { ErrorsHandler } from './app.error-handler';
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpModule,
-    ToastrModule.forRoot(),
     FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
@@ -58,7 +55,6 @@ import { ErrorsHandler } from './app.error-handler';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: ErrorHandler, useClass: ErrorsHandler },
     SharedService],
   bootstrap: [AppComponent]
 })

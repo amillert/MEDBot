@@ -4,6 +4,8 @@ import { InterviewService } from 'src/app/services/interview.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { switchMap } from 'rxjs/operators';
+import { AppError } from 'src/common/app-error';
+import { BadInput } from 'src/common/bad-input';
 
 @Component({
   selector: 'app-interview',
@@ -16,7 +18,7 @@ export class InterviewComponent implements OnInit {
   interview: any[];
   interviewForm: FormGroup;
 
-  constructor(private activatedRoute: ActivatedRoute, private form: FormBuilder, private QService: QuestionsService, private IService: InterviewService) { }
+  constructor(private activatedRoute: ActivatedRoute, private form: FormBuilder, private QService: QuestionsService, private IService: InterviewService) {}
 
   ngOnInit() {
     this.getInterview(this.activatedRoute.snapshot.url[1].path);
