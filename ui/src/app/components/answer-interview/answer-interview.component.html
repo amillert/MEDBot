@@ -2,17 +2,22 @@
     <div class="form-group">
         <mat-card>
             <mat-card-title style="padding: 0.75em 0;">
-                Medical Interview Chatbot
+                Say hi to Medical Interview Chatbot to start conversation
             </mat-card-title>
             <mat-card-content>
+                <iframe allow="microphone;" width="350" height="430"
+                    src="https://console.dialogflow.com/api-client/demo/embedded/755636fc-cac0-40a8-b4e4-0cf51e96953f">
+                </iframe>
+
                 <div class="container">
                     <form [formGroup]="interviewForm" (ngSubmit)="onSubmit()">
-                      <label formArrayName="questions" *ngFor="let question of questions; let i = index" class="container">
-                          <mat-form-field class="mat-input-wrapper">
-                              <p>{{question.question.question}}</p>
-                              <input [formControlName]="i" #input type="text" matInput>
-                          </mat-form-field>
-                      </label>
+                        <label formArrayName="questions" *ngFor="let question of questions; let i = index"
+                            class="container">
+                            <mat-form-field class="mat-input-wrapper">
+                                <p>{{question.question.question}}</p>
+                                <input [formControlName]="i" #input type="text" matInput>
+                            </mat-form-field>
+                        </label>
                     </form>
                 </div>
                 <div style="text-align: center; padding: 2px;">
@@ -25,4 +30,3 @@
     </div>
 </div>
 <mat-spinner style="margin:0 auto;" *ngIf="loading"></mat-spinner>
-

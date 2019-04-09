@@ -5,13 +5,13 @@ import { map, catchError } from 'rxjs/operators';
 import { DataService } from './data.service';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class PatientInterviewService extends DataService {
-
   constructor(http: Http) {
     super('/', http);
    }
@@ -30,6 +30,11 @@ export class PatientInterviewService extends DataService {
     .pipe(
       map(response => response.json()),catchError(this.handleError)
       );
+  }
+
+  getBotMessage() {
+    let uri = Consts.API_ENDPOINT + '/botmessage';
+    console.log(this.http.get(uri, "fds"));
   }
 
 }

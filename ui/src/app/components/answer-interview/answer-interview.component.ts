@@ -13,6 +13,7 @@ export class AnswerInterviewComponent implements OnInit {
   questions: any[];
   interviewForm: FormGroup;
   loading = true;
+
   constructor(private router: Router, private fb: FormBuilder, private activatedRoute: ActivatedRoute, private service: PatientInterviewService ) { }
 
   ngOnInit() {
