@@ -215,12 +215,6 @@ def auth():
         return jsonify({'error': 'Could not verify'}), 404
 
     if check_password_hash(user.password, req['password']):
-        print('generate token')
-        token = jwt.encode(
-            {'user_id': user.id,
-             'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)},
-            BaseConfig.SECRET_KEY, algorithm='HS256')
-        print(user.id, user.roleID)
         if user.passwordChange <= datetime.datetime.now():
             return jsonify({'userID': user.id, 'passwordchange': True})
         token = jwt.encode({'user_id' : user.id, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, BaseConfig.SECRET_KEY, algorithm='HS256')
