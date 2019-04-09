@@ -9,7 +9,7 @@
             <form [formGroup]="interviewForm" (ngSubmit)="onSubmit()">
                 <select class="custom-select"  formControlName="patient">
                     <option value="" disabled>Choose your patient</option>
-                    <option *ngFor="let patient of patients" [ngValue]="patient">{{patient.id}}: {{patient.firstName}}, {{patient.lastName}}</option>
+                    <option *ngFor="let patient of myPatients" [ngValue]="patient">{{patient.id}}: {{patient.firstName}}, {{patient.lastName}}</option>
                  </select>
                 <label formArrayName="questions" *ngFor="let question of questions; let i = index" class="container">
                   <mat-card>

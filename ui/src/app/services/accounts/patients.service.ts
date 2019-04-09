@@ -12,7 +12,7 @@ export class PatientsService extends DataService {
     super('/patients', http);
    }
 
-   addPatient(patient: { email: string, firstName: string, lastName:string }) {
+   addPatient(patient: { email: string, firstName: string, lastName:string, doctorID:string }) {
       return this.http.post(this.uri, JSON.stringify(patient))
       .pipe(
         map(response => response.json())
