@@ -15,7 +15,8 @@ export class QuestionsService extends DataService {
     console.log(JSON.stringify(new_question))
     return this.http.post(this.uri, JSON.stringify(new_question))
       .pipe(
-        map(response => response.json())
+        map(response => response.json()), 
+        catchError(this.handleError)
       );
   }
 }

@@ -20,6 +20,7 @@ export class InterviewService extends DataService {
     return this.http.post(this.uri, JSON.stringify(interview))
       .pipe(
         map(response => response.json())
+        , catchError(this.handleError)
       );
   }
 }

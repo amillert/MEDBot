@@ -1,47 +1,49 @@
 <div class="container">
-    <mat-card>
-        <mat-card-header>
-            <mat-card-title>New Patient</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <form [formGroup]="addPatientForm" (keydown.enter)="onSubmit()" (ngSubmit)="onSubmit()">
-                <table cellspacing="0">
-                    <tr>
-                        <td>
-                            <mat-form-field class="mat-input-wrapper">
-                                <input matInput placeholder="Email" formControlName="email" name="email" required>
-                            </mat-form-field>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <mat-form-field class="mat-input-wrapper">
-                                <input matInput placeholder="First name" formControlName="firstName" name="firstName"
-                                    required>
-                            </mat-form-field>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <mat-form-field class="mat-input-wrapper">
-                                <input matInput placeholder="Last name" formControlName="lastName" name="lastName"
-                                    required>
-                            </mat-form-field>
-                        </td>
-                    </tr>
-                </table>
-            </form>
-            <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
-        </mat-card-content>
-        <mat-card-actions align="center">
-            <button [disabled]="loading" color="primary" (click)="onSubmit()" mat-raised-button>Add</button>
-        </mat-card-actions>
-    </mat-card>
-    <br>
-    <mat-card-title>My Patients</mat-card-title>
-    <mat-card *ngFor="let patient of patients" class="list-group-item">
-        ID: {{ patient.id }} - Email: {{ patient.email }} - First name: {{ patient.firstName }} Last name:
-        {{ patient.lastName }} <button (click)="deletePatient(patient)" class="btn btn-danger btn-sm">Delete</button>
-    </mat-card>
-    <mat-spinner style="margin:0 auto;" *ngIf="loading"></mat-spinner>
+        <mat-card>
+                <mat-card-header>
+                    <mat-card-title>New Patient</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <form [formGroup]="addPatientForm" (ngSubmit)="onSubmit()">
+                        <table cellspacing="0">
+                            <tr>
+                                <td>
+                                    <mat-form-field class="mat-input-wrapper">
+                                        <input matInput placeholder="Email" formControlName="email" name="email"
+                                            required>
+                                    </mat-form-field>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <mat-form-field class="mat-input-wrapper">
+                                        <input matInput placeholder="First name" formControlName="firstName"
+                                            name="firstName" required>
+                                    </mat-form-field>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <mat-form-field class="mat-input-wrapper">
+                                        <input matInput placeholder="Last name" formControlName="lastName"
+                                            name="lastName" required>
+                                    </mat-form-field>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                    <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
+                </mat-card-content>
+                <mat-card-actions align="center">
+                    <button [disabled]="loading" color="primary" (click)="onSubmit()" mat-raised-button>Add</button>
+                </mat-card-actions>
+            </mat-card>
+        <br>
+        <mat-card-title>My Patients</mat-card-title>
+        <mat-card *ngFor="let patient of patients" class="list-group-item">
+            ID: {{ patient.id }} - Email: {{ patient.email }} - First name: {{ patient.firstName }} Last name:
+            {{ patient.lastName }} <button (click)="deletePatient(patient)" 
+            class="btn btn-danger btn-sm">Delete</button>
+        </mat-card>
+        <mat-spinner style="margin:0 auto;" *ngIf="loading"></mat-spinner>
 </div>

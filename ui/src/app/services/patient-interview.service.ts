@@ -14,21 +14,21 @@ export class PatientInterviewService extends DataService {
 
   constructor(http: Http) {
     super('/', http);
-  }
+   }
 
   getPatientInterview(patientID, InterviewID) {
     let uri = Consts.API_ENDPOINT + '/patients/' + patientID + '/interviews/' + InterviewID
     return this.http.get(uri)
-      .pipe(
-        map(response => response.json())
+    .pipe(
+      map(response => response.json()),catchError(this.handleError)
       );
   }
 
-  answerInterview(patientID, InterviewID, answers) {
+  answerInterview(patientID, InterviewID, answers){
     let uri = Consts.API_ENDPOINT + '/patients/' + patientID + '/interviews/' + InterviewID
     return this.http.put(uri, answers)
-      .pipe(
-        map(response => response.json())
+    .pipe(
+      map(response => response.json()),catchError(this.handleError)
       );
   }
 
