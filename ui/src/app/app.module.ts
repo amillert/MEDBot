@@ -29,7 +29,6 @@ import { ErrorsHandler } from './app.error-handler';
     AppComponent,
     DoctorsComponent,
     PatientsComponent,
-    HelloWorldComponent,
     InterviewComponent,
     LoginComponent,
     QuestionsComponent,
