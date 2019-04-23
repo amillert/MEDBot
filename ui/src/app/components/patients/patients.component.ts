@@ -109,6 +109,7 @@ export class PatientsComponent implements OnInit {
   }
 
   private getAllPatients() {
+    console.log(localStorage.getItem('currentUser'))
     this.loading = true;
     this.areFreePatients = false;
     this.myPatients = [];

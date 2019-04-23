@@ -4,17 +4,38 @@ import { Http } from '@angular/http';
 import { map, catchError } from 'rxjs/operators';
 import { DataService } from './data.service';
 import { Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { AuthService } from './auth.service';
 import { HttpClientModule } from '@angular/common/http';
 
+export class Message {
+  constructor(public msg: String, public who: String) {}
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class PatientInterviewService extends DataService {
+  conversation = new BehaviorSubject<Message[]>([]);
+
   constructor(http: Http) {
     super('/', http);
-   }
+  }
+
+  update_conv(msg: Message) {
+    this.conversation.next([msg]);
+  }
+  
+  converse(msg: String) {
+    const usrMessage = new Message(msg, 'user');
+    this.update_conv(usrMessage);
+
+    return this.http.post('http://127.0.0.1:5000/', msg)
+    .pipe(
+      map(botResp => this.update_conv(new Message(botResp["fulfillment"]["messages"]["speech"], 'medbot'))
+      )
+    );
+  }
 
   getPatientInterview(patientID, InterviewID) {
     let uri = Consts.API_ENDPOINT + '/patients/' + patientID + '/interviews/' + InterviewID

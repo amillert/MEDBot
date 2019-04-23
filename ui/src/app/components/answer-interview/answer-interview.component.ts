@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
-import { PatientInterviewService } from 'src/app/services/patient-interview.service';
+import { PatientInterviewService, Message } from 'src/app/services/patient-interview.service';
+import { Observable } from 'rxjs';
+import { scan } from 'rxjs/operators';
 
 @Component({
   selector: 'app-answer-interview',
@@ -12,6 +14,10 @@ export class AnswerInterviewComponent implements OnInit {
   interview: any[];
   questions: any[];
   interviewForm: FormGroup;
+  mensaje: String;
+
+  messages: Observable<Message[]>;
+
   loading = true;
   constructor(private router: Router, private fb: FormBuilder,
     private activatedRoute: ActivatedRoute, private service: PatientInterviewService ) { }
@@ -20,7 +26,16 @@ export class AnswerInterviewComponent implements OnInit {
     this.interviewForm = this.fb.group({
       questions: new FormArray([])
     });
+    this.messages = this.service.conversation.asObservable()
+    .pipe(
+      scan((acc, curr) => acc.concat(curr))
+    );
     this.getInterview();
+  }
+
+  sendMessage() {
+    this.service.converse(this.mensaje);
+    this.mensaje = '';
   }
 
   get formControls() { return this.interviewForm.controls; }

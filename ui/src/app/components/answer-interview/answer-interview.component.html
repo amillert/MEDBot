@@ -5,11 +5,23 @@
                 Say hi to Medical Interview Chatbot to start conversation
             </mat-card-title>
             <mat-card-content>
-                <iframe allow="microphone;" width="350" height="430"
-                    src="https://console.dialogflow.com/api-client/demo/embedded/755636fc-cac0-40a8-b4e4-0cf51e96953f">
-                </iframe>
+                <div class="container" *ngFor="let message of messages | async">
+                    <div class="massage" [ngClass]="{'from': message.who === 'medbot',
+                                                     'to': message.who === 'user'}"">
+                        {{ message.msg }}
 
-                <!-- <div class="container">
+                    </div>
+                </div>
+
+                <label for="nameField">Your message</label>
+                <input [(ngModel)]="formValue" (keyup.enter)="sendMessage()", type=text><br>
+                <button (click)="sendMessage()">Clik to send or press Enter</button>
+
+                <!-- <iframe allow="microphone;" width="350" height="430"
+                    src="https://console.dialogflow.com/api-client/demo/embedded/755636fc-cac0-40a8-b4e4-0cf51e96953f">
+                </iframe> -->
+
+                <div class="container">
                     <form [formGroup]="interviewForm" (ngSubmit)="onSubmit()">
                         <label formArrayName="questions" *ngFor="let question of questions; let i = index"
                             class="container">
@@ -24,7 +36,7 @@
                     <button [disabled]="loading" color="accent" (click)="onSubmit()" mat-raised-button>
                         Submit if done with my mumbling
                     </button>
-                </div> -->
+                </div>
             </mat-card-content>
         </mat-card>
     </div>

@@ -170,9 +170,13 @@ def webhook():
                      "So please, answer my question. `Did You do all Your rehab exercises?`"])
     elif context_name == "exercise":
         if intent_name == "Exercise Done":
-            speech = ""
-            lifespan = 0
+            if context_parameters_dict["Confirm"] == "yes":
+                speech = "Great! We'll end up our conversation now! Have a great day! Submit to send interview."
+                lifespan = 0
+            if context_parameters_dict["Confirm"] == "no":
+               speech = "Too bad. Remember to do them next time. Have a great day! Submit to send interview."
         if intent_name == "Default Fallback Intent":
+            speech = "Too bad. Remember to do them next time. Have a great day! Submit to send interview."
             if lifespan % 3 == 2:
                 speech = random.choice(
                     ["Have You done Your rehab exercises?", "Did You remember to do the exercises?",
@@ -193,17 +197,19 @@ def webhook():
                      "Please, just answer my question. The sooner You answer all of them, "
                      "the faster You can stop talking to me if that's what's bothering You. "
                      "So please, answer my question. `Did You do all Your rehab exercises?`"])
-
-    if not speech:
-        speech: random.choice(
-            ["I'm sorry, but I have no clue what You're talking about "
-             "at the moment. Could You please answer to my questions!"
-             "I promise to improve soon and be able to talk on a way"
-             "higher level. Thanks for Your patience!",
-             "I'm sorry, I didn't get what You mean. Could You please"
-             "try to paraphrase it? Or better yet stick to answering"
-             "my questions? I'll try to improve my conversational skills"
-             "so that we can talk on a higher level soon! Thanks for Your patience!"])
+        if intent_name == "Exercise Done(not)":
+            speech = "Too bad. Remember to do them next time. Have a great day! Submit to send interview."
+        
+    # if not speech:
+    #     speech: random.choice(
+    #         ["I'm sorry, but I have no clue what You're talking about "
+    #          "at the moment. Could You please answer to my questions!"
+    #          "I promise to improve soon and be able to talk on a way"
+    #          "higher level. Thanks for Your patience!",
+    #          "I'm sorry, I didn't get what You mean. Could You please"
+    #          "try to paraphrase it? Or better yet stick to answering"
+    #          "my questions? I'll try to improve my conversational skills"
+    #          "so that we can talk on a higher level soon! Thanks for Your patience!"])
     return prepare_response(speech)
 
 
