@@ -24,6 +24,7 @@ import { AnswerInterviewComponent } from './components/answer-interview/answer-i
 import { ManagePatientComponent } from './components/manage-patient/manage-patient.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { ManageDoctorComponent } from './components/manage-doctor/manage-doctor.component';
+import { MonitoringComponent } from './components/monitoring/monitoring.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { ManageDoctorComponent } from './components/manage-doctor/manage-doctor.
     ManagePatientComponent,
     ChangePasswordComponent,
     ManageDoctorComponent,
+    MonitoringComponent,
   ],
   imports: [
     BrowserModule,

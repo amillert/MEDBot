@@ -13,6 +13,7 @@ import { AuthGuard } from './_guards/auth.guard';
 import { ManagePatientComponent } from './components/manage-patient/manage-patient.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { ManageDoctorComponent } from './components/manage-doctor/manage-doctor.component';
+import { MonitoringComponent } from './components/monitoring/monitoring.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/helloworld', pathMatch: 'full' },
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'browseInterviews', component: BrowseInterviewsComponent, canActivate: [AuthGuard] },
   { path: 'doctors/create-interview', component: CreateInterviewComponent, canActivate: [AuthGuard] },
   { path: 'changepassword', component: ChangePasswordComponent },
+  { path: 'monitoring', component: MonitoringComponent },
   { path: 'helloworld', component: HelloWorldComponent },
   { path: 'doctors', component: DoctorsComponent, canActivate: [AuthGuard] },
   { path: 'doctors/:pid', component: ManageDoctorComponent, canActivate: [AuthGuard] },
