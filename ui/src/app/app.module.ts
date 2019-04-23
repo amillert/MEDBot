@@ -31,7 +31,6 @@ import { MonitoringComponent } from './components/monitoring/monitoring.componen
     AppComponent,
     DoctorsComponent,
     PatientsComponent,
-    HelloWorldComponent,
     InterviewComponent,
     LoginComponent,
     QuestionsComponent,
