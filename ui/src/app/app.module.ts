@@ -30,7 +30,6 @@ import { ManageDoctorComponent } from './components/manage-doctor/manage-doctor.
     AppComponent,
     DoctorsComponent,
     PatientsComponent,
-    HelloWorldComponent,
     InterviewComponent,
     LoginComponent,
     QuestionsComponent,
