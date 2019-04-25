@@ -206,9 +206,6 @@ class Answer(db.Model):
         db.session.add(answer)
         db.session.commit()
 
-def myFunc(e):
-    return e.id
-
 class Interview(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     DoctorID = db.Column(db.Integer, db.ForeignKey(User.id))
@@ -295,7 +292,30 @@ class Interview(db.Model):
             return True
         return False
 
+class Logs(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    message = db.Column(db.Text)
+    creationTimestamp = db.Column(db.DateTime,  default=datetime.utcnow)
+    status = db.Column(db.String(30))
+    
+    def __repr__(self):
+        return f"Log('{self.id}, '{self.message}', '{self.creationTimestamp}', {self.status})"
 
+    @staticmethod
+    def get_all():
+        logs = Logs.query.all()
+        if logs:
+            log_schema = LogSchema(many=True)
+            return log_schema.dump(logs).data
+        return ''
+
+    @staticmethod
+    def insert_into(req):
+        log = Logs(message=req['message'], status=req['status'])
+        db.session.add(log)
+        db.session.commit()
+
+    
 #Marshmallow Schemas
 class RoleSchema(ma.ModelSchema):
     class Meta:
@@ -315,12 +335,10 @@ class QuestionSchema(ma.ModelSchema):
     class Meta:
         model = Question
 
-
 class AnswerSchema(ma.ModelSchema):
     class Meta:
         model = Answer
     question = fields.Nested(QuestionSchema)
-
 
 class InterviewSchema(ma.ModelSchema):
     class Meta:
@@ -328,3 +346,7 @@ class InterviewSchema(ma.ModelSchema):
     sender = fields.Nested(UserSchema, only=['id', 'firstName', 'lastName'])
     receiver = fields.Nested(PatientSchema, only=['id', 'firstName', 'lastName'])
     questions = fields.Nested(AnswerSchema, many=True, only=['answer', 'question'])
+
+class LogSchema(ma.ModelSchema):
+    class Meta:
+        model = Logs
