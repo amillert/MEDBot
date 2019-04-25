@@ -7,7 +7,7 @@
             <mat-card-content>
                 <div class="container" *ngFor="let message of messages | async">
                     <div class="massage" [ngClass]="{'from': message.who === 'medbot',
-                                                     'to': message.who === 'user'}"">
+                                                     'to': message.who === 'user'}">
                         {{ message.msg }}
 
                     </div>
