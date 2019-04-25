@@ -30,7 +30,7 @@ export class PatientInterviewService extends DataService {
     const usrMessage = new Message(msg, 'user');
     this.update_conv(usrMessage);
 
-    return this.http.post('http://127.0.0.1:5000/', msg)
+    return this.http.post(Consts.API_ENDPOINT, msg)
     .pipe(
       map(botResp => this.update_conv(new Message(botResp["fulfillment"]["messages"]["speech"], 'medbot'))
       )
