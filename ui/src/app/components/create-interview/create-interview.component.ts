@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 import { InterviewService } from 'src/app/services/interview.service';
 import { QuestionsService } from 'src/app/services/questions.service';
-import { AppError } from 'src/common/app-error';
-import { BadInput } from 'src/common/bad-input';
 import { PatientsService } from 'src/app/services/accounts/patients.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -17,7 +15,7 @@ export class CreateInterviewComponent implements OnInit {
   interviewForm: FormGroup;
   questions: any[];
   patients: any[];
-  myPatients =  [];
+  myPatients = [];
 
   constructor(private router: Router, private fb: FormBuilder, private service: InterviewService, private QService: QuestionsService,
     private PService: PatientsService) {
@@ -33,7 +31,7 @@ export class CreateInterviewComponent implements OnInit {
   }
 
   get formControls() { return this.interviewForm.controls; }
-  
+
   onSubmit() {
     let patient = this.formControls.patient.value;
     let arr = this.formControls.questions.value;
@@ -60,9 +58,9 @@ export class CreateInterviewComponent implements OnInit {
       .subscribe(patients => {
         this.patients = patients['patients'];
         this.patients.forEach(element => {
-          if (element.doctor == null){
+          if (element.doctor == null) {
           }
-          else if (JSON.parse(localStorage.getItem('currentUser')).userID == element.doctor.id){
+          else if (JSON.parse(localStorage.getItem('currentUser')).userID == element.doctor.id) {
             this.myPatients.push(element)
           }
 

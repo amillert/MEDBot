@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { DoctorsService } from 'src/app/services/accounts/doctors.service';
-import { BadInput } from 'src/common/bad-input';
-import { AppError } from 'src/common/app-error';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { DoctorsService } from 'src/app/services/accounts/doctors.service';
 
 @Component({
   selector: 'app-doctors',
@@ -46,13 +44,6 @@ export class DoctorsComponent implements OnInit {
         newDoctor => {
           this.getAllDoctors()
           console.log(doctor);
-        },
-        (error: AppError) => {
-          this.doctors.splice(0, 1);
-          if (error instanceof BadInput) {
-            // this.form.setErrors(error.originalError);
-          }
-          else throw error;
         });
   }
 
@@ -79,9 +70,9 @@ export class DoctorsComponent implements OnInit {
       .subscribe(doctors => { this.doctors = doctors['Doctors']; this.loading = false; console.log(this.loading) });
   }
 
-  manageDoctor(url, id){
+  manageDoctor(url, id) {
     console.log('manageDoctor');
-    this.router.navigate([url, id]).then( (e) => {
+    this.router.navigate([url, id]).then((e) => {
       if (e) {
         console.log("Navigation is successful!");
       } else {

@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -23,6 +23,8 @@ import { ManagePatientComponent } from './components/manage-patient/manage-patie
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { ManageDoctorComponent } from './components/manage-doctor/manage-doctor.component';
 import { MonitoringComponent } from './components/monitoring/monitoring.component';
+import { ErrorsHandler } from './error-handler';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -41,6 +43,7 @@ import { MonitoringComponent } from './components/monitoring/monitoring.componen
     MonitoringComponent,
   ],
   imports: [
+    ToastrModule.forRoot(),
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -60,6 +63,7 @@ import { MonitoringComponent } from './components/monitoring/monitoring.componen
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: ErrorHandler, useClass: ErrorsHandler },
     SharedService],
   bootstrap: [AppComponent]
 })
