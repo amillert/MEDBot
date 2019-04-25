@@ -21,6 +21,7 @@ export class MonitoringComponent implements OnInit {
     this.service.getLogs()
       .subscribe(logs => {
         this.logs = logs;
+        this.loading = false;
       });
   }
 }
