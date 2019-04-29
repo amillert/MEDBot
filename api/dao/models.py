@@ -77,6 +77,7 @@ class User(db.Model):
     def delete_user(req, user_id, role):
         user = User.query.filter_by(id=user_id, roleID=Role.get_id_by_role(role)).first()
         if user:
+            Logs.insert_into({'message': 'Deleted doctor with email: ' + user.email, 'status': 'INFO'})
             db.session.delete(user)
             db.session.commit()
             return True
@@ -120,12 +121,14 @@ class Patient(db.Model):
             db.session.commit()
         else:
             patient = Patient(email=req['email'], firstName=req['firstName'], lastName=req['lastName'], doctorID=req['doctorID'])
+            Logs.insert_into({'message': 'Doctor '+ user.email +' added patient: '+ patient.firstName + ' '+ patient.lastName, 'status': 'INFO'})
             db.session.add(patient)
             db.session.commit()
 
     def delete_patient(patient_id):
             patient = Patient.query.filter_by(id=patient_id).first()
             if patient:
+                Logs.insert_into({'message': 'Deleted patient with id: ' + patient.id, 'status': 'INFO'})
                 db.session.delete(patient)
                 db.session.commit()
                 return True
@@ -147,8 +150,10 @@ class Patient(db.Model):
             if req[att]:
                 d[att] = req[att]
         if d.get('doctorID') == 'unAssign':
+            doc = Patient.query.get(patient_id).doctor
+            Logs.insert_into({'message': 'Patient ' + patient.firstName + ' ' + patient.lastName +' has been unassigned by ' + doc.firstName + ' ' + doc.lastName,
+            'status': 'WARN'})
             d['doctorID'] = None
-
         patient = Patient.query.filter_by(id=patient_id).update(d)
         db.session.commit()
         return True
@@ -311,11 +316,63 @@ class Logs(db.Model):
 
     @staticmethod
     def insert_into(req):
+        print('insert inot logs')
+        print(req)
         log = Logs(message=req['message'], status=req['status'])
         db.session.add(log)
         db.session.commit()
-
     
+    @staticmethod
+    def clear_logs():
+        try:
+            num_rows_deleted = db.session.query(Model).delete()
+            db.session.commit()
+        except:
+            db.session.rollback()
+        return num_rows_deleted
+
+    @staticmethod
+    def get_admin_raport():
+        raport = {}
+        # Doctor count
+        raport['Doctors'] = len(User.query.all())
+        
+        # Patient count / Un assigned patients
+        patients = Patient.query.all()
+        raport['Patients'] = len(patients)
+        unassignedPatients = 0
+        for pat in patients:
+            print(pat.doctorID)
+            if pat.doctorID is None:
+                unassignedPatients += 1
+        raport['unassignedPatients'] = unassignedPatients
+
+        # Interview count
+        interviews = Interview.query.all()
+        raport['Interviews'] = len(interviews)
+        answered = 0
+        for interview in interviews:
+            if interview.status == 'Answered':
+                answered +=1
+        raport['answeredInterviews'] = answered
+
+        # Today's interviews count / answered
+        todays = 0
+        todaysAnswered = 0
+      
+        for interview in interviews:
+            dt = datetime.now() - interview.creationTimestamp
+            print(dt.days)
+            if dt.days < 1:
+                todays += 1
+                if interview.status == 'Answered':
+                    todaysAnswered += 1
+        raport['todays'] = todays
+        raport['todaysAnswered'] = todaysAnswered
+        return raport
+    
+
+
 #Marshmallow Schemas
 class RoleSchema(ma.ModelSchema):
     class Meta:
