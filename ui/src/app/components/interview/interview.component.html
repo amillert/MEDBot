@@ -32,9 +32,16 @@
                     </p>
                 </div>
                 <div style="text-align: center; padding: 2px;">
+                    <div *ngIf="interview.status != 'Checked'">
                     <button [disabled]="loading" color="accent" (click)="onSubmit()" mat-raised-button>
                         Mark as read
                     </button>
+                    </div>
+                    <div *ngIf="interview.status == 'Checked'">
+                    <button [disabled]="loading" color="accent" (click)="generateReport(interview)" mat-raised-button>
+                        Download PDF report
+                    </button>
+                </div>
                 </div>
             </mat-card-content>
         </mat-card>
