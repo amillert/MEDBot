@@ -1,16 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MatToolbarModule, MatButtonModule, MatIconModule, MatCardModule, MatInputModule, MatProgressSpinnerModule, MatGridListModule } from '@angular/material';
 import { DoctorsComponent } from './components/doctors/doctors.component';
 import { PatientsComponent } from './components/patients/patients.component';
-import { HelloWorldComponent } from './components/hello-world/hello-world.component';
 import { CreateInterviewComponent } from './components/create-interview/create-interview.component';
 import { InterviewComponent } from './components/interview/interview.component';
 import { LoginComponent } from './components/login/login.component';
@@ -24,13 +22,15 @@ import { AnswerInterviewComponent } from './components/answer-interview/answer-i
 import { ManagePatientComponent } from './components/manage-patient/manage-patient.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { ManageDoctorComponent } from './components/manage-doctor/manage-doctor.component';
+import { MonitoringComponent } from './components/monitoring/monitoring.component';
+import { ErrorsHandler } from './error-handler';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
     AppComponent,
     DoctorsComponent,
     PatientsComponent,
-    HelloWorldComponent,
     InterviewComponent,
     LoginComponent,
     QuestionsComponent,
@@ -40,8 +40,10 @@ import { ManageDoctorComponent } from './components/manage-doctor/manage-doctor.
     ManagePatientComponent,
     ChangePasswordComponent,
     ManageDoctorComponent,
+    MonitoringComponent,
   ],
   imports: [
+    ToastrModule.forRoot(),
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -61,6 +63,7 @@ import { ManageDoctorComponent } from './components/manage-doctor/manage-doctor.
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: ErrorHandler, useClass: ErrorsHandler },
     SharedService],
   bootstrap: [AppComponent]
 })

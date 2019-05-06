@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { PatientsService } from 'src/app/services/accounts/patients.service';
-import { AppError } from 'src/common/app-error';
-import { BadInput } from 'src/common/bad-input';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DoctorsService } from 'src/app/services/accounts/doctors.service';
 import { Router } from '@angular/router';
@@ -25,7 +23,7 @@ export class PatientsComponent implements OnInit {
   addPatientForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private dService: DoctorsService,
-     private service: PatientsService, private router: Router) {
+    private service: PatientsService, private router: Router) {
   }
 
   ngOnInit() {
@@ -56,19 +54,12 @@ export class PatientsComponent implements OnInit {
       .subscribe(
         newPatient => {
           this.getAllPatients();
-        },
-        (error: AppError) => {
-          this.patients.splice(0, 1);
-          if (error instanceof BadInput) {
-            // this.form.setErrors(error.originalError);
-          }
-          else throw error;
         });
   }
 
-  managePatient(url, id){
+  managePatient(url, id) {
     console.log('test')
-    this.router.navigate([url, id]).then( (e) => {
+    this.router.navigate([url, id]).then((e) => {
       if (e) {
         console.log("Navigation is successful!");
       } else {
@@ -101,11 +92,11 @@ export class PatientsComponent implements OnInit {
       doctorID: 'unAssign'
     }
     this.service.update(req)
-    .subscribe(
-      updatedPatient => {
-        console.log(updatedPatient);
-        this.getAllPatients();
-      });
+      .subscribe(
+        updatedPatient => {
+          console.log(updatedPatient);
+          this.getAllPatients();
+        });
   }
 
   private getAllPatients() {
@@ -115,18 +106,18 @@ export class PatientsComponent implements OnInit {
     this.freePatients = [];
     this.service.getAll()
       .subscribe(patients => {
-        this.patients = patients['patients']; 
+        this.patients = patients['patients'];
         this.patients.forEach(element => {
-          if (element.doctor == null){
+          if (element.doctor == null) {
             this.areFreePatients = true;
             this.freePatients.push(element);
           }
-          else if (JSON.parse(localStorage.getItem('currentUser')).userID == element.doctor.id){
+          else if (JSON.parse(localStorage.getItem('currentUser')).userID == element.doctor.id) {
             this.myPatients.push(element)
           }
         });
         this.loading = false;
-    });
+      });
   }
 
 }

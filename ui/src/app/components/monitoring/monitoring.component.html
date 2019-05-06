@@ -1,0 +1,7 @@
+<div class="container">
+  <label>Logs</label>
+  <mat-spinner style="margin:0 auto;" *ngIf="loading"></mat-spinner>
+  <mat-card *ngFor="let log of logs" class="list-group-item">
+    {{ log.status }} - {{ log.datetime }} - Message: {{ log.message }}
+  </mat-card>
+</div>

@@ -45,6 +45,12 @@
             </a>
         </div>
         <ng-template #logoutTemplate>
+            <a *ngIf="currentUser.roleID === 1" routerLink="/monitoring" routerLinkActive="active">
+                <button mat-button>
+                    <mat-icon>settings</mat-icon>
+                    Monitoring
+                </button>
+            </a>
             <a (click)="logout()">
                 <button mat-button>
                     <mat-icon>build</mat-icon>

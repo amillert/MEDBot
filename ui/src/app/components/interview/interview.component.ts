@@ -4,8 +4,6 @@ import { InterviewService } from 'src/app/services/interview.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { switchMap } from 'rxjs/operators';
-import { AppError } from 'src/common/app-error';
-import { BadInput } from 'src/common/bad-input';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 

@@ -20,15 +20,13 @@ export class InterviewService extends DataService {
     return this.http.post(this.uri, JSON.stringify(interview))
       .pipe(
         map(response => response.json())
-        , catchError(this.handleError)
       );
   }
 
   updateStatus(interview_id) {
-    return this.http.put(this.uri + '/' + interview_id , JSON.stringify({status: 'Checked'}))
-    .pipe(
-      map(response => response.json())
-      , catchError(this.handleError)
-    );
+    return this.http.put(this.uri + '/' + interview_id, JSON.stringify({ status: 'Checked' }))
+      .pipe(
+        map(response => response.json())
+      );
   }
 }
