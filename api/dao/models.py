@@ -45,11 +45,11 @@ class User(db.Model):
             user_schema = UserSchema(many=True)
             users = User.query.filter_by(roleID=Role.get_id_by_role(role)).all()
             if users:
-                return user_schema.dump(users).data
+                return user_schema.dump(users)  # .data
         else:
             user_schema = UserSchema()
             user = User.query.filter_by(id=user_id, roleID=Role.get_id_by_role(role)).first()
-            return user_schema.dump(user).data
+            return user_schema.dump(user)  # .data
 
     @staticmethod
     def update_user(req, user_id, role):
@@ -134,11 +134,11 @@ class Patient(db.Model):
 
     def get_all():
         patient_schema = PatientSchema(many=True)
-        return patient_schema.dump(Patient.query.all()).data
+        return patient_schema.dump(Patient.query.all())  # .data
     
     def get_by_id(patient_id):
         patient_schema = PatientSchema()
-        return patient_schema.dump(Patient.query.get(patient_id)).data
+        return patient_schema.dump(Patient.query.get(patient_id))  # .data
 
     @staticmethod
     def update_patient(req, patient_id):
@@ -168,7 +168,7 @@ class Question(db.Model):
     def get_all_questions():
         question_schema = QuestionSchema(many=True)
         questions = Question.query.all()
-        return question_schema.dump(questions).data
+        return question_schema.dump(questions)  # .data
     
     @staticmethod
     def delete_question(question_id):
@@ -229,20 +229,20 @@ class Interview(db.Model):
         user = User.query.filter_by(id=user_id).first()
         if interview_id:
             interview_schema = InterviewSchema()
-            return interview_schema.dump(Interview.query.filter_by(id=interview_id, DoctorID=user_id).first()).data
+            return interview_schema.dump(Interview.query.filter_by(id=interview_id, DoctorID=user_id).first())  # .data
         else:
             interview_schema = InterviewSchema(many=True)
-            interviews = interview_schema.dump(user.sent_interviews).data
+            interviews = interview_schema.dump(user.sent_interviews)  # .data
             return interviews
         return False
     
     def get_interviews_of_patient(patient_id, interview_id=None):
         if interview_id:
             interview_schema = InterviewSchema()
-            return interview_schema.dump(Interview.query.filter_by(id=interview_id, PatientID=patient_id).first()).data
+            return interview_schema.dump(Interview.query.filter_by(id=interview_id, PatientID=patient_id).first())  # .data
         else:
             interview_schema = InterviewSchema(many=True)
-            interviews = interview_schema.dump(patient.received_interviews).data
+            interviews = interview_schema.dump(patient.received_interviews)  # .data
             return interviews
 
     @staticmethod

@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="form-group">
+    <form [formGroup]="interviewForm" (ngSubmit)="onSubmit()">
         <mat-card>
             <mat-card-title style="padding: 0.75em 0;">
                 Say hi to Medical Interview Chatbot to start conversation
@@ -12,16 +12,12 @@
 
                     </div>
                 </div>
-
+            </mat-card-content>
                 <label for="nameField">Your message</label>
-                <input [(ngModel)]="formValue" (keyup.enter)="sendMessage()", type=text><br>
-                <button (click)="sendMessage()">Clik to send or press Enter</button>
+                <input [(ngModel)]="interviewForm" (keyup.enter)="sendMessage($event)" type="text" id="nameField" formControlName="wiadomosc" [value]='wiadomosc'><br>
+                <button color="primary" (click)="sendMessage($event)" mat-raised-button>Clik to send or press Enter</button>
 
-                <!-- <iframe allow="microphone;" width="350" height="430"
-                    src="https://console.dialogflow.com/api-client/demo/embedded/755636fc-cac0-40a8-b4e4-0cf51e96953f">
-                </iframe> -->
-
-                <div class="container">
+                <!-- <div class="container">
                     <form [formGroup]="interviewForm" (ngSubmit)="onSubmit()">
                         <label formArrayName="questions" *ngFor="let question of questions; let i = index"
                             class="container">
@@ -31,14 +27,13 @@
                             </mat-form-field>
                         </label>
                     </form>
-                </div>
-                <div style="text-align: center; padding: 2px;">
+                </div> -->
+                <!-- <div style="text-align: center; padding: 2px;">
                     <button [disabled]="loading" color="accent" (click)="onSubmit()" mat-raised-button>
                         Submit if done with my mumbling
                     </button>
-                </div>
-            </mat-card-content>
+                </div> -->
         </mat-card>
-    </div>
+    </form>
 </div>
 <mat-spinner style="margin:0 auto;" *ngIf="loading"></mat-spinner>

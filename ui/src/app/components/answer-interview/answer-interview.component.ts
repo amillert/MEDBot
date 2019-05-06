@@ -33,9 +33,13 @@ export class AnswerInterviewComponent implements OnInit {
     this.getInterview();
   }
 
-  sendMessage() {
-    this.service.converse(this.mensaje);
-    this.mensaje = '';
+  sendMessage(event) {
+    console.log(this.interviewForm.value.wiadomosc);
+    console.log(event.wiadomosc);
+    console.log();
+    console.log();
+    // this.service.converse(this.mensaje);
+    // this.mensaje = '';
   }
 
   get formControls() { return this.interviewForm.controls; }
