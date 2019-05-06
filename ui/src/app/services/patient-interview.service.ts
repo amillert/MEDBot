@@ -22,16 +22,23 @@ export class PatientInterviewService extends DataService {
     super('/', http);
   }
 
-  update_conv(msg: Message) {
-    this.conversation.next([msg]);
+  update_conv(botMsg: Message) {
+    // console.log("inside update");
+    // console.log(botMsg);
+    // console.log();
+    // console.log();
+    // console.log();
+    this.conversation.next([botMsg]);
   }
 
   converse(usrMsg: Message) {
     this.update_conv(usrMsg);
-
-    return this.http.post(Consts.API_ENDPOINT, usrMsg.msg)
+    return this.http.post(Consts.API_ENDPOINT, usrMsg)
+    // return this.http.post(Consts.API_ENDPOINT + "/", {"result": {"result": {"source": "agent", "resolvedQuery": usrMsg.msg}}})
+    // return this.http.post("http://9fb4b1ba.ngrok.io", usrMsg.msg)
       .pipe(
-        map(botResp => this.update_conv(new Message(botResp["fulfillment"]["messages"]["speech"], 'medbot')))
+        // map(botResp => this.update_conv(new Message(botResp.json()["fulfillment"]["speech"], 'medbot')))
+        map(botResp => botResp.json())
       );
   }
 
