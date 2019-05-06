@@ -36,6 +36,7 @@ export class LoggerService extends DataService {
       message: message,
       datetime: new Date()
     }
+    console.log("logError")
     console.log(log)
     let uri = Consts.API_ENDPOINT + '/logs'
     return this.http.post(uri, JSON.stringify(log))
