@@ -15,10 +15,9 @@ export class AnswerInterviewComponent implements OnInit {
   questions: any[];
   interviewForm: FormGroup;
   mensaje: String;
+  messages: Message[];
 
-  messages: Observable<Message[]>;
-
-  loading = true;
+  loading = false;
   constructor(private router: Router, private fb: FormBuilder,
     private activatedRoute: ActivatedRoute, private service: PatientInterviewService ) { }
 
@@ -26,20 +25,16 @@ export class AnswerInterviewComponent implements OnInit {
     this.interviewForm = this.fb.group({
       questions: new FormArray([])
     });
-    this.messages = this.service.conversation.asObservable()
-    .pipe(
-      scan((acc, curr) => acc.concat(curr))
-    );
-    this.getInterview();
+    this.messages = [];
   }
-
-  sendMessage(event) {
-    console.log(this.interviewForm.value.wiadomosc);
-    console.log(event.wiadomosc);
-    console.log();
-    console.log();
-    // this.service.converse(this.mensaje);
-    // this.mensaje = '';
+  
+  sendMessage(input) {
+    let message = { id: 3, patientId: 1, who: 'Patient', text: input.value };
+    console.log(input.value);
+    console.log(message);
+    this.messages.push(message);
+    this.service.converse(input.value);
+    input.value = '';
   }
 
   get formControls() { return this.interviewForm.controls; }
@@ -77,5 +72,4 @@ export class AnswerInterviewComponent implements OnInit {
         this.loading = false;
       });
   }
-
 }
