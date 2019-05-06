@@ -324,8 +324,9 @@ class Logs(db.Model):
     
     @staticmethod
     def clear_logs():
+        num_rows_deleted = 0
         try:
-            num_rows_deleted = db.session.query(Model).delete()
+            num_rows_deleted = db.session.query(Logs).delete()
             db.session.commit()
         except:
             db.session.rollback()

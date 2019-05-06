@@ -16,6 +16,15 @@ export class MonitoringComponent implements OnInit {
     this.getLogs();
   }
 
+  clearLogs(){ 
+    this.loading = true;
+    this.service.clear()
+      .subscribe(logs => {
+        this.getLogs();
+      });
+  }
+
+
   private getLogs() {
     this.loading = true;
     this.service.getLogs()
