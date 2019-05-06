@@ -29,11 +29,10 @@ export class AnswerInterviewComponent implements OnInit {
   }
   
   sendMessage(input) {
-    let message = { id: 3, patientId: 1, who: 'Patient', text: input.value };
-    console.log(input.value);
-    console.log(message);
-    this.messages.push(message);
-    this.service.converse(input.value);
+    let usrMsg = new Message(input.value, "user");
+    this.messages.push(usrMsg);
+    console.log(this.messages);
+    this.service.converse(usrMsg);
     input.value = '';
   }
 

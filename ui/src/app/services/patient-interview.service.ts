@@ -9,7 +9,7 @@ import { AuthService } from './auth.service';
 import { HttpClientModule } from '@angular/common/http';
 
 export class Message {
-  constructor(public msg: String, public who: String) {}
+  constructor(public msg: String, public who: String) { }
 }
 
 @Injectable({
@@ -25,31 +25,29 @@ export class PatientInterviewService extends DataService {
   update_conv(msg: Message) {
     this.conversation.next([msg]);
   }
-  
-  converse(msg: String) {
-    const usrMessage = new Message(msg, 'user');
-    this.update_conv(usrMessage);
 
-    return this.http.post(Consts.API_ENDPOINT, msg)
-    .pipe(
-      map(botResp => this.update_conv(new Message(botResp["fulfillment"]["messages"]["speech"], 'medbot'))
-      )
-    );
+  converse(usrMsg: Message) {
+    this.update_conv(usrMsg);
+
+    return this.http.post(Consts.API_ENDPOINT, usrMsg.msg)
+      .pipe(
+        map(botResp => this.update_conv(new Message(botResp["fulfillment"]["messages"]["speech"], 'medbot')))
+      );
   }
 
   getPatientInterview(patientID, InterviewID) {
     let uri = Consts.API_ENDPOINT + '/patients/' + patientID + '/interviews/' + InterviewID
     return this.http.get(uri)
-    .pipe(
-      map(response => response.json()),catchError(this.handleError)
+      .pipe(
+        map(response => response.json()), catchError(this.handleError)
       );
   }
 
-  answerInterview(patientID, InterviewID, answers){
+  answerInterview(patientID, InterviewID, answers) {
     let uri = Consts.API_ENDPOINT + '/patients/' + patientID + '/interviews/' + InterviewID
     return this.http.put(uri, answers)
-    .pipe(
-      map(response => response.json()),catchError(this.handleError)
+      .pipe(
+        map(response => response.json()), catchError(this.handleError)
       );
   }
 
