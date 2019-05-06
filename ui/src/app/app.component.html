@@ -1,7 +1,6 @@
 <mat-toolbar color="primary">
     <mat-toolbar-row>
         <img class="logo" src="../favicon.ico">
-
         <span (click)="logUser()">MED Bot</span>
         <div *ngIf="currentUser != null">
             <a *ngIf="currentUser.roleID === 1" routerLink="/doctors" routerLinkActive="active">

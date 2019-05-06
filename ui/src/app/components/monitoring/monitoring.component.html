@@ -2,6 +2,9 @@
   <label>Logs</label>
   <mat-spinner style="margin:0 auto;" *ngIf="loading"></mat-spinner>
   <mat-card *ngFor="let log of logs" class="list-group-item">
+    <img class="logo" src="/assets/images/warn.png">
+    <img class="logo" src="/assets/images/error.png">
+    <img class="logo" src="/assets/images/info.png">
     {{ log.status }} - {{ log.datetime }} - Message: {{ log.message }}
   </mat-card>
 </div>
