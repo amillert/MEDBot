@@ -4,6 +4,8 @@ import { InterviewService } from 'src/app/services/interview.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { switchMap } from 'rxjs/operators';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 @Component({
   selector: 'app-interview',
@@ -42,5 +44,33 @@ export class InterviewComponent implements OnInit {
         this.loading = false;
         console.log(this.interview, this.questions);
       });
+  }
+
+  private generateReport(interview) {
+    const pdf = new jsPDF();
+    pdf.setFontSize(24);
+    pdf.text(40, 20, 'MEDBot medical interview report');
+    pdf.autoTable({
+      styles: { fontSize: 18 },
+      margin: { top: 40 },
+      body: [
+        ['interview nr', interview.id],
+        ['doctor', `${interview.sender.firstName} ${interview.sender.lastName}`],
+        ['patient', `${interview.receiver.firstName} ${interview.receiver.lastName}`],
+        ['status', interview.status],
+        ['created at', interview.creationTimestamp],
+        ['updated at', interview.lastActionTimestamp],
+      ]
+    });
+    pdf.addPage();
+
+    pdf.setFontSize(24);
+    pdf.text(90, 20, 'Questions');
+    pdf.autoTable({
+      styles: { fontSize: 18 },
+      margin: { top: 40 },
+      body: interview.questions.map(e => [e.question.question, e.answer]),
+    });
+    pdf.save(`report_${interview.id}_${interview.receiver.firstName}_${interview.receiver.lastName}.pdf`);
   }
 }
