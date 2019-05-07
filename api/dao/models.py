@@ -294,7 +294,14 @@ class Interview(db.Model):
             db.session.commit()
             return True
         return False
-
+    
+class Chatbot(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    InterviewID = db.Column(db.Integer, db.ForeignKey(Interview.id))
+    PatientID = db.Column(db.Integer, db.ForeignKey(Patient.id))
+    DoctorID = db.Column(db.Integer)
+    Question = db.Column(db.String(500))
+    Answer = db.Column(db.String(500))
 
 #Marshmallow Schemas
 class RoleSchema(ma.ModelSchema):

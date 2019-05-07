@@ -5,6 +5,7 @@ import { map, catchError } from 'rxjs/operators';
 import { DataService } from './data.service';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
+import { Message } from 'src/app/services/patient-interview.service';
 
 @Injectable({
   providedIn: 'root'
@@ -31,4 +32,13 @@ export class InterviewService extends DataService {
       , catchError(this.handleError)
     );
   }
+
+  saveConversation(messages: Message[], patientID, interviewID) {
+    let uri = Consts.API_ENDPOINT + '/' + interviewID + '/chatbot/' + patientID
+    return this.http.post(uri, messages)
+      .pipe(
+        map(response => response.json()), catchError(this.handleError)
+      );
+  }
+
 }

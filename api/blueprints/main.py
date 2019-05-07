@@ -4,7 +4,7 @@ import jwt
 import datetime
 from api.api_utils import json_res
 from flask import  Blueprint, request, make_response, jsonify
-from api.dao.models import User
+from api.dao.models import User , Chatbot
 from werkzeug.security import check_password_hash, generate_password_hash
 from api.config import BaseConfig
 main = Blueprint('main', __name__)
@@ -228,7 +228,8 @@ def auth():
         return jsonify({'token' : token.decode('UTF-8'), 'userID': user.id, "roleID": user.roleID})
         
     return jsonify({'error': 'Could not verify'}), 400
-    
+
+
 @main.route('/changepassword', methods=['PUT'])
 def changePassword():
     req = request.get_json(force=True)
@@ -237,3 +238,15 @@ def changePassword():
         return jsonify({'changed': True})
     else:
         return jsonify({'error': 'Error try again'}), 400
+
+@main.route("/<interviewID>/chatbot/<patientID>", methods=['POST'])
+def save_chatbot_convo(interviewID, patientID):
+    data = request.get_json(force=True)[1:]
+    print(data)
+    from api import db
+    for medbot, user in zip(data[::2], data[1::2]):
+        chat = Chatbot(InterviewID=interviewID, PatientID=patientID, DoctorID=0, Question=medbot["msg"] , Answer=user["msg"])
+        print(chat.InterviewID, chat.DoctorID, chat.PatientID, chat.Question, chat.Answer)
+        db.session.add(chat)
+        db.session.commit()
+    return ""
