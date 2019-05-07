@@ -16,7 +16,7 @@ export class AnswerInterviewComponent implements OnInit {
   interviewForm: FormGroup;
   mensaje: String;
   messages: Message[];
-
+  
   loading = false;
   constructor(private router: Router, private fb: FormBuilder,
     private activatedRoute: ActivatedRoute, private service: PatientInterviewService ) { }
@@ -26,6 +26,7 @@ export class AnswerInterviewComponent implements OnInit {
       questions: new FormArray([])
     });
     this.messages = [];
+    this.getInterview();
   }
   
   sendMessage(input) {
