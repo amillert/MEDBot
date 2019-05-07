@@ -2,7 +2,7 @@ from flask import Blueprint, request
 from flask import jsonify
 from api import db
 from api.api_utils import json_res, query2jsonable
-from api.dao.models import Role, User, Patient, UserSchema, RoleSchema, Interview
+from api.dao.models import Role, User, Patient, UserSchema, RoleSchema, Interview, Logs
 from sqlalchemy.exc import IntegrityError
 
 patients_api = Blueprint('patients', __name__)
@@ -12,12 +12,16 @@ patients_api = Blueprint('patients', __name__)
 def patients_route():
     try:
         if request.method == 'POST':
-            print(request.get_json(force=True))
-            Patient.insert_into(request.get_json(force=True))
+            req = request.get_json(force=True)
+            Patient.insert_into(req)
             return jsonify({}), 201
         else:
             return jsonify({'patients': Patient.get_all()}), 200
     except IntegrityError:
+        db.session.rollback()
+        doc = User.query.get(req['doctorID'])
+        Logs.insert_into({'message': 'Doctor '+ doc.email +' tries to add patient: '+ req['email'] + '. Patient with that email alredy exists'
+            ,'status': 'ERROR'})
         return jsonify({'error': 'Patient with the same email adress exists'}), 400
 
 @patients_api.route('/<patient_id>', methods=['GET', 'PUT', 'DELETE', 'PATCH'])

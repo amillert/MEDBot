@@ -61,7 +61,11 @@ export class PatientInterviewService extends DataService {
     let uri = Consts.API_ENDPOINT + '/patients/' + patientID + '/interviews/' + InterviewID
     return this.http.get(uri)
       .pipe(
+<<<<<<< HEAD
         map(response => response.json()), catchError(this.handleError)
+=======
+        map(response => response.json())
+>>>>>>> b7f2d1eed21413ebb353ed6e39142ad99c270d51
       );
   }
 
@@ -69,7 +73,11 @@ export class PatientInterviewService extends DataService {
     let uri = Consts.API_ENDPOINT + '/patients/' + patientID + '/interviews/' + InterviewID
     return this.http.put(uri, answers)
       .pipe(
+<<<<<<< HEAD
         map(response => response.json()), catchError(this.handleError)
+=======
+        map(response => response.json())
+>>>>>>> b7f2d1eed21413ebb353ed6e39142ad99c270d51
       );
   }
 

@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
 
   get formControls() { return this.loginForm.controls; }
   onSubmit() {
-    this.loading = true;
     if (this.loginForm.invalid) {
       return;
     }
@@ -48,9 +47,6 @@ export class LoginComponent implements OnInit {
             this.router.navigate([this.returnUrl]);
             this.sharedService.emitChange(user);
           }
-        },
-        error => {
-          this.loading = false;
         });
   }
 }

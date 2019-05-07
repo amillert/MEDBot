@@ -2,9 +2,6 @@ import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs';
 import { Http } from '@angular/http';
 import { map, catchError } from 'rxjs/operators';
-import { NotFoundError } from 'src/common/not-found-error';
-import { BadInput } from 'src/common/bad-input';
-import { AppError } from 'src/common/app-error';
 import { Consts } from 'src/common/consts';
 @Injectable({
   providedIn: 'root'
@@ -12,54 +9,43 @@ import { Consts } from 'src/common/consts';
 export class DataService {
   url: string = Consts.API_ENDPOINT;
   uri: string = '';
-  constructor(private urn: string, protected http: Http) { 
+  constructor(private urn: string, protected http: Http) {
     this.uri = this.url + urn;
   }
-  
+
   getAll() {
     return this.http.get(this.uri)
-    .pipe(
-      map(response => response.json()),catchError(this.handleError)
+      .pipe(
+        map(response => response.json())
       );
   }
 
   get(id) {
     return this.http.get(this.uri + '/' + id)
-    .pipe(
-      map(response => response.json()),catchError(this.handleError)
+      .pipe(
+        map(response => response.json())
       );
   }
 
   create(resource) {
     return this.http.post(this.uri, JSON.stringify(resource))
-    .pipe(
-      map(response => response.json())
-      ,catchError(this.handleError)
+      .pipe(
+        map(response => response.json())
       );
   }
 
   update(resource) {
     return this.http.put(this.uri + '/' + resource.id, JSON.stringify(resource))
-    .pipe(
-      map(response => response.json()),catchError(this.handleError)
+      .pipe(
+        map(response => response.json())
       );
   }
 
   delete(id) {
     console.log(id);
     return this.http.delete(this.uri + '/' + id)
-    .pipe(
-      map(response => response.json()),catchError(this.handleError)
+      .pipe(
+        map(response => response.json())
       );
-  }
-
-  protected handleError(error: Response) {
-    if (error.status === 400)
-      return throwError(new BadInput(error.json()));
-  
-    if (error.status === 404)
-      return throwError(new NotFoundError());
-    
-    return throwError(new AppError(error));
   }
 }
