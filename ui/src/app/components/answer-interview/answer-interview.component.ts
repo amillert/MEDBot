@@ -31,14 +31,11 @@ export class AnswerInterviewComponent implements OnInit {
   sendMessage(input) {
     let usrMsg = new Message(input.value, "user");
     this.messages.push(usrMsg);
-    // console.log(this.messages);
-    let response = this.service.converse(usrMsg);
-    // let botMsg = new Message(response, "medbot");
-    // this.messages.push(botMsg);
-    console.log("response");
-    console.log(response);
-    console.log();
-    console.log();
+    this.service.converse(usrMsg).subscribe(resp => {
+      let botMsg = new Message(resp, "medbot");
+      console.log(botMsg);
+      this.messages.push(botMsg);
+    });
     input.value = '';
   }
 
