@@ -128,7 +128,7 @@ class Patient(db.Model):
     def delete_patient(patient_id):
             patient = Patient.query.filter_by(id=patient_id).first()
             if patient:
-                Logs.insert_into({'message': 'Deleted patient with id: ' + patient.id, 'status': 'INFO'})
+                Logs.insert_into({'message': 'Deleted patient with id: ' + str(patient.id), 'status': 'INFO'})
                 db.session.delete(patient)
                 db.session.commit()
                 return True
@@ -146,14 +146,17 @@ class Patient(db.Model):
     @staticmethod
     def update_patient(req, patient_id):
         d = {}
+        patient = Patient.query.filter_by(id=patient_id).first()
         for att in req:
             if req[att]:
                 d[att] = req[att]
         if d.get('doctorID') == 'unAssign':
             doc = Patient.query.get(patient_id).doctor
-            Logs.insert_into({'message': 'Patient ' + patient.firstName + ' ' + patient.lastName +' has been unassigned by ' + doc.firstName + ' ' + doc.lastName,
+            Logs.insert_into(
+            {'message': 'Patient ' + patient.firstName + ' ' + str(patient.lastName) +' has been unassigned by ' + str(doc.firstName) + ' ' + str(doc.lastName),
             'status': 'WARN'})
             d['doctorID'] = None
+
         patient = Patient.query.filter_by(id=patient_id).update(d)
         db.session.commit()
         return True

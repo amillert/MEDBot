@@ -22,6 +22,14 @@ export class LoggerService extends DataService {
       );
   }
 
+  getRaport() {
+    let uri = Consts.API_ENDPOINT + '/logs/raport'
+    return this.http.get(uri)
+      .pipe(
+        map(response => response.json())
+      );
+  }
+
   clear() {
     let uri = Consts.API_ENDPOINT + '/logs'
     return this.http.delete(uri)

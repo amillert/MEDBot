@@ -1,6 +1,15 @@
 <div class="container">
-  <label>Logs</label>
+  <label>Stats</label>
   <mat-spinner style="margin:0 auto;" *ngIf="loading"></mat-spinner>
+  <mat-card class="list-group-item">Doctors in system:  {{raport.Doctors}} </mat-card>  
+  <mat-card class="list-group-item">Patients in system:  {{raport.Patients}} </mat-card>  
+  <mat-card class="list-group-item">Interviews in system:  {{raport.Interviews}} </mat-card>  
+  <mat-card class="list-group-item">Todays interviews:  {{raport.todays}} </mat-card> 
+  <mat-card class="list-group-item">Answered Interviews :  {{raport.answeredInterviews}} </mat-card>  
+  <mat-card class="list-group-item">Todays answered interviews :  {{raport.todaysAnswered}} </mat-card>  
+  <mat-card class="list-group-item">Unassigned Patients :  {{raport.unassignedPatients}} </mat-card>  
+  <br>
+  <label>Logs</label>
   <mat-card *ngFor="let log of logs" class="list-group-item">
     <img src="/assets/images/{{log.status}}.png" width="25" height="25">
     {{ log.creationTimestamp | date: 'yyyy-MM-dd HH:MM'}} - {{ log.message }}
