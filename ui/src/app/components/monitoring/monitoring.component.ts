@@ -9,11 +9,29 @@ import { LoggerService } from 'src/app/services/logger.service';
 export class MonitoringComponent implements OnInit {
   loading = false;
   logs: any[];
-
+  raport: any[];
   constructor(private service: LoggerService) { }
 
   ngOnInit() {
     this.getLogs();
+  }
+
+  clearLogs(){ 
+    this.loading = true;
+    this.service.clear()
+      .subscribe(logs => {
+        this.getLogs();
+      });
+  }
+
+  private getRaport() {
+    this.loading = true;
+    this.service.getRaport()
+      .subscribe(raport => {
+        this.raport = raport;
+        this.loading = false;
+        console.log(raport)
+      });
   }
 
   private getLogs() {
@@ -21,7 +39,7 @@ export class MonitoringComponent implements OnInit {
     this.service.getLogs()
       .subscribe(logs => {
         this.logs = logs;
-        this.loading = false;
+        this.getRaport();
       });
   }
 }
