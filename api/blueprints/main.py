@@ -20,12 +20,13 @@ def prepare_response(speech):
     response_dict = {
         "speech": speech,
         "displayText": speech,
-        "source": "agent"
+        "source": "medbot"
     }
-    jsonified_response = json.dumps(response_dict, indent=4)
-    # print("Bot response:")
-    # print(jsonified_response)
-    # print()
+    jsonified_response = json.dumps(response_dict, indent=2)
+    print(f"Bot says: ")
+    print(jsonified_response)
+    print()
+    print()
     res = make_response(jsonified_response)
     res.headers["Content-Type"] = "application/json"
     return res
@@ -33,29 +34,28 @@ def prepare_response(speech):
 
 @main.route("/", methods=['POST'])
 def webhook():
+    print(request.json)
     dict_json = request.json
-    print(dict_json)
-    print()
-    user_msg: str = dict_json["result"]["resolvedQuery"]
-    context_dict: dict = dict_json["result"]["contexts"][0]
-    context_name: str = context_dict["name"]
-    context_parameters_dict: dict = dict_json["result"]["parameters"]
-    intent_name: str = dict_json["result"]["metadata"]["intentName"]
-    lifespan: int = context_dict["lifespan"]
+    # user_msg: str = dict_json["result"]["resolvedQuery"]
+    # context_dict: dict = dict_json["result"]["contexts"][0]
+    # context_name: str = context_dict["name"]
+    # context_parameters_dict: dict = dict_json["result"]["parameters"]
+    # intent_name: str = dict_json["result"]["metadata"]["intentName"]
+    # lifespan: int = context_dict["lifespan"]
 
-    speech = ""
+    # speech = ""
 
-    print()
-    print()
-    print("~"*20)
-    print("USER")
-    print(f"user sent message: {user_msg}")
-    print(f"with intent: {intent_name}")
-    print(f"context: {context_name}")
-    print(f"lifespan: {lifespan}")
-    print(f"context parameters are: "
-          f"{' '.join([' '.join([k, v]) for k, v in context_parameters_dict.items()])}")
-    print("~"*20)
+    # print()
+    # print()
+    # print("~"*20)
+    # print("USER")
+    # print(f"user sent message: {user_msg}")
+    # print(f"with intent: {intent_name}")
+    # print(f"context: {context_name}")
+    # print(f"lifespan: {lifespan}")
+    # print(f"context parameters are: "
+    #       f"{' '.join([' '.join([k, v]) for k, v in context_parameters_dict.items()])}")
+    # print("~"*20)
 
     if context_name == "feeling":
         # feeling lifespan is set to 12
