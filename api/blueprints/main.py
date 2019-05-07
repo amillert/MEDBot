@@ -4,7 +4,7 @@ import jwt
 import datetime
 from api.api_utils import json_res
 from flask import  Blueprint, request, make_response, jsonify
-from api.dao.models import User, Chatbot, Interview
+from api.dao.models import User, Chatbot, Interview, ChatbotSchema
 from werkzeug.security import check_password_hash, generate_password_hash
 from api.config import BaseConfig
 main = Blueprint('main', __name__)
@@ -251,3 +251,13 @@ def save_chatbot_convo(interviewID, patientID):
         db.session.add(chat)
         db.session.commit()
     return ""
+
+@main.route("/chatbot/<interviewID>", methods=['GET'])
+def get_interview(interviewID):
+    from api import db
+    chatbot = Chatbot.query.filter_by(InterviewID=interviewID).all()
+    print(chatbot)
+    chatbot_schema = ChatbotSchema(many=True)
+    conversation = chatbot_schema.dump(chatbot)  # .data
+    print(jsonify(conversation))
+    return jsonify(conversation), 200

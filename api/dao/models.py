@@ -322,6 +322,9 @@ class QuestionSchema(ma.ModelSchema):
     class Meta:
         model = Question
 
+class ChatbotSchema(ma.ModelSchema):
+    class Meta:
+        model = Chatbot
 
 class AnswerSchema(ma.ModelSchema):
     class Meta:
