@@ -1,0 +1,26 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import '~ngx-toastr/toastr.css';
+.container {
+    margin-top: 30px;
+}
+
+table,
+tr,
+td .mat-input-wrapper,
+.mat-input-wrapper {
+    width: 100% !important;
+}
+
+.example-icon {
+    padding: 0 14px;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+mat-toolbar-row a {
+    color: white;
+}

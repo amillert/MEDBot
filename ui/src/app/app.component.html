@@ -1,0 +1,62 @@
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+        <img class="logo" (mouseover)="mouseOverLogo()" (mouseleave)="mouseLeaveLogo()" [src]="logoImage">
+        <span (click)=" logUser()">MED Bot</span>
+        <div *ngIf="currentUser != null">
+            <a *ngIf="currentUser.roleID === 1" routerLink="/doctors" routerLinkActive="active">
+                <button mat-button>
+                    <mat-icon>local_hospital</mat-icon>
+                    Doctors
+                </button>
+            </a>
+            <a routerLink="/patients" routerLinkActive="active">
+                <button mat-button>
+                    <mat-icon>assignment_ind</mat-icon>
+                    Patients
+                </button>
+            </a>
+            <a routerLink="/questions" routerLinkActive="active">
+                <button mat-button>
+                    <mat-icon>library_add</mat-icon>
+                    Questions
+                </button>
+            </a>
+            <a routerLink="/browseInterviews" routerLinkActive="active">
+                <button mat-button>
+                    <mat-icon>question_answer</mat-icon>
+                    Interviews
+                </button>
+            </a>
+            <a routerLink="/doctors/create-interview" routerLinkActive="active">
+                <button mat-button>
+                    <mat-icon>add_comment</mat-icon>
+                    Create interview
+                </button>
+            </a>
+        </div>
+        <span class="example-spacer"></span>
+        <div *ngIf="currentUser == null;else logoutTemplate">
+            <a routerLink="/login" routerLinkActive="active">
+                <button mat-button>
+                    <mat-icon>build</mat-icon>
+                    Login
+                </button>
+            </a>
+        </div>
+        <ng-template #logoutTemplate>
+            <a *ngIf="currentUser.roleID === 1" routerLink="/monitoring" routerLinkActive="active">
+                <button mat-button>
+                    <mat-icon>settings</mat-icon>
+                    Monitoring
+                </button>
+            </a>
+            <a (click)="logout()">
+                <button mat-button>
+                    <mat-icon>build</mat-icon>
+                    Logout
+                </button>
+            </a>
+        </ng-template>
+    </mat-toolbar-row>
+</mat-toolbar>
+<router-outlet (loggedUser)="loggedUser($event)"></router-outlet>

@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="form-group">
+    <mat-card>
+      <mat-card-title style="padding: 0.75em 0;">
+        Create medical interview
+      </mat-card-title>
+      <mat-card-content>
+        <div class="container">
+          <form [formGroup]="interviewForm" (ngSubmit)="onSubmit()" (keydown.enter)="onSubmit()">
+            <select class="custom-select" formControlName="patient">
+              <option value="" disabled>Choose your patient</option>
+              <option *ngFor="let patient of myPatients" [ngValue]="patient">{{patient.id}}: {{patient.firstName}},
+                {{patient.lastName}}</option>
+            </select>
+            <label formArrayName="questions" *ngFor="let question of questions; let i = index" class="container">
+              <mat-card>
+                <input type="checkbox" [formControlName]="i" ng-false-value="false" ng-true-value="12312">
+                {{ question.question}}
+              </mat-card>
+            </label>
+            <mat-card-actions align="center">
+              <button type="submit" mat-raised-button>Submit</button>
+            </mat-card-actions>
+          </form>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
