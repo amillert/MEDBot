@@ -24,8 +24,11 @@
                                     <mat-form-field class="mat-input-wrapper">
                                         <input matInput placeholder="Email" formControlName="email" name="email"
                                             required>
+                                        <mat-hint align="end">combination of letters and numbers followed by the `@` sign,
+                                            more letters and domain
+                                        </mat-hint>
                                         <mat-error *ngIf="email.invalid && email.touched">
-                                            Your e-mail is of the wrong format
+                                            This e-mail address is of the wrong format
                                         </mat-error>
                                     </mat-form-field>
                                 </td>
@@ -39,7 +42,7 @@
                                         <mat-hint align="end">Each name has to be capitalized and separated with a
                                             single ` ` char</mat-hint>
                                         <mat-error *ngIf="firstName.invalid && firstName.touched">
-                                            That cannot be Your real name
+                                            That cannot be a real name
                                         </mat-error>
                                     </mat-form-field>
                                 </td>
@@ -50,10 +53,10 @@
                                     <mat-form-field class="mat-input-wrapper">
                                         <input matInput placeholder="Last name" formControlName="lastName"
                                             name="lastName" required>
-                                        <mat-hint align="end">Your last names have to be capitalized and separated only
+                                        <mat-hint align="end">The last names have to be capitalized and separated only
                                             with a single `-` char</mat-hint>
                                         <mat-error *ngIf="lastName.invalid && lastName.touched">
-                                            That cannot be Your real last name
+                                            That cannot be a real last name
                                         </mat-error>
                                     </mat-form-field>
                                 </td>
