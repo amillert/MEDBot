@@ -23,11 +23,6 @@ export class PatientInterviewService extends DataService {
   }
 
   update_conv(msg: Message) {
-    // console.log("inside update");
-    // console.log(botMsg);
-    // console.log();
-    // console.log();
-    // console.log();
     this.conversation.next([msg]);
   }
 
@@ -43,18 +38,6 @@ export class PatientInterviewService extends DataService {
       map(res => {
         return res.json()["result"]["speech"]
     }));
-    // return this.http.post(this.url, data, {headers: headers}).pipe(map(res => {
-    //   res.json()
-    // }));
-
-    // this.update_conv(usrMsg);
-    // return this.http.post(Consts.API_ENDPOINT, {"fulfillmentText": usrMsg.msg})
-    // // return this.http.post(Consts.API_ENDPOINT + "/", {"result": {"result": {"source": "agent", "resolvedQuery": usrMsg.msg}}})
-    // // return this.http.post("http://9fb4b1ba.ngrok.io", usrMsg.msg)
-    //   .pipe(
-    //     // map(botResp => this.update_conv(new Message(botResp.json()["fulfillment"]["speech"], 'medbot')))
-    //     map(botResp => {botResp.json(); this.update_conv(botResp.json());})
-    //   );
   }
 
   getPatientInterview(patientID, InterviewID) {
