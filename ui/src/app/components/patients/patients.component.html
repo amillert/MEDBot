@@ -10,8 +10,8 @@
                         <td>
                             <mat-form-field class="mat-input-wrapper">
                                 <input matInput placeholder="Email" formControlName="email" name="email" required>
-                            <mat-hint align="end">e-mail address begins with a combination of letters and numbers
-                                followed by the `@` sign and a combination of more characters and domain
+                            <mat-hint align="end">combination of letters and numbers followed by the `@` sign,
+                                    more letters and domain
                             </mat-hint>
                             <mat-error *ngIf="email.invalid && email.touched">
                                 This e-mail is of the wrong format
