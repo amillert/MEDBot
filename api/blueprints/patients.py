@@ -24,15 +24,16 @@ def patients_route():
             ,'status': 'ERROR'})
         return jsonify({'error': 'Patient with the same email adress exists'}), 400
 
-@patients_api.route('/<patient_id>', methods=['GET', 'PUT', 'DELETE'])
+@patients_api.route('/<patient_id>', methods=['GET', 'PUT', 'DELETE', 'PATCH'])
 def patient_route(patient_id):
-    if request.method == 'PUT':
+    if request.method == 'PUT' or request.method == 'PATCH':
         try: 
             updated = Patient.update_patient(request.get_json(force=True), patient_id)
             if updated:
                 return jsonify({}), 200
             return jsonify({'error': 'Not found'}), 404
-        except Exception:
+        except Exception as e:
+            print(e)
             return jsonify({'error': 'Bad request'}), 400
     elif request.method == 'DELETE':
             deleted = Patient.delete_patient(patient_id)
