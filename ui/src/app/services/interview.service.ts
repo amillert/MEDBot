@@ -35,7 +35,7 @@ export class InterviewService extends DataService {
     let uri = Consts.API_ENDPOINT + '/' + interviewID + '/chatbot/' + patientID
     return this.http.post(uri, messages)
       .pipe(
-        map(response => response.json()), catchError(this.handleError)
+        map(response => response.json())
       );
   }
 
