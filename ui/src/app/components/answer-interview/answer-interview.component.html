@@ -6,13 +6,14 @@
             </mat-card-title>
             <mat-card-content>
                 <div class="container">
-                    <form [formGroup]="interviewForm" (ngSubmit)="onSubmit()">
-                      <label formArrayName="questions" *ngFor="let question of questions; let i = index" class="container">
-                          <mat-form-field class="mat-input-wrapper">
-                              <p>{{question.question.question}}</p>
-                              <input [formControlName]="i" #input type="text" matInput>
-                          </mat-form-field>
-                      </label>
+                    <form [formGroup]="interviewForm" (ngSubmit)="onSubmit()" (keydown.enter)="onSubmit()">
+                        <label formArrayName="questions" *ngFor="let question of questions; let i = index"
+                            class="container">
+                            <mat-form-field class="mat-input-wrapper">
+                                <p>{{question.question.question}}</p>
+                                <input [formControlName]="i" #input type="text" matInput>
+                            </mat-form-field>
+                        </label>
                     </form>
                 </div>
                 <div style="text-align: center; padding: 2px;">
@@ -25,4 +26,3 @@
     </div>
 </div>
 <mat-spinner style="margin:0 auto;" *ngIf="loading"></mat-spinner>
-

@@ -4,7 +4,7 @@
             <div class="container">
                 <mat-card *ngFor="let doctor of doctors" class="list-group-item">
                     ID: {{ doctor.id }} - Email: {{ doctor.email }} - First name: {{ doctor.firstName }} - Last name:
-                    {{ doctor.lastName }} 
+                    {{ doctor.lastName }}
                     <button (click)="deleteDoctor(doctor)" class="btn btn-danger btn-sm">Delete</button>
                     <button (click)="manageDoctor('/doctors', doctor.id)" class="btn btn-primary btn-sm">Manage</button>
                 </mat-card>
@@ -17,7 +17,7 @@
                     <mat-card-title>New Doctor</mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
-                    <form [formGroup]="addDoctorForm" (ngSubmit)="onSubmit()">
+                    <form [formGroup]="addDoctorForm" (ngSubmit)="onSubmit()" (keydown.enter)="onSubmit()">
                         <table cellspacing="0">
                             <tr>
                                 <td>

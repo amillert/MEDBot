@@ -5,29 +5,33 @@
         Manage Patient
       </mat-card-title>
       <mat-card-content>
-          <div class="container">
-            <mat-card class="list-group-item">
-              <label>Assign To</label>
-              <form [formGroup]="patientForm" (ngSubmit)="onSubmit()">
-                  <select class="custom-select"  formControlName="doctor">
-                      <option value="">{{doctor.id}}: {{doctor.firstName}}, {{doctor.lastName}}</option>
-                      <option *ngFor="let doctor of doctors" [ngValue]="doctor">{{doctor.id}}: {{doctor.firstName}}, {{doctor.lastName}}</option>
-                  </select>
-                  <mat-form-field class="mat-input-wrapper" >
-                    <input matInput placeholder="Email" formControlName="email" name="email" value = {{patient.email}} required>
-                  </mat-form-field>
-                  <mat-form-field class="mat-input-wrapper">
-                    <input matInput placeholder="First Name" formControlName="firstName" name="firstName" value = {{patient.firstName}}  required>
-                  </mat-form-field>
-                  <mat-form-field class="mat-input-wrapper">
-                    <input matInput placeholder="Last Name" formControlName="lastName" name="lastName" value = {{patient.lastName}} required>
-                  </mat-form-field>
-                  <mat-card-actions align="center">
-                    <button type="submit" mat-raised-button >Submit</button>
-                  </mat-card-actions>
-              </form>
-            </mat-card>
-          </div>
+        <div class="container">
+          <mat-card class="list-group-item">
+            <label>Assign To</label>
+            <form [formGroup]="patientForm" (ngSubmit)="onSubmit()" (keydown.enter)="onSubmit()">
+              <select class="custom-select" formControlName="doctor">
+                <option value="">{{doctor.id}}: {{doctor.firstName}}, {{doctor.lastName}}</option>
+                <option *ngFor="let doctor of doctors" [ngValue]="doctor">{{doctor.id}}: {{doctor.firstName}},
+                  {{doctor.lastName}}</option>
+              </select>
+              <mat-form-field class="mat-input-wrapper">
+                <input matInput placeholder="Email" formControlName="email" name="email" value={{patient.email}}
+                  required>
+              </mat-form-field>
+              <mat-form-field class="mat-input-wrapper">
+                <input matInput placeholder="First Name" formControlName="firstName" name="firstName"
+                  value={{patient.firstName}} required>
+              </mat-form-field>
+              <mat-form-field class="mat-input-wrapper">
+                <input matInput placeholder="Last Name" formControlName="lastName" name="lastName"
+                  value={{patient.lastName}} required>
+              </mat-form-field>
+              <mat-card-actions align="center">
+                <button type="submit" mat-raised-button>Submit</button>
+              </mat-card-actions>
+            </form>
+          </mat-card>
+        </div>
       </mat-card-content>
       <mat-spinner style="margin:0 auto;" *ngIf="loading"></mat-spinner>
     </mat-card>
