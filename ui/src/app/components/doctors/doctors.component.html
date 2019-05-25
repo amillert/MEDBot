@@ -42,7 +42,7 @@
                                         <mat-hint align="end">Each name has to be capitalized and separated with a
                                             single ` ` char</mat-hint>
                                         <mat-error *ngIf="firstName.invalid && firstName.touched">
-                                            That cannot be a real name
+                                            That cannot be a real name {{ addDoctorForm.firstName }}
                                         </mat-error>
                                     </mat-form-field>
                                 </td>
@@ -70,8 +70,8 @@
                 </mat-card-content>
 
                 <mat-card-actions align="center">
-                    <button [disabled]="loading || addDoctorForm.invalid" color="primary" (click)="onSubmit()"
-                        mat-raised-button>Add doctor</button>
+                    <button [disabled]="loading || addDoctorForm.invalid" color="accent" (click)="onSubmit()"
+                        mat-raised-button style="width: 100%; padding: 5px;">Click to add doctor</button>
                 </mat-card-actions>
             </mat-card>
         </mat-grid-tile>

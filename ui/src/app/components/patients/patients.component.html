@@ -55,7 +55,10 @@
             <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
         </mat-card-content>
         <mat-card-actions align="center">
-            <button [disabled]="loading || addPatientForm.invalid" color="primary" (click)="onSubmit()" mat-raised-button>Add</button>
+            <button [disabled]="loading || addPatientForm.invalid" color="accent" (click)="onSubmit()" 
+            mat-raised-button style="width: 100%; padding: 5px;">
+            Click to add patient
+        </button>
         </mat-card-actions>
     </mat-card>
     <br>
