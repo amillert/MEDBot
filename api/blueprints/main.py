@@ -241,22 +241,26 @@ def changePassword():
 @main.route("/<interviewID>/chatbot/<patientID>", methods=['POST'])
 def save_chatbot_convo(interviewID, patientID):
     data = request.get_json(force=True)[1:]
-    print(data)
     from api import db
     for medbot, user in zip(data[::2], data[1::2]):
         interview = Interview.query.filter_by(id=interviewID).first()
         chat = Chatbot(InterviewID=interviewID, PatientID=patientID, DoctorID=interview.DoctorID, Question=medbot["msg"] , Answer=user["msg"])
+        print()
+        print("InterviewID: ", chat.InterviewID)
+        print("DoctorID: ", chat.DoctorID)
+        print("PatientID: ", chat.PatientID)
+        print("question: ", chat.Question)
+        print("answer: ", chat.Answer)
         print(chat.InterviewID, chat.DoctorID, chat.PatientID, chat.Question, chat.Answer)
         db.session.add(chat)
         db.session.commit()
+    print()
     return ""
 
 @main.route("/chatbot/<interviewID>", methods=['GET'])
 def get_interview(interviewID):
     from api import db
     chatbot = Chatbot.query.filter_by(InterviewID=interviewID).all()
-    print(chatbot)
     chatbot_schema = ChatbotSchema(many=True)
-    conversation = chatbot_schema.dump(chatbot)  # .data
-    print(jsonify(conversation))
+    conversation = chatbot_schema.dump(chatbot)
     return jsonify(conversation), 200
