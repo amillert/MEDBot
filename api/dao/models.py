@@ -404,13 +404,10 @@ class QuestionSchema(ma.ModelSchema):
     class Meta:
         model = Question
 
-<<<<<<< HEAD
 class ChatbotSchema(ma.ModelSchema):
     class Meta:
         model = Chatbot
 
-=======
->>>>>>> b7f2d1eed21413ebb353ed6e39142ad99c270d51
 class AnswerSchema(ma.ModelSchema):
     class Meta:
         model = Answer
