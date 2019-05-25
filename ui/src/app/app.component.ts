@@ -3,6 +3,7 @@ import { User } from './_models/user';
 import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { SharedService } from './services/shared.service';
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -10,8 +11,9 @@ import { SharedService } from './services/shared.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'MED Bot';
-
+  title = 'MEDBot';
+  logoImage = "../favicon.ico"
+  changeImage = false;
   currentUser: User;
 
   constructor(
@@ -25,7 +27,31 @@ export class AppComponent {
         this.currentUser = user;
       });
   }
+  delay(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+  mouseOverLogo() {
+    this.changeImage = true;
+    (async () => {
+      var i = 0;
+      console.log('before delay');
+      while (this.changeImage) {
+        await this.delay(200);
+        if (i == 0) {
+          this.logoImage = "../assets/images/favicon2.ico";
+          i = 1;
+        } else {
+          this.logoImage = "../favicon.ico";
+          i = 0;
+        }
+      }
+    })();
+  }
 
+  mouseLeaveLogo() {
+    this.changeImage = false;
+    this.logoImage = "../favicon.ico"
+  }
   logout() {
     this.authService.logout();
     this.router.navigate(['/login']);

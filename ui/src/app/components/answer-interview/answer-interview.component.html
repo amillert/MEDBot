@@ -24,11 +24,13 @@
             </div> -->
             <mat-card-content>
                 <div class="container">
+
                     <form [formGroup]="interviewForm" (ngSubmit)="onSubmit()">
                         <label formArrayName="questions" *ngFor="let question of questions; let i = index"
                             class="container">
                             <mat-form-field class="mat-input-wrapper">
                                 <p>{{ question.question.question }}</p>
+                              
                                 <input [formControlName]="i" #input type="text" matInput>
                             </mat-form-field>
                         </label>

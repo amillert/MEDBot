@@ -1,40 +1,41 @@
 <div class="form-group">
-  <mat-grid-list cols="2">
-      <mat-grid-tile>
-          <div class="container">
-              <mat-card *ngFor="let question of questions" class="list-group-item">
-                  {{ question.question }} 
-                  <button (click)="deleteQuestion(question)" class="btn btn-danger btn-sm">Delete</button>
-              </mat-card>
-              <mat-spinner style="margin:0 auto;" *ngIf="loading"></mat-spinner>
-          </div>
-      </mat-grid-tile>
-      <mat-grid-tile>
-          <mat-card style="width: 75%;">
-              <mat-card-header>
-                  <mat-card-title>New Question</mat-card-title>
-              </mat-card-header>
-              <mat-card-content>
-                  <form [formGroup]="addQuestionsForm" (ngSubmit)="onSubmit()">
-                      <table cellspacing="0">
-                          <tr>
-                              <td>
-                                  <mat-form-field class="mat-input-wrapper">
-                                      <input matInput placeholder="Question" formControlName="question" name="question"required>
-                                  </mat-form-field>
-                              </td>
-                          </tr>
-                      </table>
-                  </form>
-                  <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
-              </mat-card-content>
+    <mat-grid-list cols="2">
+        <mat-grid-tile>
+            <div class="container">
+                <mat-card *ngFor="let question of questions" class="list-group-item">
+                    {{ question.question }}
+                    <button (click)="deleteQuestion(question)" class="btn btn-danger btn-sm">Delete</button>
+                </mat-card>
+                <mat-spinner style="margin:0 auto;" *ngIf="loading"></mat-spinner>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-card style="width: 75%;">
+                <mat-card-header>
+                    <mat-card-title>New Question</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <form [formGroup]="addQuestionsForm" (ngSubmit)="onSubmit()" (keydown.enter)="onSubmit()">
+                        <table cellspacing="0">
+                            <tr>
+                                <td>
+                                    <mat-form-field class="mat-input-wrapper">
+                                        <input matInput placeholder="Question" formControlName="question"
+                                            name="question" required>
+                                    </mat-form-field>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                    <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
+                </mat-card-content>
 
-              <mat-card-actions align="center">
-                  <button [disabled]="loading" color="primary" (click)="onSubmit()" mat-raised-button>Add</button>
-              </mat-card-actions>
-          </mat-card>
-      </mat-grid-tile>
-  </mat-grid-list>
-  <br>
+                <mat-card-actions align="center">
+                    <button [disabled]="loading" color="primary" (click)="onSubmit()" mat-raised-button>Add</button>
+                </mat-card-actions>
+            </mat-card>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <br>
 
 </div>
