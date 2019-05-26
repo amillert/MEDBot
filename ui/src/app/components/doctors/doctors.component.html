@@ -39,8 +39,7 @@
                                     <mat-form-field class="mat-input-wrapper">
                                         <input matInput placeholder="First name" formControlName="firstName"
                                             name="firstName" required>
-                                        <mat-hint align="end">Each name has to be capitalized and separated with a
-                                            single ` ` char</mat-hint>
+                                        <mat-hint align="end">capitalized and separated with a single ` ` char</mat-hint>
                                         <mat-error *ngIf="firstName.invalid && firstName.touched">
                                             That cannot be a real name {{ addDoctorForm.firstName }}
                                         </mat-error>
@@ -53,8 +52,7 @@
                                     <mat-form-field class="mat-input-wrapper">
                                         <input matInput placeholder="Last name" formControlName="lastName"
                                             name="lastName" required>
-                                        <mat-hint align="end">The last names have to be capitalized and separated only
-                                            with a single `-` char</mat-hint>
+                                        <mat-hint align="end">capitalized and separated only with a single `-` char</mat-hint>
                                         <mat-error *ngIf="lastName.invalid && lastName.touched">
                                             That cannot be a real last name
                                         </mat-error>
