@@ -68,6 +68,7 @@ export class PatientsComponent implements OnInit {
         newPatient => {
           this.getAllPatients();
         });
+    this.addPatientForm.reset();
   }
 
   managePatient(url, id) {

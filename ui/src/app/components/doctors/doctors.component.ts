@@ -19,9 +19,9 @@ export class DoctorsComponent implements OnInit {
   ngOnInit() {
     this.addDoctorForm = this.formBuilder.group({
       email: ['', [
-          Validators.required, 
-          Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
-        ]],
+        Validators.required,
+        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+      ]],
       firstName: ['', [
         Validators.required,
         Validators.pattern('^[A-Z]{1}[a-ząćęłńóśćżź]*( [A-Z]{1}[a-z]*)*')
@@ -29,9 +29,9 @@ export class DoctorsComponent implements OnInit {
       lastName: ['', [
         Validators.required,
         Validators.pattern('^[A-ZĄĆĘŁŃÓŚĆŹŻ]{1}[a-z]*([-][A-Z]{1}[a-z]*)*')
-      ]], 
+      ]],
       agree: [false, [
-        Validators.requiredTrue]] 
+        Validators.requiredTrue]]
     });
 
     this.getAllDoctors();
@@ -58,6 +58,7 @@ export class DoctorsComponent implements OnInit {
           this.getAllDoctors()
           console.log(doctor);
         });
+    this.addDoctorForm.reset();
   }
 
   updateDoctor(doctor) {
