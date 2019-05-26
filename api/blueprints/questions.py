@@ -30,10 +30,14 @@ def question(question_id):
          except Exception:
             return jsonify({'error': 'Bad request'}), 400
    elif request.method == 'DELETE':
+      try:
          deleted = Question.delete_question(question_id)
          if deleted:
                return jsonify({}), 204
          return jsonify({'error': 'Not found'}), 404
+      except IntegrityError as e:
+         db.session.rollback()
+         return jsonify({'error': 'Question is present in an interview'}), 400
    else:
       question = QuestionSchema().dump(Question.query.get(question_id)).data
       if question:
