@@ -17,7 +17,7 @@ def questions():
          return jsonify({'questions': Question.get_all_questions()}), 200
    except IntegrityError as e:
       db.session.rollback()
-      return jsonify({'error': 'Question is alredy in the database'}), 400
+      return jsonify({'error': 'Question is already in the database'}), 400
 
 @questions_api.route('/<question_id>', methods=['DELETE', 'PUT', 'GET'])
 def question(question_id):
