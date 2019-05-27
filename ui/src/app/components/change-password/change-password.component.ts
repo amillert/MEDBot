@@ -23,7 +23,7 @@ export class ChangePasswordComponent implements OnInit {
     private router: Router,
     private sharedService: SharedService,
     private autthService: AuthService
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.changeForm = this.formBuilder.group({
@@ -44,11 +44,10 @@ export class ChangePasswordComponent implements OnInit {
 
     if (this.changeForm.invalid || this.newpassword !== this.changeForm.controls.vnewpassword.value) {
       this.loading = false;
-      return; 
+      return;
     }
 
-    this.autthService.changepassword(this.email, this.oldpassword, this.newpassword).subscribe( changedPassowrd => {
-      console.log('changedPassowrd');
+    this.autthService.changepassword(this.email, this.oldpassword, this.newpassword).subscribe(changedPassowrd => {
       this.router.navigate(['/login'])
     });
   }

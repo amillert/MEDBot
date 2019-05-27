@@ -34,7 +34,6 @@ export class AppComponent {
     this.changeImage = true;
     (async () => {
       var i = 0;
-      console.log('before delay');
       while (this.changeImage) {
         await this.delay(200);
         if (i == 0) {
@@ -55,11 +54,5 @@ export class AppComponent {
   logout() {
     this.authService.logout();
     this.router.navigate(['/login']);
-  }
-
-  //test method
-  logUser() {
-    console.log('logUser from app.component')
-    console.log(this.currentUser)
   }
 }

@@ -44,7 +44,7 @@ export class PatientsComponent implements OnInit {
         Validators.requiredTrue]]
     });
 
-    this.addPatientForm.valueChanges.subscribe(console.log)
+    this.addPatientForm.valueChanges.subscribe()
 
     this.getAllPatients();
   }
@@ -72,22 +72,12 @@ export class PatientsComponent implements OnInit {
   }
 
   managePatient(url, id) {
-    console.log('test')
-    this.router.navigate([url, id]).then((e) => {
-      if (e) {
-        console.log("Navigation is successful!");
-      } else {
-        console.log("Navigation has failed!");
-      }
-    });
+    this.router.navigate([url, id]);
   }
 
   updatePatient(patient) {
     this.service.update(patient)
-      .subscribe(
-        updatedPatient => {
-          console.log(updatedPatient);
-        });
+      .subscribe();
   }
 
   deletePatient(patient) {
@@ -108,13 +98,11 @@ export class PatientsComponent implements OnInit {
     this.service.update(req)
       .subscribe(
         updatedPatient => {
-          console.log(updatedPatient);
           this.getAllPatients();
         });
   }
 
   private getAllPatients() {
-    console.log(localStorage.getItem('currentUser'))
     this.loading = true;
     this.areFreePatients = false;
     this.myPatients = [];

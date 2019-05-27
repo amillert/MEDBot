@@ -45,9 +45,7 @@ export class CreateInterviewComponent implements OnInit {
       PatientID: patient.id,
       questions: qids
     }).subscribe(
-      newDoctor => {
-        console.log('created');
-      }
+      newDoctor => { }
     );
     this.router.navigate(['doctors/create-interview']);
   }
@@ -63,9 +61,7 @@ export class CreateInterviewComponent implements OnInit {
           else if (JSON.parse(localStorage.getItem('currentUser')).userID == element.doctor.id) {
             this.myPatients.push(element)
           }
-
         });
-        console.log(this.myPatients)
         this.loading = false;
       });
   }

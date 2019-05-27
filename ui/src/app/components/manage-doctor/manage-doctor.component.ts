@@ -15,14 +15,14 @@ export class ManageDoctorComponent implements OnInit {
   doctor: any[];
   doctorPatients = [];
   doctorForm: FormGroup;
-  
+
   constructor(
-      private router: Router,
-      private activatedRoute: ActivatedRoute,
-      private formBuilder: FormBuilder,
-      private service: DoctorsService,
-      private Pservice: PatientsService
-    ) { }
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private formBuilder: FormBuilder,
+    private service: DoctorsService,
+    private Pservice: PatientsService
+  ) { }
 
   ngOnInit() {
     this.getDoctor();
@@ -43,25 +43,16 @@ export class ManageDoctorComponent implements OnInit {
       lastName: this.formControls.lastName.value,
       passwordChange: this.formControls.passwordChange.value
     }
-    console.log(doctor)
     this.service.update(doctor)
-    .subscribe( updatedDoctor => {
-      console.log('updated');
-      this.router.navigate(['/doctors'])
-    });
+      .subscribe(updatedDoctor => {
+        this.router.navigate(['/doctors'])
+      });
   }
 
-  managePatient(url, id){
-    console.log('test')
-    this.router.navigate([url, id]).then( (e) => {
-      if (e) {
-        console.log("Navigation is successful!");
-      } else {
-        console.log("Navigation has failed!");
-      }
-    });
+  managePatient(url, id) {
+    this.router.navigate([url, id]);
   }
-  
+
   unAssign(patient) {
     let req = {
       id: patient.id,
@@ -71,12 +62,11 @@ export class ManageDoctorComponent implements OnInit {
       doctorID: 'unAssign'
     }
     this.Pservice.update(req)
-    .subscribe(
-      updatedPatient => {
-        this.doctorPatients = [];
-        console.log(updatedPatient);
-        this.getPatients();
-      });
+      .subscribe(
+        updatedPatient => {
+          this.doctorPatients = [];
+          this.getPatients();
+        });
   }
 
   deletePatient(patient) {
@@ -107,7 +97,6 @@ export class ManageDoctorComponent implements OnInit {
           this.doctorPatients.push(element);
         }
       });
-      console.log(this.doctorPatients);
       this.loading = false;
     });
   }

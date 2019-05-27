@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
       email: ['', Validators.required],
       password: ['', Validators.required]
     });
-    this.loginForm.valueChanges.subscribe(console.log)
+    this.loginForm.valueChanges.subscribe()
 
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }

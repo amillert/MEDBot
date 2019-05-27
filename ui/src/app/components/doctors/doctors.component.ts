@@ -36,7 +36,7 @@ export class DoctorsComponent implements OnInit {
 
     this.getAllDoctors();
 
-    this.addDoctorForm.valueChanges.subscribe(console.log)
+    this.addDoctorForm.valueChanges.subscribe()
 
   }
 
@@ -56,7 +56,6 @@ export class DoctorsComponent implements OnInit {
       .subscribe(
         newDoctor => {
           this.getAllDoctors()
-          console.log(doctor);
         });
     this.addDoctorForm.reset();
   }
@@ -66,7 +65,6 @@ export class DoctorsComponent implements OnInit {
       .subscribe(
         updatedDoctor => {
           this.getAllDoctors()
-          console.log(updatedDoctor);
         });
   }
 
@@ -74,14 +72,13 @@ export class DoctorsComponent implements OnInit {
     this.service.delete(doctor.id).subscribe(
       updatedDoctor => {
         this.getAllDoctors()
-        console.log(doctor.id + 'deleted');
       });
   }
 
   private getAllDoctors() {
     this.loading = true;
     this.service.getAll()
-      .subscribe(doctors => { this.doctors = doctors['Doctors']; this.loading = false; console.log(this.loading) });
+      .subscribe(doctors => { this.doctors = doctors['Doctors']; this.loading = false; });
   }
 
   get email() {
@@ -101,14 +98,7 @@ export class DoctorsComponent implements OnInit {
   }
 
   manageDoctor(url, id) {
-    console.log('manageDoctor');
-    this.router.navigate([url, id]).then((e) => {
-      if (e) {
-        console.log("Navigation is successful!");
-      } else {
-        console.log("Navigation has failed!");
-      }
-    });
+    this.router.navigate([url, id]);
   }
 
 }

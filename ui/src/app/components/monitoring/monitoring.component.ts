@@ -16,7 +16,7 @@ export class MonitoringComponent implements OnInit {
     this.getLogs();
   }
 
-  clearLogs(){ 
+  clearLogs() {
     this.loading = true;
     this.service.clear()
       .subscribe(logs => {
@@ -30,7 +30,6 @@ export class MonitoringComponent implements OnInit {
       .subscribe(raport => {
         this.raport = raport;
         this.loading = false;
-        console.log(raport)
       });
   }
 

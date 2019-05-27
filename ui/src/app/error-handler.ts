@@ -10,18 +10,12 @@ export class ErrorsHandler implements ErrorHandler {
 
     handleError(error: Error) {
         this.ngZone.run(() => {
-            console.log(error["message"])
-            if(!error.message) {
+            if (!error.message) {
                 this.toastrService.error(JSON.parse(error['_body']).error, error.message)
                 if (error instanceof HttpErrorResponse) {
-                    //Backend returns error 404, 500 etc				  
                     console.error('Backend returned status code: ', error.status);
                     console.error('Response body:', error.message);
                     this.logger.logError("Status: " + error.status + " Message " + error.message)
-                } else {
-                    //A client-side or network error	          
-                    // console.error('An error occurred:', error.message);
-                    // this.logger.logError("Message " + error.message)
                 }
             }
         })
