@@ -18,12 +18,25 @@ export class DoctorsComponent implements OnInit {
 
   ngOnInit() {
     this.addDoctorForm = this.formBuilder.group({
-      email: ['', Validators.required],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required]
+      email: ['', [
+        Validators.required,
+        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+      ]],
+      firstName: ['', [
+        Validators.required,
+        Validators.pattern('^[A-Z]{1}[a-ząćęłńóśćżź]*( [A-Z]{1}[a-z]*)*')
+      ]],
+      lastName: ['', [
+        Validators.required,
+        Validators.pattern('^[A-ZĄĆĘŁŃÓŚĆŹŻ]{1}[a-z]*([-][A-Z]{1}[a-z]*)*')
+      ]],
+      agree: [false, [
+        Validators.requiredTrue]]
     });
 
     this.getAllDoctors();
+
+    this.addDoctorForm.valueChanges.subscribe(console.log)
 
   }
 
@@ -45,6 +58,7 @@ export class DoctorsComponent implements OnInit {
           this.getAllDoctors()
           console.log(doctor);
         });
+    this.addDoctorForm.reset();
   }
 
   updateDoctor(doctor) {
@@ -68,6 +82,22 @@ export class DoctorsComponent implements OnInit {
     this.loading = true;
     this.service.getAll()
       .subscribe(doctors => { this.doctors = doctors['Doctors']; this.loading = false; console.log(this.loading) });
+  }
+
+  get email() {
+    return this.addDoctorForm.get('email');
+  }
+
+  get firstName() {
+    return this.addDoctorForm.get('firstName');
+  }
+
+  get lastName() {
+    return this.addDoctorForm.get('lastName');
+  }
+
+  get agree() {
+    return this.addDoctorForm.get('agree');
   }
 
   manageDoctor(url, id) {

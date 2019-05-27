@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { first } from 'rxjs/operators';
@@ -27,6 +27,7 @@ export class LoginComponent implements OnInit {
       email: ['', Validators.required],
       password: ['', Validators.required]
     });
+    this.loginForm.valueChanges.subscribe(console.log)
 
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
@@ -43,7 +44,7 @@ export class LoginComponent implements OnInit {
           if (user['passwordChange']) {
             this.router.navigate(['/changepassword']);
           }
-          else{
+          else {
             this.router.navigate([this.returnUrl]);
             this.sharedService.emitChange(user);
           }

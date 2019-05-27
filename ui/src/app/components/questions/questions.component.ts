@@ -36,6 +36,7 @@ export class QuestionsComponent implements OnInit {
         newQuestion => {
           this.getAllQuestions()
         });
+    this.addQuestionsForm.reset();
   }
 
   deleteQuestion(question) {

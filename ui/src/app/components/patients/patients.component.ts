@@ -28,10 +28,23 @@ export class PatientsComponent implements OnInit {
 
   ngOnInit() {
     this.addPatientForm = this.formBuilder.group({
-      email: ['', Validators.required],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required]
+      email: ['', [
+        Validators.required,
+        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+      ]],
+      firstName: ['', [
+        Validators.required,
+        Validators.pattern('^[A-Z]{1}[a-ząćęłńóśćżź]*( [A-Z]{1}[a-z]*)*')
+      ]],
+      lastName: ['', [
+        Validators.required,
+        Validators.pattern('^[A-ZĄĆĘŁŃÓŚĆŹŻ]{1}[a-z]*([-][A-Z]{1}[a-z]*)*')
+      ]],
+      agree: [false, [
+        Validators.requiredTrue]]
     });
+
+    this.addPatientForm.valueChanges.subscribe(console.log)
 
     this.getAllPatients();
   }
@@ -55,6 +68,7 @@ export class PatientsComponent implements OnInit {
         newPatient => {
           this.getAllPatients();
         });
+    this.addPatientForm.reset();
   }
 
   managePatient(url, id) {
@@ -119,6 +133,22 @@ export class PatientsComponent implements OnInit {
         });
         this.loading = false;
       });
+  }
+
+  get email() {
+    return this.addPatientForm.get('email');
+  }
+
+  get firstName() {
+    return this.addPatientForm.get('firstName');
+  }
+
+  get lastName() {
+    return this.addPatientForm.get('lastName');
+  }
+
+  get agree() {
+    return this.addPatientForm.get('agree');
   }
 
 }
