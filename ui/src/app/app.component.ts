@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { SharedService } from './services/shared.service';
 import { interval } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,8 @@ export class AppComponent {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private toastrService: ToastrService
   ) {
     this.authService.currentUser.subscribe(x => this.currentUser = x);
     this.sharedService.changeEmitted$.subscribe(
@@ -54,5 +56,6 @@ export class AppComponent {
   logout() {
     this.authService.logout();
     this.router.navigate(['/login']);
+    this.toastrService.success("You are logged out !")
   }
 }

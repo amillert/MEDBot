@@ -1,7 +1,7 @@
 <div class="form-group">
     <mat-grid-list cols="2">
         <mat-grid-tile>
-            <div class="container">
+            <div class="container itemsList">
                 <mat-card *ngFor="let question of questions" class="list-group-item">
                     {{ question.question }}
                     <button (click)="deleteQuestion(question)" class="btn btn-danger btn-sm">Delete</button>
@@ -32,7 +32,7 @@
 
                 <mat-card-actions align="center">
                     <button [disabled]="loading" color="accent" (click)="onSubmit()" mat-raised-button
-                    style="width: 100%; padding: 5px;">Click to add question</button>
+                        style="width: 100%; padding: 5px;">Click to add question</button>
                 </mat-card-actions>
             </mat-card>
         </mat-grid-tile>

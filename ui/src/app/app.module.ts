@@ -27,6 +27,7 @@ import { MonitoringComponent } from './components/monitoring/monitoring.componen
 import { ErrorsHandler } from './error-handler';
 import { ToastrModule } from 'ngx-toastr';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   ],
   imports: [
     ToastrModule.forRoot(),
+    NgxPaginationModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,

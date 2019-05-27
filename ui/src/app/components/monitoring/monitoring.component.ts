@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoggerService } from 'src/app/services/logger.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-monitoring',
@@ -8,9 +9,10 @@ import { LoggerService } from 'src/app/services/logger.service';
 })
 export class MonitoringComponent implements OnInit {
   loading = false;
+  p: number = 1;
   logs: any[];
   raport: any[];
-  constructor(private service: LoggerService) { }
+  constructor(private service: LoggerService, private toastrService: ToastrService) { }
 
   ngOnInit() {
     this.getLogs();
@@ -21,7 +23,9 @@ export class MonitoringComponent implements OnInit {
     this.service.clear()
       .subscribe(logs => {
         this.getLogs();
+        this.toastrService.success("Logs cleared");
       });
+    this.loading = false;
   }
 
   private getRaport() {

@@ -3,6 +3,7 @@ import { PatientsService } from 'src/app/services/accounts/patients.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DoctorsService } from 'src/app/services/accounts/doctors.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 export interface DialogData {
   animal: string;
@@ -23,7 +24,7 @@ export class PatientsComponent implements OnInit {
   addPatientForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private dService: DoctorsService,
-    private service: PatientsService, private router: Router) {
+    private service: PatientsService, private router: Router, private toastrService: ToastrService) {
   }
 
   ngOnInit() {
@@ -67,6 +68,7 @@ export class PatientsComponent implements OnInit {
       .subscribe(
         newPatient => {
           this.getAllPatients();
+          this.toastrService.success("Patient has been added.")
         });
     this.addPatientForm.reset();
   }
@@ -84,6 +86,7 @@ export class PatientsComponent implements OnInit {
     this.service.delete(patient.id).subscribe(
       updatedPatient => {
         this.getAllPatients();
+        this.toastrService.success("Patient has been deleted.")
       });
   }
 

@@ -15,15 +15,15 @@ import { ManageDoctorComponent } from './components/manage-doctor/manage-doctor.
 import { MonitoringComponent } from './components/monitoring/monitoring.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/doctors', pathMatch: 'full' },
+  { path: '', redirectTo: '/patients', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'interview/:id', component: InterviewComponent, canActivate: [AuthGuard] },
   { path: ':pid/answer/interview/:id', component: AnswerInterviewComponent },
   { path: 'browseInterviews', component: BrowseInterviewsComponent, canActivate: [AuthGuard] },
   { path: 'doctors/create-interview', component: CreateInterviewComponent, canActivate: [AuthGuard] },
   { path: 'changepassword', component: ChangePasswordComponent },
-  { path: 'monitoring', component: MonitoringComponent },
-  { path: 'doctors', component: DoctorsComponent, canActivate: [AuthGuard] },
+  { path: 'monitoring', component: MonitoringComponent, canActivate: [AuthGuard] },
+  { path: 'doctors', component: DoctorsComponent, canActivate: [AuthGuard], data: { roles: [1] } },
   { path: 'doctors/:pid', component: ManageDoctorComponent, canActivate: [AuthGuard] },
   { path: 'patients', component: PatientsComponent, canActivate: [AuthGuard] },
   { path: 'patients/:pid', component: ManagePatientComponent, canActivate: [AuthGuard] },

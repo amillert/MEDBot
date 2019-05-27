@@ -24,3 +24,15 @@ td .mat-input-wrapper,
 mat-toolbar-row a {
     color: white;
 }
+
+.itemsList{
+    overflow: auto;
+     height: 400px;
+}
+
+.my-pagination /deep/ .ngx-pagination .current {
+    background: #673AB7;
+  }
+  mat-card .btn{
+    margin: 0px 5px 0px 5px;
+  }

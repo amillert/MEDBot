@@ -1,8 +1,8 @@
 <div class="form-group">
     <mat-grid-list cols="2">
         <mat-grid-tile>
-            <div class="container">
-                <mat-card *ngFor="let doctor of doctors" class="list-group-item">
+            <div class="container itemsList">
+                <mat-card *ngFor="let doctor of doctors" class="list-group-item scroll">
                     ID: {{ doctor.id }} - Email: {{ doctor.email }} - First name: {{ doctor.firstName }} - Last name:
                     {{ doctor.lastName }}
                     <button (click)="deleteDoctor(doctor)" class="btn btn-danger btn-sm">Delete</button>
@@ -24,7 +24,8 @@
                                     <mat-form-field class="mat-input-wrapper">
                                         <input matInput placeholder="Email" formControlName="email" name="email"
                                             required>
-                                        <mat-hint align="end">combination of letters and numbers followed by the `@` sign,
+                                        <mat-hint align="end">combination of letters and numbers followed by the `@`
+                                            sign,
                                             more letters and domain
                                         </mat-hint>
                                         <mat-error *ngIf="email.invalid && email.touched">
@@ -39,7 +40,8 @@
                                     <mat-form-field class="mat-input-wrapper">
                                         <input matInput placeholder="First name" formControlName="firstName"
                                             name="firstName" required>
-                                        <mat-hint align="end">capitalized and separated with a single ` ` char</mat-hint>
+                                        <mat-hint align="end">capitalized and separated with a single ` ` char
+                                        </mat-hint>
                                         <mat-error *ngIf="firstName.invalid && firstName.touched">
                                             That cannot be a real name {{ addDoctorForm.firstName }}
                                         </mat-error>
@@ -52,7 +54,8 @@
                                     <mat-form-field class="mat-input-wrapper">
                                         <input matInput placeholder="Last name" formControlName="lastName"
                                             name="lastName" required>
-                                        <mat-hint align="end">capitalized and separated only with a single `-` char</mat-hint>
+                                        <mat-hint align="end">capitalized and separated only with a single `-` char
+                                        </mat-hint>
                                         <mat-error *ngIf="lastName.invalid && lastName.touched">
                                             That cannot be a real last name
                                         </mat-error>
