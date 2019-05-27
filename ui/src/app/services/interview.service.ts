@@ -13,7 +13,12 @@ import { Message } from 'src/app/services/patient-interview.service';
 export class InterviewService extends DataService {
 
   constructor(http: Http, authService: AuthService) {
-    super('/doctors/' + JSON.parse(localStorage.getItem('currentUser')).userID + '/interviews', http);
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentUser) {
+      super('/doctors/' + currentUser.userID + '/interviews', http);
+    } else{
+      super('/doctors/' + location.pathname.split('/')[0] + '/interviews', http);
+    }
   }
 
   addInterview(interview: { PatientID: number, questions: number[] }) {
@@ -34,6 +39,13 @@ export class InterviewService extends DataService {
   saveConversation(messages: Message[], patientID, interviewID) {
     let uri = Consts.API_ENDPOINT + '/' + interviewID + '/chatbot/' + patientID
     return this.http.post(uri, messages)
+      .pipe(
+        map(response => response.json())
+      );
+  }
+
+  getChatbotConversation(interviewID: number) {
+    return this.http.get(`${Consts.API_ENDPOINT}/chatbot/${interviewID}`)
       .pipe(
         map(response => response.json())
       );

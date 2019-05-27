@@ -15,7 +15,7 @@ def doctors_route():
             User.insert_into(request.get_json(force=True), 'Doctor')
             return jsonify({}), 201
         else:
-            return jsonify({'Doctors': User.get_users_by_role('Doctor')}), 200
+            return jsonify({'Doctors': User.get_users_by_role('Doctor').data}), 200
     except IntegrityError:
          return jsonify({'error': 'Doctor with the same email adress exists'}), 400
  
@@ -58,7 +58,7 @@ def doctor_route_interviews(doctor_id):
     else:
         interviews = Interview.get_interviews_of_user(doctor_id)
         if interviews:
-            return jsonify({'interviews': interviews}), 200
+            return jsonify({'interviews': interviews.data}), 200
         else:
             return jsonify({'error': 'Not found'}), 404
       
@@ -82,5 +82,5 @@ def doctor_route_interview(doctor_id, interview_id):
     else:
         interview = Interview.get_interviews_of_user(doctor_id, interview_id)
         if interview:
-            return jsonify(interview), 200
+            return jsonify(interview.data), 200
         return jsonify({'error': 'Not found'}), 404

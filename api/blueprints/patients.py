@@ -16,7 +16,7 @@ def patients_route():
             Patient.insert_into(req)
             return jsonify({}), 201
         else:
-            return jsonify({'patients': Patient.get_all()}), 200
+            return jsonify({'patients': Patient.get_all().data}), 200
     except IntegrityError:
         db.session.rollback()
         doc = User.query.get(req['doctorID'])
@@ -58,6 +58,7 @@ def patient_route_interviews(patient_id):
 @patients_api.route('/<patient_id>/interviews/<interview_id>', methods=['GET', 'PUT'])
 def patient_route_interview(patient_id, interview_id):
     if request.method == 'PUT':
+        print('hhh')
         updated = Interview.answer_interview(patient_id, interview_id, request.get_json(force=True))
         if updated:
             return jsonify({}), 200
@@ -65,5 +66,5 @@ def patient_route_interview(patient_id, interview_id):
     else:
         interview = Interview.get_interviews_of_patient(patient_id, interview_id)
         if interview:
-            return jsonify(interview), 200
+            return jsonify(interview.data), 200
         return jsonify({'error': 'Not found'}), 404

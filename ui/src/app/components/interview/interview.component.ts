@@ -42,7 +42,11 @@ export class InterviewComponent implements OnInit {
         this.interview = interview;
         this.questions = interview.questions;
         this.loading = false;
-        console.log(this.interview, this.questions);
+        this.IService.getChatbotConversation(id).subscribe(i =>{
+          i.forEach(e => {
+            this.questions.push({answer: e.Answer, question: {question: e.Question}});
+          });
+        });
       });
   }
 

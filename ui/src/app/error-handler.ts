@@ -10,7 +10,7 @@ export class ErrorsHandler implements ErrorHandler {
 
     handleError(error: Error) {
         this.ngZone.run(() => {
-            console.log(error["message"])
+            console.log(error)
             if(!error.message) {
                 this.toastrService.error(JSON.parse(error['_body']).error, error.message)
                 if (error instanceof HttpErrorResponse) {

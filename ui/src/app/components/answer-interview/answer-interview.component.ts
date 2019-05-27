@@ -32,7 +32,6 @@ export class AnswerInterviewComponent implements OnInit {
   
   sendMessage(input) {
     let patientid = this.activatedRoute.snapshot.url[0].path;
-    let interviewid = this.activatedRoute.snapshot.url[3].path;
     let usrMsg = new Message(input.value, "user"+patientid);
     this.messages.push(usrMsg);
     this.service.converse(usrMsg).subscribe(resp => {
@@ -55,15 +54,8 @@ export class AnswerInterviewComponent implements OnInit {
         answers.Answers.push({'questionID': element.question.id, 'answer': arr[i]});
     });
     console.log(answers)
-    this.service.answerInterview(patientid, interviewid, answers)
-    .subscribe( answeredInterview => {
-      console.log('answered');
-      this.router.navigate(['/'])
-    });
-    this.intService.saveConversation(this.messages, patientid, interviewid)
-    .subscribe( res => {
-      this.router.navigate(['/'])
-    });
+    this.intService.saveConversation(this.messages, patientid, interviewid).subscribe();
+    this.service.answerInterview(patientid, interviewid, answers).subscribe();
   }
 
   private getInterview() {
@@ -79,7 +71,8 @@ export class AnswerInterviewComponent implements OnInit {
           const control = new FormControl(); // if first item set to true, else false
           (this.interviewForm.controls.questions as FormArray).push(control);
         });
-        this.loading = false;
       });
+    this.loading = false;
+
   }
 }
