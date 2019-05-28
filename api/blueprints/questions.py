@@ -14,7 +14,7 @@ def questions():
          Question.insert_into(request.get_json(force=True))
          return jsonify({}), 201
       else:
-         return jsonify({'questions': Question.get_all_questions()}), 200
+         return jsonify({'questions': Question.get_all_questions().data}), 200
    except IntegrityError as e:
       db.session.rollback()
       return jsonify({'error': 'Question is already in the database'}), 400
