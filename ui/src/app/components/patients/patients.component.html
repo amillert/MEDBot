@@ -10,12 +10,12 @@
                         <td>
                             <mat-form-field class="mat-input-wrapper">
                                 <input matInput placeholder="Email" formControlName="email" name="email" required>
-                            <mat-hint align="end">combination of letters and numbers followed by the `@` sign,
+                                <mat-hint align="end">combination of letters and numbers followed by the `@` sign,
                                     more letters and domain
-                            </mat-hint>
-                            <mat-error *ngIf="email.invalid && email.touched">
-                                This e-mail is of the wrong format
-                            </mat-error>
+                                </mat-hint>
+                                <mat-error *ngIf="email.invalid && email.touched">
+                                    This e-mail is of the wrong format
+                                </mat-error>
                             </mat-form-field>
                         </td>
                     </tr>
@@ -53,10 +53,10 @@
             <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
         </mat-card-content>
         <mat-card-actions align="center">
-            <button [disabled]="loading || addPatientForm.invalid" color="accent" (click)="onSubmit()" 
-            mat-raised-button style="width: 100%; padding: 5px;">
-            Click to add patient
-        </button>
+            <button [disabled]="loading || addPatientForm.invalid" color="accent" (click)="onSubmit()" mat-raised-button
+                style="width: 100%; padding: 5px;">
+                Click to add patient
+            </button>
         </mat-card-actions>
     </mat-card>
     <br>
@@ -68,12 +68,15 @@
         <button (click)="unAssign(patient)" class="btn btn btn-secondary btn-sm">UnAssign</button>
     </mat-card>
     <mat-spinner style="margin:0 auto;" *ngIf="loading"></mat-spinner>
-
+    <br>
     <mat-card-title *ngIf="areFreePatients">Free Patients</mat-card-title>
-    <mat-card *ngFor="let patient of freePatients" class="list-group-item">
-        ID: {{ patient.id }} - Email: {{ patient.email }} - First name: {{ patient.firstName }} Last name:
-        {{ patient.lastName }} <button (click)="deletePatient(patient)" class="btn btn-danger btn-sm">Delete</button>
-        <button (click)="managePatient('/patients', patient.id)" class="btn btn-success btn-sm">Manage</button>
-    </mat-card>
+    <div class="container itemsList">
+        <mat-card *ngFor="let patient of freePatients" class="list-group-item">
+            ID: {{ patient.id }} - Email: {{ patient.email }} - First name: {{ patient.firstName }} Last name:
+            {{ patient.lastName }} <button (click)="deletePatient(patient)"
+                class="btn btn-danger btn-sm">Delete</button>
+            <button (click)="managePatient('/patients', patient.id)" class="btn btn-success btn-sm">Manage</button>
+        </mat-card>
+    </div>
     <mat-spinner style="margin:0 auto;" *ngIf="loading"></mat-spinner>
 </div>

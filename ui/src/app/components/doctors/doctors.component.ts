@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DoctorsService } from 'src/app/services/accounts/doctors.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-doctors',
@@ -13,7 +14,7 @@ export class DoctorsComponent implements OnInit {
   loading = false;
   doctors: any[];
 
-  constructor(private router: Router, private formBuilder: FormBuilder, private service: DoctorsService) {
+  constructor(private router: Router, private formBuilder: FormBuilder, private service: DoctorsService, private toastrService: ToastrService) {
   }
 
   ngOnInit() {
@@ -36,7 +37,7 @@ export class DoctorsComponent implements OnInit {
 
     this.getAllDoctors();
 
-    this.addDoctorForm.valueChanges.subscribe(console.log)
+    this.addDoctorForm.valueChanges.subscribe()
 
   }
 
@@ -55,8 +56,8 @@ export class DoctorsComponent implements OnInit {
     this.service.addDoctor(doctor)
       .subscribe(
         newDoctor => {
+          this.toastrService.success("Doctor has been added");
           this.getAllDoctors()
-          console.log(doctor);
         });
     this.addDoctorForm.reset();
   }
@@ -66,7 +67,7 @@ export class DoctorsComponent implements OnInit {
       .subscribe(
         updatedDoctor => {
           this.getAllDoctors()
-          console.log(updatedDoctor);
+          this.toastrService.success("Doctor has been updated.")
         });
   }
 
@@ -74,14 +75,14 @@ export class DoctorsComponent implements OnInit {
     this.service.delete(doctor.id).subscribe(
       updatedDoctor => {
         this.getAllDoctors()
-        console.log(doctor.id + 'deleted');
+        this.toastrService.success("Doctor has been deleted.")
       });
   }
 
   private getAllDoctors() {
     this.loading = true;
     this.service.getAll()
-      .subscribe(doctors => { this.doctors = doctors['Doctors']; this.loading = false; console.log(this.loading) });
+      .subscribe(doctors => { this.doctors = doctors['Doctors']; this.loading = false; });
   }
 
   get email() {
@@ -101,14 +102,7 @@ export class DoctorsComponent implements OnInit {
   }
 
   manageDoctor(url, id) {
-    console.log('manageDoctor');
-    this.router.navigate([url, id]).then((e) => {
-      if (e) {
-        console.log("Navigation is successful!");
-      } else {
-        console.log("Navigation has failed!");
-      }
-    });
+    this.router.navigate([url, id]);
   }
 
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { QuestionsService } from 'src/app/services/questions.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-questions',
@@ -12,7 +13,7 @@ export class QuestionsComponent implements OnInit {
   loading = false;
   questions: any[];
 
-  constructor(private formBuilder: FormBuilder, private service: QuestionsService) {
+  constructor(private formBuilder: FormBuilder, private service: QuestionsService, private toastrService: ToastrService) {
   }
 
   ngOnInit() {
@@ -35,6 +36,7 @@ export class QuestionsComponent implements OnInit {
       .subscribe(
         newQuestion => {
           this.getAllQuestions()
+          this.toastrService.success("Question has been added !")
         });
     this.addQuestionsForm.reset();
   }

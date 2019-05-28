@@ -17,7 +17,7 @@ export class AnswerInterviewComponent implements OnInit {
   interviewForm: FormGroup;
   mensaje: String;
   messages: Message[];
-  
+
   loading = false;
   constructor(private router: Router, private fb: FormBuilder,
     private activatedRoute: ActivatedRoute, private service: PatientInterviewService, private intService: InterviewService) { }
@@ -29,14 +29,13 @@ export class AnswerInterviewComponent implements OnInit {
     this.messages = [];
     this.getInterview();
   }
-  
+
   sendMessage(input) {
     let patientid = this.activatedRoute.snapshot.url[0].path;
-    let usrMsg = new Message(input.value, "user"+patientid);
+    let usrMsg = new Message(input.value, "user" + patientid);
     this.messages.push(usrMsg);
     this.service.converse(usrMsg).subscribe(resp => {
       let botMsg = new Message(resp, "medbot");
-      console.log(botMsg);
       this.messages.push(botMsg);
     });
     input.value = '';
@@ -48,12 +47,11 @@ export class AnswerInterviewComponent implements OnInit {
     let patientid = this.activatedRoute.snapshot.url[0].path;
     let interviewid = this.activatedRoute.snapshot.url[3].path;
     let arr = this.formControls.questions.value;
-    let answers = {'Answers': []};
+    let answers = { 'Answers': [] };
     this.questions.forEach(function (element, i) {
-        element.answer = arr[i];
-        answers.Answers.push({'questionID': element.question.id, 'answer': arr[i]});
+      element.answer = arr[i];
+      answers.Answers.push({ 'questionID': element.question.id, 'answer': arr[i] });
     });
-    console.log(answers)
     this.intService.saveConversation(this.messages, patientid, interviewid).subscribe();
     this.service.answerInterview(patientid, interviewid, answers).subscribe();
   }
@@ -62,7 +60,6 @@ export class AnswerInterviewComponent implements OnInit {
     this.loading = true;
     let patientid = this.activatedRoute.snapshot.url[0].path
     let interviewid = this.activatedRoute.snapshot.url[3].path
-    console.log(patientid, interviewid)
     this.service.getPatientInterview(patientid, interviewid)
       .subscribe(interview => {
         this.interview = interview;

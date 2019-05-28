@@ -5,25 +5,26 @@
                 Medical Interview of {{interview.receiver.firstName}}, {{interview.receiver.lastName}}
             </mat-card-title>
             <mat-card-content>
-                <div class="container">
+                <div class="container itemsList">
                     <p *ngFor="let question of questions; index as idx">
                         <b>Question:</b> {{ question.question.question }}
-                        <mat-card-content>  
+                        <mat-card-content>
                             <p> <b>Answer:</b> {{ question.answer }}</p>
                         </mat-card-content>
                     </p>
                 </div>
                 <div style="text-align: center; padding: 2px;">
                     <div *ngIf="interview.status != 'Checked'">
-                    <button [disabled]="loading" color="accent" (click)="onSubmit()" mat-raised-button>
-                        Mark as read
-                    </button>
+                        <button [disabled]="loading" color="accent" (click)="onSubmit()" mat-raised-button>
+                            Mark as read
+                        </button>
                     </div>
                     <div *ngIf="interview.status == 'Checked'">
-                    <button [disabled]="loading" color="accent" (click)="generateReport(interview)" mat-raised-button>
-                        Download PDF report
-                    </button>
-                </div>
+                        <button [disabled]="loading" color="accent" (click)="generateReport(interview)"
+                            mat-raised-button>
+                            Download PDF report
+                        </button>
+                    </div>
                 </div>
             </mat-card-content>
         </mat-card>
