@@ -27,10 +27,8 @@ export class InterviewComponent implements OnInit {
 
   onSubmit() {
     let id = this.activatedRoute.snapshot.url[1].path
-    console.log(id)
     this.IService.updateStatus(id)
       .subscribe(updatedInterview => {
-        console.log('answered');
         this.router.navigate(['/browseInterviews'])
       });
   }
@@ -42,7 +40,6 @@ export class InterviewComponent implements OnInit {
         this.interview = interview;
         this.questions = interview.questions;
         this.loading = false;
-        console.log(this.interview, this.questions);
       });
   }
 

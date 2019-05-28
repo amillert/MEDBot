@@ -17,7 +17,6 @@ export class InterviewService extends DataService {
   }
 
   addInterview(interview: { PatientID: number, questions: number[] }) {
-    console.log(this.uri)
     return this.http.post(this.uri, JSON.stringify(interview))
       .pipe(
         map(response => response.json())

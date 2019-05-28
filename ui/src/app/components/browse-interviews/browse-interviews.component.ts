@@ -18,14 +18,8 @@ export class BrowseInterviewsComponent implements OnInit {
     this.getAllInterviews();
   }
 
-  private openInterview(url, id){
-    this.router.navigate([url, id]).then( (e) => {
-      if (e) {
-        console.log("Navigation is successful!");
-      } else {
-        console.log("Navigation has failed!");
-      }
-    });
+  private openInterview(url, id) {
+    this.router.navigate([url, id]);
   }
 
   deleteInterview(interview) {
@@ -41,7 +35,6 @@ export class BrowseInterviewsComponent implements OnInit {
       .subscribe(interviews => {
         this.interviews = interviews['interviews'];
         this.loading = false;
-        console.log(this.interviews);
       });
   }
 

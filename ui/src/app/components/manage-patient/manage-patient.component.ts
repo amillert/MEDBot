@@ -16,7 +16,7 @@ export class ManagePatientComponent implements OnInit {
   doctor: any[];
   patient: any[];
   patientForm: FormGroup;
-  
+
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private dService: DoctorsService, private service: PatientsService) { }
 
   ngOnInit() {
@@ -36,13 +36,12 @@ export class ManagePatientComponent implements OnInit {
         this.patient = patient['patient'];
         this.doctor = patient['patient'].doctor;
         if (this.doctor == null) {
-            this.doctor = [{
-              'id': '',
-              'firstName':'',
-              'lastName': ''
-            }]
+          this.doctor = [{
+            'id': '',
+            'firstName': '',
+            'lastName': ''
+          }]
         }
-        console.log(this.patient)
       });
   }
 
@@ -50,14 +49,14 @@ export class ManagePatientComponent implements OnInit {
     this.loading = true;
     this.dService.getAll()
       .subscribe(doctors => {
-      this.doctors = doctors['Doctors'];
-      this.loading = false;
-      for (let i = this.doctors.length - 1; i >= 0; i--) {
-        if (this.doctors[i]['id'] === this.doctor['id']) {
-          this.doctors.splice(i, 1);
+        this.doctors = doctors['Doctors'];
+        this.loading = false;
+        for (let i = this.doctors.length - 1; i >= 0; i--) {
+          if (this.doctors[i]['id'] === this.doctor['id']) {
+            this.doctors.splice(i, 1);
+          }
         }
-      }
-    });
+      });
   }
 
   get formControls() { return this.patientForm.controls; }
@@ -66,7 +65,6 @@ export class ManagePatientComponent implements OnInit {
     let doctorID = this.formControls.doctor.value.id
     if (doctorID == undefined) {
       doctorID = this.doctor['id']
-      console.log(doctorID)
     }
 
     let patient = {
@@ -76,12 +74,10 @@ export class ManagePatientComponent implements OnInit {
       lastName: this.formControls.lastName.value,
       doctorID: doctorID
     }
-    console.log(patient)
     this.service.update(patient)
-    .subscribe( updatedPatient => {
-      console.log('updated');
-      this.router.navigate(['/patients']);
-    });
+      .subscribe(updatedPatient => {
+        this.router.navigate(['/patients']);
+      });
   }
 
 }

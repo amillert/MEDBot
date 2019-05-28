@@ -33,9 +33,9 @@ export class LoggerService extends DataService {
   clear() {
     let uri = Consts.API_ENDPOINT + '/logs'
     return this.http.delete(uri)
-    .pipe(
-      map(response => response.json())
-    );
+      .pipe(
+        map(response => response.json())
+      );
   }
 
   logError(message) {
@@ -44,8 +44,6 @@ export class LoggerService extends DataService {
       message: message,
       datetime: new Date()
     }
-    console.log("logError")
-    console.log(log)
     let uri = Consts.API_ENDPOINT + '/logs'
     return this.http.post(uri, JSON.stringify(log))
       .pipe(

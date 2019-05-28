@@ -4,6 +4,7 @@ import { InterviewService } from 'src/app/services/interview.service';
 import { QuestionsService } from 'src/app/services/questions.service';
 import { PatientsService } from 'src/app/services/accounts/patients.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-interview',
@@ -18,7 +19,7 @@ export class CreateInterviewComponent implements OnInit {
   myPatients = [];
 
   constructor(private router: Router, private fb: FormBuilder, private service: InterviewService, private QService: QuestionsService,
-    private PService: PatientsService) {
+    private PService: PatientsService, private toastrService: ToastrService) {
   }
 
   ngOnInit() {
@@ -46,12 +47,11 @@ export class CreateInterviewComponent implements OnInit {
       questions: qids
     }).subscribe(
       newDoctor => {
-        console.log('created');
+        this.toastrService.success(JSON.parse("Interview has been sent"));
+        this.router.navigate(['doctors/create-interview']);
       }
-    );
-    this.router.navigate(['doctors/create-interview']);
+    )
   }
-
   private getAllPatients() {
     this.loading = true;
     this.PService.getAll()
@@ -63,9 +63,7 @@ export class CreateInterviewComponent implements OnInit {
           else if (JSON.parse(localStorage.getItem('currentUser')).userID == element.doctor.id) {
             this.myPatients.push(element)
           }
-
         });
-        console.log(this.myPatients)
         this.loading = false;
       });
   }

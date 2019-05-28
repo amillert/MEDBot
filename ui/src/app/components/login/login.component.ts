@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { first } from 'rxjs/operators';
 import { SharedService } from 'src/app/services/shared.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -20,14 +21,15 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
-    private sharedService: SharedService) { }
+    private sharedService: SharedService,
+    private toastrService: ToastrService) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.required],
       password: ['', Validators.required]
     });
-    this.loginForm.valueChanges.subscribe(console.log)
+    this.loginForm.valueChanges.subscribe()
 
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
@@ -46,6 +48,7 @@ export class LoginComponent implements OnInit {
           }
           else {
             this.router.navigate([this.returnUrl]);
+            this.toastrService.success("You have logged in !")
             this.sharedService.emitChange(user);
           }
         });
