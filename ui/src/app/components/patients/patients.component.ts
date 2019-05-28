@@ -3,6 +3,7 @@ import { PatientsService } from 'src/app/services/accounts/patients.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DoctorsService } from 'src/app/services/accounts/doctors.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 export interface DialogData {
   animal: string;
@@ -23,15 +24,28 @@ export class PatientsComponent implements OnInit {
   addPatientForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private dService: DoctorsService,
-    private service: PatientsService, private router: Router) {
+    private service: PatientsService, private router: Router, private toastrService: ToastrService) {
   }
 
   ngOnInit() {
     this.addPatientForm = this.formBuilder.group({
-      email: ['', Validators.required],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required]
+      email: ['', [
+        Validators.required,
+        Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+      ]],
+      firstName: ['', [
+        Validators.required,
+        Validators.pattern('^[A-Z]{1}[a-ząćęłńóśćżź]*( [A-Z]{1}[a-z]*)*')
+      ]],
+      lastName: ['', [
+        Validators.required,
+        Validators.pattern('^[A-ZĄĆĘŁŃÓŚĆŹŻ]{1}[a-z]*([-][A-Z]{1}[a-z]*)*')
+      ]],
+      agree: [false, [
+        Validators.requiredTrue]]
     });
+
+    this.addPatientForm.valueChanges.subscribe()
 
     this.getAllPatients();
   }
@@ -54,32 +68,25 @@ export class PatientsComponent implements OnInit {
       .subscribe(
         newPatient => {
           this.getAllPatients();
+          this.toastrService.success("Patient has been added.")
         });
+    this.addPatientForm.reset();
   }
 
   managePatient(url, id) {
-    console.log('test')
-    this.router.navigate([url, id]).then((e) => {
-      if (e) {
-        console.log("Navigation is successful!");
-      } else {
-        console.log("Navigation has failed!");
-      }
-    });
+    this.router.navigate([url, id]);
   }
 
   updatePatient(patient) {
     this.service.update(patient)
-      .subscribe(
-        updatedPatient => {
-          console.log(updatedPatient);
-        });
+      .subscribe();
   }
 
   deletePatient(patient) {
     this.service.delete(patient.id).subscribe(
       updatedPatient => {
         this.getAllPatients();
+        this.toastrService.success("Patient has been deleted.")
       });
   }
 
@@ -94,13 +101,11 @@ export class PatientsComponent implements OnInit {
     this.service.update(req)
       .subscribe(
         updatedPatient => {
-          console.log(updatedPatient);
           this.getAllPatients();
         });
   }
 
   private getAllPatients() {
-    console.log(localStorage.getItem('currentUser'))
     this.loading = true;
     this.areFreePatients = false;
     this.myPatients = [];
@@ -119,6 +124,22 @@ export class PatientsComponent implements OnInit {
         });
         this.loading = false;
       });
+  }
+
+  get email() {
+    return this.addPatientForm.get('email');
+  }
+
+  get firstName() {
+    return this.addPatientForm.get('firstName');
+  }
+
+  get lastName() {
+    return this.addPatientForm.get('lastName');
+  }
+
+  get agree() {
+    return this.addPatientForm.get('agree');
   }
 
 }

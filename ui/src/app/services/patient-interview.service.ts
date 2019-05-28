@@ -34,10 +34,10 @@ export class PatientInterviewService extends DataService {
     }
     let headers = new Headers();
     headers.append('Authorization', `Bearer ${this.token}`);
-    return this.http.post(`${this.url}`, data, {headers: headers}).pipe(
+    return this.http.post(`${this.url}`, data, { headers: headers }).pipe(
       map(res => {
         return res.json()["result"]["speech"]
-    }));
+      }));
   }
 
   getPatientInterview(patientID, InterviewID) {
@@ -58,7 +58,6 @@ export class PatientInterviewService extends DataService {
 
   getBotMessage() {
     let uri = Consts.API_ENDPOINT + '/botmessage';
-    console.log(this.http.get(uri, "fds"));
   }
 
 }

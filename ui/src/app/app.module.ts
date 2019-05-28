@@ -26,6 +26,8 @@ import { ManageDoctorComponent } from './components/manage-doctor/manage-doctor.
 import { MonitoringComponent } from './components/monitoring/monitoring.component';
 import { ErrorsHandler } from './error-handler';
 import { ToastrModule } from 'ngx-toastr';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,7 @@ import { ToastrModule } from 'ngx-toastr';
   ],
   imports: [
     ToastrModule.forRoot(),
+    NgxPaginationModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -59,7 +62,8 @@ import { ToastrModule } from 'ngx-toastr';
     MatCardModule,
     MatInputModule,
     MatProgressSpinnerModule,
-    MatGridListModule
+    MatGridListModule,
+    MatCheckboxModule,
   ],
   exports: [MatButtonModule, MatToolbarModule],
   providers: [

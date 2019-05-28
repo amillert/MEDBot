@@ -12,32 +12,32 @@
             <mat-form-field class="mat-input-wrapper">
                 <label for="nameField">Your message</label>
                 <input (keyup.enter)="sendMessage(input)" #input type="text" matInput name="nameField"><br>
+                <mat-hint align="end">To send Your message either click the button or press `Enter`</mat-hint>
             </mat-form-field>
-            <button color="primary" (click)="sendMessage(input)" mat-raised-button>
-                Clik to send or press Enter
-            </button>
             <br>
-            <!-- <div style="text-align: center; padding-top: 3em;">
-                <button [disabled]="loading" color="accent" (click)="onSubmit()" mat-raised-button>
-                    Submit if done with my mumbling
-                </button>
-            </div> -->
+            <br>
+            <button color="primary" (click)="sendMessage(input)" mat-raised-button style="float: right; padding: 5px;">
+                Send message</button>
+            <br>
+            <br>
+            <br>
+            <hr>
             <mat-card-content>
                 <div class="container">
-
                     <form [formGroup]="interviewForm" (ngSubmit)="onSubmit()">
                         <label formArrayName="questions" *ngFor="let question of questions; let i = index"
                             class="container">
                             <mat-form-field class="mat-input-wrapper">
                                 <p>{{ question.question.question }}</p>
-                              
+
                                 <input [formControlName]="i" #input type="text" matInput>
                             </mat-form-field>
                         </label>
                     </form>
                 </div>
                 <div style="text-align: center; padding: 3em;">
-                    <button [disabled]="loading" color="accent" (click)="onSubmit()" mat-raised-button>
+                    <button [disabled]="loading" color="accent" (click)="onSubmit()" mat-raised-button
+                        style="width: 100%; padding: 5px;">
                         Submit if done with my mumbling
                     </button>
                 </div>
