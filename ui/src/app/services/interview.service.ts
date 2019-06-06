@@ -16,7 +16,7 @@ export class InterviewService extends DataService {
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     if (currentUser) {
       super('/doctors/' + currentUser.userID + '/interviews', http);
-    } else{
+    } else {
       super('/doctors/' + location.pathname.split('/')[0] + '/interviews', http);
     }
   }

@@ -65,10 +65,13 @@ export class InterviewComponent implements OnInit {
       ]
     });
     pdf.addPage();
-
     pdf.setFontSize(24);
     pdf.text(90, 20, 'Questions');
     pdf.autoTable({
+      columnStyles: {
+        0: {columnWidth: 140},
+        1: {columnWidth: 60},
+      },
       styles: { fontSize: 18 },
       margin: { top: 40 },
       body: interview.questions.map(e => [e.question.question, e.answer]),

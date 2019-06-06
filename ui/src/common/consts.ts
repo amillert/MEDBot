@@ -1,3 +1,3 @@
 export class Consts {
-    public static API_ENDPOINT = 'https://medbot-241718.appspot.com';
+    public static API_ENDPOINT = 'http://127.0.0.1:5000';
 }

@@ -8,6 +8,7 @@ from sqlalchemy.exc import IntegrityError
 
 doctors_api = Blueprint('doctors', __name__)
 
+
 @doctors_api.route('', methods=['GET', 'POST'])
 def doctors_route():
     try:
@@ -17,13 +18,13 @@ def doctors_route():
         else:
             return jsonify({'Doctors': User.get_users_by_role('Doctor').data}), 200
     except IntegrityError:
-         return jsonify({'error': 'Doctor with the same email adress exists'}), 400
- 
+        return jsonify({'error': 'Doctor with the same email adress exists'}), 400
+
 
 @doctors_api.route('/<doctor_id>', methods=['GET', 'PUT', 'DELETE'])
 def doctor_route(doctor_id):
     if request.method == 'PUT':
-        try: 
+        try:
             updated = User.update_user(request.get_json(force=True), doctor_id, 'Doctor')
             if updated:
                 return jsonify({}), 200
@@ -61,18 +62,18 @@ def doctor_route_interviews(doctor_id):
             return jsonify({'interviews': interviews.data}), 200
         else:
             return jsonify({'error': 'Not found'}), 404
-      
+
 
 @doctors_api.route('/<doctor_id>/interviews/<interview_id>', methods=['GET', 'PUT', 'DELETE'])
 def doctor_route_interview(doctor_id, interview_id):
     if request.method == 'PUT':
-        try: 
+        try:
             updated = Interview.update_interview(doctor_id, interview_id, request.get_json(force=True))
             if updated:
                 return jsonify({}), 200
             return jsonify({'error': 'Not found'}), 404
         except Exception:
-            return jsonify({'error': 'Bad request'}), 400 
+            return jsonify({'error': 'Bad request'}), 400
     elif request.method == 'DELETE':
         deleted = Interview.delete_interview(doctor_id, interview_id)
         if deleted:

@@ -17,7 +17,7 @@ export class AuthGuard implements CanActivate {
     const currentUser = this.authService.currentUserValue;
     if (currentUser) {
       let roles = next.data["roles"] as Array<number>;
-      return (roles == null || roles.indexOf(currentUser.roleID) != -1);
+      return (roles == null || roles.indexOf(JSON.parse(localStorage.getItem('currentUser')).roleID) != -1);
     }
 
     // not logged in so redirect to login page with the return url
