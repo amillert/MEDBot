@@ -18,7 +18,6 @@ def handle_not_found(_):
 
 @app.errorhandler(Exception)
 def handle_exception(exc):
-    print(exc)
     return json_res({'error': 'Server error'}, 500)
 
 

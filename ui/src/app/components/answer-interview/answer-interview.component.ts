@@ -5,6 +5,7 @@ import { PatientInterviewService, Message } from 'src/app/services/patient-inter
 import { Observable } from 'rxjs';
 import { scan } from 'rxjs/operators';
 import { InterviewService } from 'src/app/services/interview.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-answer-interview',
@@ -20,7 +21,7 @@ export class AnswerInterviewComponent implements OnInit {
 
   loading = false;
   constructor(private router: Router, private fb: FormBuilder,
-    private activatedRoute: ActivatedRoute, private service: PatientInterviewService, private intService: InterviewService) { }
+    private activatedRoute: ActivatedRoute, private service: PatientInterviewService, private intService: InterviewService, private toastrService: ToastrService) { }
 
   ngOnInit() {
     this.interviewForm = this.fb.group({
@@ -53,7 +54,10 @@ export class AnswerInterviewComponent implements OnInit {
       answers.Answers.push({ 'questionID': element.question.id, 'answer': arr[i] });
     });
     this.intService.saveConversation(this.messages, patientid, interviewid).subscribe();
-    this.service.answerInterview(patientid, interviewid, answers).subscribe();
+    this.service.answerInterview(patientid, interviewid, answers).subscribe(()=>{
+        this.toastrService.success("Interview has been submitted");
+        this.router.navigate(['/']);
+    });
   }
 
   private getInterview() {

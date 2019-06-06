@@ -46,9 +46,9 @@ export class CreateInterviewComponent implements OnInit {
       PatientID: patient.id,
       questions: qids
     }).subscribe(
-      newDoctor => {
-        this.toastrService.success(JSON.parse("Interview has been sent"));
-        this.router.navigate(['doctors/create-interview']);
+      () => {
+        this.toastrService.success("Interview has been sent");
+        this.router.navigate(['browseInterviews']);
       }
     )
   }

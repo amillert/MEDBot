@@ -290,7 +290,7 @@ class Interview(db.Model):
 
     def delete_interview(doctor_id, interview_id):
         user = User.query.filter_by(id=doctor_id).first()
-        if user.roleID == Role.get_id_by_role('Admin'):
+        if user.roleID == Role.get_id_by_role('admin'):
              interview = Interview.query.filter_by(id=interview_id).first()
         else:
             interview = Interview.query.filter_by(id=interview_id, DoctorID=doctor_id).first()   

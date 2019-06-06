@@ -16,8 +16,8 @@ export class Message {
 })
 export class PatientInterviewService extends DataService {
   conversation = new BehaviorSubject<Message[]>([]);
-  url = "https://api.dialogflow.com/v1/query";
-  token = "230622b4505946fab31a1cc57ca7e793";
+  url = "https://api.dialogflow.com/v1/query?v=12345678";
+  token = "929efffd78ba46e8acc8c3fe95055731";
   constructor(http: Http) {
     super('/', http);
   }
